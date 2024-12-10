@@ -22,6 +22,17 @@
         display: flex;
         gap: 40px;
     }
+    .btn-login{
+        background-color: blue;
+        color: white
+    }
+    .btn-login:hover{
+        background-color: red;
+        color: white
+    }
+    .btn-register{
+        background-color: gray;
+    }
     .title{
         border-bottom: 2px solid black;
     }
@@ -36,8 +47,9 @@
     }
     input{
         border-radius: 10px;   
-        padding: 10px;
+        padding: 30px;
         width: 625px;
+        font-size: 18px;
     }
     .login-part-btn{
         gap: 200px
