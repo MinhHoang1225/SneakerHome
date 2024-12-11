@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="row pt-3">
-            <div class="col-4"><img src="../assets/img/DXCFVGBHNJK-removebg-preview.png" alt="" ></div>
+            <div class="col-4"><img src="../assets/img/Shoe Logo.png" alt="" ></div>
             <div class="col-8">
                 <div class="input-info pt-5">
                     <div>Username:</div>

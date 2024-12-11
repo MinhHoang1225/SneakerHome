@@ -88,3 +88,7 @@ ALTER TABLE `PaymentOrder` ADD FOREIGN KEY (`payment_id`) REFERENCES `PaymentMet
 ALTER TABLE `Favorite` ADD FOREIGN KEY (`user_id`) REFERENCES `User` (`user_id`);
 
 ALTER TABLE `Favorite` ADD FOREIGN KEY (`product_id`) REFERENCES `Product` (`product_id`);
+ALTER TABLE user
+MODIFY COLUMN role VARCHAR(255) DEFAULT 'user';
+ALTER TABLE user
+MODIFY COLUMN user_id INT AUTO_INCREMENT;
