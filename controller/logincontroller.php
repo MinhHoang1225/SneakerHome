@@ -15,14 +15,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $_SESSION['user'] = $User;
 
             switch ($User['role']) {
-                case 'admin':
-                    echo"admin";
-                    header('Location: ./admin');
-                    exit();
                 case 'user':
-                    echo"home";
-                    header('Location: ./home');
+                    // echo"home";
+                    header('Location: ./homecontroller.php');
                     exit();
+                case 'admin':
+                    // echo"admin";     
+                    header('Location: ./admincontroller.php');
+                    exit();
+                default:
+                     echo "Unknown role";
             }
         } else {
             $_SESSION['error_message'] = "Invalid email or password";
