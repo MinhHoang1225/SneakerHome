@@ -8,14 +8,13 @@
     <?php include "../assets/css/login.css.php" ?>
 </head>
 <body>
-
     <div class="container">
         <div class="btn-close"></div>
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
-                <button type="">Login</button>
-                <button type="">Register</button>
+                <button class="btn-login" type="">Login</button>
+                <button class="btn-register"type="">Register</button>
             </div>
         <div class="row pt-5">
             <div class="col-6"></div>
@@ -42,10 +41,7 @@
                 <button type="submit" class="px-5 py-3">Login</button>
                 <div class="pt-2 ">Register<i class="fa-solid fa-arrow-right pt-2"></i></div>
             </div>
-        </div>
-
-
-        </div>
+        </form>
     </div>
 </body>
 </html>
