@@ -30,6 +30,10 @@ button{
     display: flex;
     gap: 40px;
 }
+.login-part-btn{
+    gap: 180px;
+    margin-left: 310px;
+}
 .title{
     border-bottom: 2px solid black;
 }

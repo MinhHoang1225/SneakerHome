@@ -42,8 +42,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($registration_result) {
             // Registration successful, redirect to the login page
-            header('Location: ../views/login-view.php');
-            exit();
+            header('Location: /login');
+exit();
+
         } else {
             echo "Registration failed. Please try again.";
         }

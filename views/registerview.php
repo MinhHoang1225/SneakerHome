@@ -47,8 +47,8 @@
                         <input type="password" id="confirm_password" name="confirm_password" placeholder="confirm password"   required>                      
                     </div>
                     <div class="d-flex login-part-btn pt-3">
+                        <a href="../views/login-view.php" class="pt-2 ps-3"><i class="fa-solid fa-arrow-left pt-2"></i> Login </a>
                         <button type="submit" class="px-5 py-3">Register</button>
-                        <a href="../views/login-view.php" class="pt-2 ps-3">Login <i class="fa-solid fa-arrow-right pt-2"></i></a>
                     </div>
                 </form>
             </div>
