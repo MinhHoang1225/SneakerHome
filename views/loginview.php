@@ -25,7 +25,7 @@
                     ?>
                 </div>
             <?php endif; ?>     
-        <form  action="../controller/login-controller.php" method="POST">
+        <form  action="../controller/logincontroller.php" method="POST">
             <div class="row pt-5">
                 <div class="col-6"></div>
                 <div class="col-6">

@@ -9,7 +9,7 @@ class App {
         }
         $this->__action = 'index';
         $this->__params = [];
-        $this->handleUrl();
+        $this->handleUrl(); 
     }
 
     public function getUrl() {
@@ -30,6 +30,7 @@ class App {
             '/home' => 'homecontroller.php',
             '/login' => 'logincontroller.php',
             '/register' => 'registercontroller.php',
+            '/admin' => 'admincontroller.php',
         ];
 
         if (isset($_SESSION['user']) && $_SESSION['user']['role'] == 'admin') {
@@ -38,6 +39,7 @@ class App {
                 '/home' => 'homecontroller.php',
                 '/login' => 'logincontroller.php',
                 '/register' => 'registercontroller.php',
+                '/admin' => 'admincontroller.php',
             ];
         }
 
