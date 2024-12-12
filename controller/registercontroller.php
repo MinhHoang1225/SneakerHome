@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
         if ($registration_result) {
             // Registration successful, redirect to the login page
-            header('Location: /login');
+            header('Location: ../views/loginview.php');
 exit();
 
         } else {
