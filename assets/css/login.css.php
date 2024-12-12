@@ -47,9 +47,9 @@
     }
     input{
         border-radius: 10px;   
-        padding: 30px;
+        padding: 10px;
         width: 625px;
-        font-size: 18px;
+        font-size: 20px;
     }
     .login-part-btn{
         gap: 200px
