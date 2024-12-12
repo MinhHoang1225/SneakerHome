@@ -30,13 +30,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once "./linkbootstrap5.php" ?>
-    <?php include "../assets/css/header.css.php" ?>
+    <?php include_once "linkbootstrap5.php" ?>
+    <?php include "assets/css/header.css.php" ?>
 </head>
 <body>
     <div class="container">
         <div class="row row1">
-            <div class="col-5">sneakerhome@gmail.com | 84+ 123 456 789</div>
+            <div style="font-size: 12px; padding-top: 15px" class="col-5">sneakerhome@gmail.com | 84+ 123 456 789</div>
             <div class="col-4 bg-white"></div>
             <div class="col-3 d-flex gap-5">
                 <a href="../controller/logincontroller.php"><button>Login</button></a>

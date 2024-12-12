@@ -1,6 +1,6 @@
 <?php
-require_once '../database/connect.php';  
-require_once '../models/displayproductmodels.php';
+require_once './database/connect.php';  
+require_once './models/displayproductmodels.php';
 
  // Kết nối cơ sở dữ liệu
 
@@ -40,6 +40,6 @@ $totalProducts = ($categoryId == 0)
     ? $productModel->getAllBestSellersCount()
     : $productModel->getAllBestSellersCount($categoryId);
 
-require '../component/displayproduct.php';  // Truyền biến $products vào file view
+require './component/displayproduct.php';  // Truyền biến $products vào file view
 ?>
 

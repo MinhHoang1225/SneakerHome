@@ -10,7 +10,7 @@
 <body>
 
     <div class="container">
-        <div class="btn-close"></div>
+        <div class="btn-close" onclick="window.location.href='../controller/homecontroller.php';"></div>
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
