@@ -1,3 +1,3 @@
 <?php 
-    require_once './views/home-view.php'
+    require_once './views/homeview.php'
 ?>
