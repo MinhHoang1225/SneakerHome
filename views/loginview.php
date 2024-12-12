@@ -34,19 +34,19 @@
             </div>
             <div class="row pt-3">
                 <div class="col-4">
-                    <img src="../assets/img/" alt="">
+                    <img src="../assets/img/Shoe Logo.png" alt="">
                 </div>
                 <div class="col-8">
                     <div class="input-info pt-5">
                         <div>Username:</div>
                         <div>
-                            <input type="text" name="email" id="email" placeholder="username" required>
+                            <input type="text" name="email" id="email" placeholder="Enter your email" required>
                         </div>
                     </div>
                     <div class="input-info">
                         <div>Password:</div>
                         <div>
-                            <input type="password" name="password" id="password" placeholder="password" required>
+                            <input type="password" name="password" id="password" placeholder="Enter your password" required>
                         </div>
                     </div>
                 </div>
@@ -55,7 +55,7 @@
                 <div class="col-8"></div>
                 <div class="col-4 d-flex login-part-btn ">
                     <button type="submit" class="px-5 py-3 btn-login">Login</button>
-                    <div>Register<i class="fa-solid fa-arrow-right pt-2"></i></div>
+                    <a href="../controller/registercontroller.php"><div>Register<i class="fa-solid fa-arrow-right pt-2"></i></div></a>
                 </div>
             </div>
         </form>
