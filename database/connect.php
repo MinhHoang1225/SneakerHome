@@ -1,6 +1,8 @@
 <?php
+
   function connectdb() {
     $host     = 'localhost'; 
+    $database = 'mrdinh';
     $database = 'mrdinh';
     $user     = 'root'; 
     $password = ''; 
