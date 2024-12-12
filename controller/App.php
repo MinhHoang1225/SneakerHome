@@ -28,6 +28,11 @@ class App {
             '/home' => 'homecontroller.php',
             '/login' => 'logincontroller.php',
             '/register' => 'registercontroller.php',
+            '/aboutus' => 'aboutuscontroller.php',
+            '/shoes' =>  'shoescontroller.php',
+            '/accessories' => 'accessoriescontroller.php',
+            '/clother' => 'clothercontroller.php',
+            '/promotion' => 'promotioncontroller.php'
         ];
 
         if (isset($_SESSION['users']) && $_SESSION['users']['role'] == 'admin') {
@@ -36,6 +41,11 @@ class App {
                 '/home' => 'homecontroller.php',
                 '/register' => 'registercontroller.php',
                 '/admin' => 'admincontroller.php',
+                '/aboutus' => 'aboutuscontroller.php',
+                '/shoes' =>  'shoescontroller.php',
+                '/accessories' => 'accessoriescontroller.php',
+                '/clother' => 'clothercontroller.php',
+                '/promotion' => 'promotioncontroller.php'
             ];
         }
         foreach ($routes as $route => $controllerFile) {
