@@ -11,9 +11,6 @@
             <a class="mx-3" href="#">Clothes</a>
             <a class="mx-3" href="#">Accessories</a>
         </div>
-        <?php foreach ($products as $row) { ?>
-        <?php var_dump($row); ?>
-        <?php } ?>
         <div class="row">
             <?php if (!empty($products)) { ?>
                 <?php foreach ($products as $row) { ?>
