@@ -1,5 +1,5 @@
-<?php include_once "component/linkbootstrap5.php"; ?>
-<?php include "assets/css/displayproduct.css.php"; ?>
+<?php include_once "../component/linkbootstrap5.php"; ?>
+<?php include "../assets/css/displayproduct.css.php"; ?>
 
 <?php
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 8; // Số sản phẩm hiển thị ban đầu
