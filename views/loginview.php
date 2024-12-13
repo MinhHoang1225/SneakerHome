@@ -20,7 +20,7 @@ g<!DOCTYPE html>
             <?php if (!empty($_SESSION['error_message'])): ?>
                 <div class="alert alert-danger">
                     <?php 
-                        echo $_SESSION['error_message']; 
+                        echo $_SESSION['error_message'];  
                         unset($_SESSION['error_message']);  
                     ?>
                 </div>
@@ -38,7 +38,7 @@ g<!DOCTYPE html>
                 </div>
                 <div class="col-8">
                     <div class="input-info pt-5">
-                        <div>Username:</div>
+                        <div>Email:</div>
                         <div>
                             <input type="text" name="email" id="email" placeholder="Enter your email" required>
                         </div>

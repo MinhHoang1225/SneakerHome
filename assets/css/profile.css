@@ -1,0 +1,127 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #f9f9f9;
+    color: #333;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+.welcome-banner {
+    background: linear-gradient(to right, #dbeafe, #fff7ed);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: left;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.profile-section {
+    display: flex;
+    margin: 20px 0;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 70px;
+    height: 70px;
+    background-color: #d9d9d9;
+    border-radius: 50%;
+    margin-right: 15px;
+}
+
+.user-details h3 {
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+    font-weight: bold;
+}
+
+.user-details a {
+    color: #666;
+    text-decoration: none;
+}
+
+.details-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.input-group {
+    width: 48%;
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    background-color: #e0e7ff;
+}
+
+.password input {
+    font-family: 'Courier New', Courier, monospace;
+}
+.button-group {
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    margin-top: 10px;
+}
+
+.edit-btn {
+    background-color: #3b82f6;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 0.9rem;
+}
+
+.order-section {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.order-column {
+    width: 48%;
+}
+
+.order-column h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.order-box {
+    background-color: #e0e7ff;
+    border-radius: 5px;
+    height: 40px;
+    margin-bottom: 10px;
+}
