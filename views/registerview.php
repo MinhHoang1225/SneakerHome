@@ -10,7 +10,7 @@
 <body>
 
     <div class="container">
-        <div class="btn-close"></div>
+        <div class="btn-close" onclick="window.location.href='../controller/homecontroller.php';"></div>
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
@@ -47,7 +47,7 @@
                         <input type="password" id="confirm_password" name="confirm_password" placeholder="confirm password"   required>                      
                     </div>
                     <div class="d-flex login-part-btn pt-3">
-                        <a href="../views/login-view.php" class="pt-2 ps-3"><i class="fa-solid fa-arrow-left pt-2"></i> Login </a>
+                        <a href="../controller/logincontroller.php" class="pt-2 ps-3"><i class="fa-solid fa-arrow-left pt-2"></i> Login </a>
                         <button type="submit" class="px-5 py-3">Register</button>
                     </div>
                 </form>
