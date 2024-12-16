@@ -2,8 +2,8 @@
 
   function connectdb() {
     $host     = 'localhost'; 
-    $database = 'mrdinh';
-    $database = 'mrdinh';
+    $database = 'Sneaker_home';
+    // $database = 'mrdinh';
     $user     = 'root'; 
     $password = ''; 
     try { 
