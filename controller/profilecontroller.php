@@ -7,6 +7,12 @@ class ProfileController {
     public function __construct() {
         $this->userModel = new User(); // Tạo một instance của class User
     }
+    // Thêm phương thức trong ProfileController
+
+    public function getOrdersByUserId($user_id) {
+        $orders = $this->userModel->getOrdersByUserId($user_id);
+        return $orders;
+    }
 
     // Hiển thị thông tin hồ sơ người dùng
     public function showProfile($user_id) {
@@ -21,15 +27,10 @@ class ProfileController {
         if (empty($data['user_id']) || !is_numeric($data['user_id'])) {
             throw new InvalidArgumentException("Invalid user ID.");
         }
-
-        if (empty($data['name']) || empty($data['username']) || empty($data['email'])) {
-            throw new InvalidArgumentException("Name, username, and email cannot be empty.");
-        }
-
         // Gán dữ liệu vào model
         $this->userModel->user_id = $data['user_id'];
-        $this->userModel->name = htmlspecialchars(strip_tags($data['name'])); // Bảo vệ dữ liệu đầu vào
-        $this->userModel->username = htmlspecialchars(strip_tags($data['username']));
+        $this->userModel->name = htmlspecialchars(strip_tags($data['name'])); 
+        $this->userModel->password = htmlspecialchars(strip_tags($data['password'])); 
         $this->userModel->email = filter_var($data['email'], FILTER_VALIDATE_EMAIL);
 
         if (!$this->userModel->email) {

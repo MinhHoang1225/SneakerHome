@@ -7,13 +7,20 @@ class User {
 
     public $user_id;
     public $name;
-    public $username;
     public $email;
     public $password;
 
     // Constructor sửa đổi để sử dụng connectdb()
     public function __construct() {
         $this->conn = connectdb(); // Gọi hàm connectdb() để khởi tạo kết nối
+    }
+    // Thêm phương thức trong model User để lấy đơn hàng
+    public function getOrdersByUserId($user_id) {
+        $query = "SELECT * FROM Orders WHERE user_id = :user_id";
+        $stmt = $this->conn->prepare($query);
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Trả về tất cả các đơn hàng của người dùng
     }
 
     // Lấy thông tin người dùng dựa trên ID
@@ -28,12 +35,12 @@ class User {
     // Cập nhật thông tin người dùng
     public function updateUser() {
         $query = "UPDATE " . $this->table_name . " 
-                  SET name = :name, username = :username, email = :email 
+                  SET name = :name, email = :email , password = :password
                   WHERE user_id = :user_id";
 
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":name", $this->name, PDO::PARAM_STR);
-        $stmt->bindParam(":username", $this->username, PDO::PARAM_STR);
+        $stmt->bindParam(":password", $this->password, PDO::PARAM_STR);
         $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
         $stmt->bindParam(":user_id", $this->user_id, PDO::PARAM_INT);
 

@@ -39,8 +39,7 @@
             transition: all 0.3s ease;
         }
         .search-bar.show {
-            right: auto; 
-            left: -420px; 
+            display: block;
         }
         .search-bar input {
             border: 1px solid #ddd;
@@ -62,11 +61,20 @@
         .search-bar .search-btn:hover {
             background: #0056b3;
         }
-        .search-btn {
-            width: 60px;
-            margin-top: 3px;
+
+        /* Custom style for the search results */
+        .search-results {
+            margin-top: 20px;
         }
 
+        .search-results ul {
+            list-style-type: none;
+        }
+
+        .search-results li {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
     </style>
 </head>
 <body>
@@ -76,22 +84,45 @@
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.415l-3.85-3.85zm-5.241.656a5.5 5.5 0 1 1 0-11 5.5 5.5 0 0 1 0 11z"/>
             </svg>
         </button>
-
-        <div class="search-bar">
-            <input type="text" placeholder="Search..." id="search-input" />
-            <button class="search-btn">Go</button>
+        <div class="search-bar" id="search-bar">
+            <input 
+                type="text" 
+                id="search-input" 
+                placeholder="Search..." 
+                oninput="searchProducts()" 
+                required
+            />
+            <button class="search-btn" onclick="searchProducts()">Go</button>
         </div>
     </div>
-</body>
+    <div id="search-results"></div>
+
 <script>
     function toggleSearchBar() {
-        const searchBar = document.querySelector(".search-bar");
-        if (searchBar.style.display === "block") {
-            searchBar.style.display = "none"; 
-        } else {
-            searchBar.style.display = "block"; 
-        }
+        const searchBar = document.getElementById("search-bar");
+        searchBar.style.display = searchBar.style.display === "none" ? "block" : "none";
     }
 
+    function searchProducts() {
+        const keyword = document.getElementById("search-input").value;
+
+        if (keyword.trim() !== "") {
+            const xhr = new XMLHttpRequest();
+            xhr.open("POST", "../controller/searchcontroller.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    document.getElementById("search-results").innerHTML = xhr.responseText;
+                }
+            };
+
+            xhr.send("keyword=" + encodeURIComponent(keyword));
+        } else {
+            document.getElementById("search-results").innerHTML = "";
+        }
+    }
 </script>
+
+</body>
 </html>
