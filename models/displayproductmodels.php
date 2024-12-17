@@ -9,7 +9,7 @@ $db = connectdb();
     
 
     public function getBestSellers($limit = 8) {
-        $sql = "SELECT name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT :limit";
+        $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT :limit";
         
         $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
@@ -24,7 +24,7 @@ $db = connectdb();
     }
 
     public function getAllBestSellers() {
-        $sql = "SELECT name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1";
+        $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1";
         $stmt = $this->db->prepare($sql);
         $stmt->execute();
     
@@ -52,7 +52,7 @@ $db = connectdb();
     }
 
     public function getBestSellersByCategory($categoryId, $limit = 8) {
-        $sql = "SELECT name, price, old_price, discount, image_url 
+        $sql = "SELECT product_id, name, price, old_price, discount, image_url 
                 FROM product 
                 WHERE is_best_seller = 1 AND category_id = :category_id 
                 LIMIT :limit";
