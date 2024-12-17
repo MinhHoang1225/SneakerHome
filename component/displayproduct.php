@@ -1,6 +1,5 @@
-<?php include_once "../component/linkbootstrap5.php"; ?>
-<?php include "../assets/css/displayproduct.css.php"; ?>
-
+<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; ?>;
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/displayproduct.css.php'; ?>
 <?php
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 8; // Số sản phẩm hiển thị ban đầu
 $totalProducts = ($categoryId == 0)
