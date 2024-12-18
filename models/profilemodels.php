@@ -12,7 +12,7 @@ class User {
 
     // Constructor sửa đổi để sử dụng connectdb()
     public function __construct() {
-        $this->conn = connectdb(); // Gọi hàm connectdb() để khởi tạo kết nối
+        $this->conn = connectdb(); 
     }
     // Thêm phương thức trong model User để lấy đơn hàng
     public function getOrdersByUserId($user_id) {
@@ -20,14 +20,14 @@ class User {
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); // Trả về tất cả các đơn hàng của người dùng
+        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
     }
 
     // Lấy thông tin người dùng dựa trên ID
     public function getUserById($user_id) {
         $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT); // Đảm bảo kiểu dữ liệu là INT
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT); 
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC); // Trả về thông tin người dùng dưới dạng mảng liên kết
     }

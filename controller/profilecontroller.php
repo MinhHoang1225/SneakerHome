@@ -5,7 +5,7 @@ class ProfileController {
     private $userModel;
 
     public function __construct() {
-        $this->userModel = new User(); // Tạo một instance của class User
+        $this->userModel = new User(); 
     }
     // Thêm phương thức trong ProfileController
 

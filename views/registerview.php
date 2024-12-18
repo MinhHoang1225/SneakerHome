@@ -14,9 +14,10 @@
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
-                <button type="button">Login</button>
-                <button type="button">Register</button>
+                <button type="button" onclick="window.location.href='../controller/logincontroller.php';">Login</button>
+                <button type="button" onclick="window.location.href='../controller/registercontroller.php';">Register</button>
             </div>
+
         </div>
         <div class="row pt-5">
             <div class="col-6"></div>
