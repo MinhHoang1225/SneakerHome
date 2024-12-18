@@ -13,8 +13,8 @@ g<!DOCTYPE html>
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
-                <button class="btn-login" type="">Login</button>
-                <button class="btn-register"type="">Register</button>
+                <button type="button" onclick="window.location.href='../controller/logincontroller.php';">Login</button>
+                <button type="button" onclick="window.location.href='../controller/registercontroller.php';">Register</button>
             </div>
         </div>
             <?php if (!empty($_SESSION['error_message'])): ?>
@@ -54,7 +54,7 @@ g<!DOCTYPE html>
             <div class="row">
                 <div class="col-8"></div>
                 <div class="col-4 d-flex login-part-btn ">
-                    <button type="submit" class="px-5 py-3 btn-login">Login</button>
+                    <button type="submit" class="px-5 py-3 btn-login" href="../controller/logincontroller.php">Login</button>
                     <a href="../controller/registercontroller.php"><div>Register<i class="fa-solid fa-arrow-right pt-2"></i></div></a>
                 </div>
             </div>

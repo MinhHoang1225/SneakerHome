@@ -6,8 +6,7 @@
     <title>Sneaker Home </title>
 </head>
 <body>
-    <?php include './component/header.php' ?>
-    <!-- <h1>Container</h1> -->
-    <?php include "./controller/displayproductcontroller.php" ?>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/header.php'; ?>    <!-- <h1>Container</h1> -->
+    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controller/displayproductcontroller.php" ?>
 </body>
 </html>
