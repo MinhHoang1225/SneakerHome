@@ -5,7 +5,7 @@
         ["label" => "Clother", "url" => "../controller/clother"],
         ["label" => "Accessories", "url" => "../controller/accessories"],
         ["label" => "About us", "url" => "../controller/aboutus"],
-        ["label" => "Promotion", "url" => "../controller/promotion"],
+        ["label" => "Collections", "url" => "../controller/collections"],
     ];
 
     function generateNavbar($navItems,$class) {

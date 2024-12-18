@@ -8,6 +8,7 @@
     <?php include "../assets/css/detailproduct.css.php"; ?>
 </head>
 <body>
+<?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/header.php'; ?>
 <?php
 if ($product): ?>
     <div class="container mt-5">
@@ -20,8 +21,8 @@ if ($product): ?>
                 <!-- Thông tin sản phẩm -->
                 <h2><?php echo htmlspecialchars($product['name']); ?></h2>
                 <p class="price">
-                    <span class="new-price">$<?php echo number_format($product['price'], 2); ?></span>
-                    <span class="old-price text-muted">$<?php echo number_format($product['old_price'], 2); ?></span>
+                    <span class="new-price">$<?php echo number_format($product['price']); ?></span>
+                    <span class="old-price text-muted">$<?php echo number_format($product['old_price']); ?></span>
                 </p>
                 <p class="discount"><?php echo $product['discount']; ?>% Off</p>
                 <p class="availability">
@@ -62,13 +63,20 @@ if ($product): ?>
 
 <!-- Sản phẩm liên quan -->
 <div class="container mt-5">
-    <h3>Related Products</h3>
+    <h3 class="content">Related Products</h3>
     <div class="row">
         <?php 
         // Lấy sản phẩm liên quan từ model
-        $related_products = getRelatedProducts(); 
+        $related_products = getRelatedProducts($product['product_id'], $product['category_id']); 
         foreach ($related_products as $related_product): ?>
-            <div class="col-md-3 mb-4">
+            <div class="col-md-3 mb-4" style="position: relative">
+                <div class="icons">
+                    <!-- <i class="far fa-heart" ></i> -->
+                    <button onclick="toggleHeart(this)" style="background-color: white">
+                        <i class="far fa-heart" ></i> <!-- Tăng kích thước trái tim -->
+                    </button>
+                    <i class="fas fa-cart-plus"></i>
+                </div>
                 <div class="card h-300"href="detailproductcontroller.php?product_id=<?php echo $related_product['product_id']; ?>" >
                     <!-- Hình ảnh sản phẩm -->
                     <a href="detailproductcontroller.php?product_id=<?php echo $related_product['product_id']; ?>" >
@@ -86,11 +94,11 @@ if ($product): ?>
                         <?php if (!empty($related_product['old_price']) && $related_product['old_price'] > $related_product['price']): ?>
                             <p class="price">
                                 <span class="new-price  fw-bold">
-                                    $<?php echo number_format($related_product['price'], 2); ?>
+                                    $<?php echo number_format($related_product['price']); ?>
                                 </span>
                                 <div>
                                     <span class="old-price text-muted text-decoration-line-through">
-                                        $<?php echo number_format($related_product['old_price'], 2); ?>
+                                        $<?php echo number_format($related_product['old_price']); ?>
                                     </span>
                                     <span class="discount">
                                         <?php echo number_format($related_product['discount']); ?>% Off

@@ -3,7 +3,7 @@
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php'; // Gọi file kết nối database
 
 function getProductDetails($product_id) {
-    $sql = "SELECT product_id, name, price, old_price, discount, image_url, description, stock, color
+    $sql = "SELECT product_id,category_id, name, price, old_price, discount, image_url, description, stock, color
             FROM product 
             WHERE product_id = :product_id";
 
@@ -16,12 +16,22 @@ function getProductDetails($product_id) {
     return $stmt->fetch(PDO::FETCH_ASSOC); // Trả về 1 sản phẩm
 }
 
-
-function getRelatedProducts($limit = 4) {
+function getRelatedProducts($product_id, $category_id, $limit = 4) {
     $conn = connectdb();
-    $stmt = $conn->prepare("SELECT * FROM product LIMIT :limit");
+    $sql = "SELECT product_id, name, price, old_price, discount, image_url
+            FROM product 
+            WHERE category_id = :category_id AND product_id != :product_id
+            LIMIT :limit";
+
+    $stmt = $conn->prepare($sql);
+
+    $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
+    $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
     $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
+
+
 ?>

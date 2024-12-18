@@ -5,10 +5,11 @@
     padding: 15px;
     text-align: center;
     position: relative;
+    height: 450px;
 }
 .product-card img {
     max-width: 100%;
-    height: auto;
+    height: 300px;
     border-radius: 10px;
 }
 .product-card .icons {

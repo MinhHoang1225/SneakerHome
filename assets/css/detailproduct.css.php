@@ -114,5 +114,19 @@ button[type="submit"], button[type="button"] {
     color: #ff0000;
     margin-left: 10px;
 }
- 
+.icons {
+    position: absolute;
+    top: 10px;
+    right: 30px;
+    z-index: 100;
+}
+.icons i {
+    margin-left: 10px;
+    color: #00aaff;
+}
+.content{
+    display:flex;
+    justify-content: center;
+    padding: 20px
+}
   </style>
