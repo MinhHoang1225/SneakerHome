@@ -30,14 +30,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-<<<<<<< HEAD
- <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\component\linkbootstrap5.php'; ?>
 
-    <?php include "assets/css/header.css.php" ?>
-=======
     <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/component/linkbootstrap5.php" ?>
     <?php include   $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/header.css.php" ?>
->>>>>>> 2ca676a6f9b19df7052062c185d7ef4abb239f13
 </head>
 <body>
     <div class="container">

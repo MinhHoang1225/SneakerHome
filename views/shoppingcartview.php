@@ -40,7 +40,7 @@
 
         <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ </span></h4>
         <div class="checkout-btn gap-3 pt-3">
-            <button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button>
+            <a href="../controller/homecontroller.php"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button></a>
             <button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
