@@ -62,4 +62,8 @@ hr {
     display: flex;
     justify-content: flex-end;
 }
+.table td.product-total {
+    width: 150px; /* Thay đổi chiều rộng phù hợp với dữ liệu */
+    text-align: center;
+}
   </style>
