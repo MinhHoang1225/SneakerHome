@@ -47,7 +47,7 @@
             <div class="col-3 d-flex gap-5">
                 <a href="../controller/logincontroller.php"><button>Login</button></a>
                 <a href="../controller/registercontroller.php"><button>Register</button></a>
-                <div><i class="fa-solid fa-cart-shopping cart"></i></div>
+                <a href="../controller/shoppingcartcontroller.php"><i class="fa-solid fa-cart-shopping cart"></i></a>
             </div>
         </div> 
 
