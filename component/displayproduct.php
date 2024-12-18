@@ -31,9 +31,9 @@ $totalProducts = ($categoryId == 0)
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" 
                                     alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                                 <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
-                                <div class="price">$<?php echo number_format($row['price'], 2); ?></div>
+                                <div class="price">$<?php echo number_format($row['price']); ?></div>
                                 <div>
-                                    <span class="old-price">$<?php echo number_format($row['old_price'], 2); ?></span>
+                                    <span class="old-price">$<?php echo number_format($row['old_price']); ?></span>
                                     <span class="discount"><?php echo $row['discount']; ?>% Off</span>
                                 </div>
                             </div>
