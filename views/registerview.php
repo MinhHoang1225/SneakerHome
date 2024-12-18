@@ -43,7 +43,7 @@
                         <label for="password">Password:</label>
                         <input type="password" id="password" name="password" placeholder="password"   required>                        
                     </div>
-                    <div class="input-info">
+                    <div class="input-info"> 
                         <label for="confirm_password">Confirm password:</label>
                         <input type="password" id="confirm_password" name="confirm_password" placeholder="confirm password"   required>                      
                     </div>
