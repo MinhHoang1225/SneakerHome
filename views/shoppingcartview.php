@@ -52,7 +52,7 @@
         const productId = row.dataset.productId; // ID sản phẩm
         const input = row.querySelector('.qty-input'); // Ô input số lượng
         let quantity = parseInt(input.value); // Giá trị số lượng hiện tại
-        
+
         // Tăng hoặc giảm số lượng
         quantity = this.classList.contains('increase-qty') ? quantity + 1 : quantity - 1;
         if (quantity < 1) return; // Không cho phép số lượng < 1
@@ -70,10 +70,8 @@
                 input.value = quantity;
 
                 // Cập nhật tổng tiền của sản phẩm
-                const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace('$', '').replace(',', '')); // Lấy giá sản phẩm, loại bỏ ký tự không cần thiết
-                const total = (price * quantity).toFixed(3); // Tính tổng tiền sản phẩm
-
-                // Định dạng tổng tiền theo VND
+                const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace(/[^\d.]/g, '')); // Loại bỏ ký tự không cần thiết
+                const total = price * quantity; // Tính tổng tiền sản phẩm
                 const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
 
                 // Cập nhật tổng tiền của sản phẩm
@@ -81,8 +79,6 @@
 
                 // Cập nhật tổng tiền giỏ hàng
                 const formattedCartTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.total);
-
-                // Cập nhật tổng tiền giỏ hàng
                 document.getElementById('cart-total').innerText = formattedCartTotal;
 
                 // Hiệu ứng mượt (tuỳ chọn)
