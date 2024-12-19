@@ -13,6 +13,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Image</th>
                     <th>Product</th>
                     <th>Price</th>
@@ -23,6 +24,11 @@
             <tbody>
                 <?php foreach ($cartItems as $item): ?>
                 <tr data-product-id="<?php echo $item['product_id']; ?>">
+                    <td><button class="remove-from-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="fas fa-trash-alt"></i> <!-- Biểu tượng xóa -->
+                        </button>
+                    </td>
+                    
                     <td><img class='img_product' src="<?php echo $item['image_url']; ?>" alt="Product Image" /></td>
                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                     <td><?php echo number_format($item['price']); ?> đ </td>
@@ -90,6 +96,31 @@
     });
 });
 
+document.querySelectorAll('.remove-from-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+
+        // Hiển thị xác nhận trước khi xóa
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+            fetch('../models/shoppingcartmodels.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'remove_from_cart', product_id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Xóa sản phẩm thành công!');
+                    // Xóa sản phẩm khỏi giao diện
+                    this.closest('.col-md-3').remove();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+});
 
     </script>
 </body>
