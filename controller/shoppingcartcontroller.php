@@ -1,5 +1,5 @@
 <?php
-session_start();
+// session_start();
 require_once '../models/shoppingcartmodels.php';
 
 $userId = $_SESSION['user_id'] ?? null;

@@ -1,7 +1,7 @@
 <?php
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; 
 include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/displayproduct.css.php'; 
-
+$user = $_SESSION["user_id"];
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 8; // Số sản phẩm hiển thị ban đầu
 $categoryId = isset($_GET['category_id']) ? intval($_GET['category_id']) : 0; // Danh mục sản phẩm
 $totalProducts = ($categoryId == 0)
@@ -10,7 +10,7 @@ $totalProducts = ($categoryId == 0)
 
 ?>
 
-<body>
+<body>  
     <img src="../assets/img/Offer Banner.png" alt="Offer Banner">
     <div class="container mt-5">
         <h2 class="text-center">BEST SELLER</h2>
@@ -27,9 +27,11 @@ $totalProducts = ($categoryId == 0)
                             <div class="product-card">
                                 <div class="icons">
                                     <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
-                                        <i class="far fa-heart" ></i> <!-- Tăng kích thước trái tim -->
+                                        <i class="far fa-heart"></i>
                                     </button>
-                                    <i class="fas fa-cart-plus"></i>
+                                    <button class="add-to-cart" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
+                                        <i class="fas fa-cart-plus"></i>
+                                    </button>
                                 </div>
                                 <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
                                     <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
@@ -78,4 +80,26 @@ $totalProducts = ($categoryId == 0)
                 icon.classList.add('fa-regular');
             }
         }
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        fetch('../models/shoppingcartmodels.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) // Giả định user_id = 1
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Thêm vào giỏ hàng thành công!');
+            } else {
+                alert('Có lỗi xảy ra!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
     </script>
+  
