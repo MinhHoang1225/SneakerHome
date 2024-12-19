@@ -22,7 +22,10 @@
                         <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
                             <i class="far fa-heart" ></i> <!-- Tăng kích thước trái tim -->
                         </button>
-                        <i class="fas fa-cart-plus"></i>
+                        <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+
                     </div>
                     <div class="card h-300"href="detailproductcontroller.php?product_id=<?php echo $product['product_id']; ?>" >
     <!-- Hình ảnh sản phẩm -->
@@ -77,6 +80,28 @@
                 icon.classList.add('fa-regular');
             }
         }
+
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        fetch('../models/shoppingcartmodels.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) // Không cần gửi user_id
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Thêm vào giỏ hàng thành công!');
+            } else {
+                alert(data.message || 'Có lỗi xảy ra!');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    });
+});
+
+
     </script>
 </body>
 </html>
