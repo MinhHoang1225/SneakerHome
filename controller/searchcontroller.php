@@ -1,21 +1,17 @@
 <?php
 require_once '../database/connect.php';
-require_once '../models/searchmodels.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['keyword'])) {
-    $keyword = trim($_POST['keyword']);
-    $productModel = new Product();
-    $results = $productModel->searchByName($keyword);
+function searchProducts($keyword) {
+    $db = connectdb();
+    try {
+        $query = "SELECT name, price, image_url FROM product WHERE name LIKE :keyword";
+        $stmt = $db->prepare($query);
+        $stmt->bindValue(':keyword', '%' . $keyword . '%', PDO::PARAM_STR);
+        $stmt->execute();
 
-    if (!empty($results)) {
-        foreach ($results as $product) {
-            echo "<div>";
-            echo "<p><strong>" . htmlspecialchars($product['name']) . "</strong></p>";
-            echo "<p>Giá: " . number_format($product['price'], 3) . " VND</p>";
-            echo "</div><hr>";
-        }
-    } else {
-        echo "<p>Không tìm thấy sản phẩm nào.</p>";
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    } catch (PDOException $e) {
+        return [];
     }
 }
 ?>

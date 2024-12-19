@@ -30,14 +30,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-<<<<<<< HEAD
- <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\component\linkbootstrap5.php'; ?>
-
-    <?php include "assets/css/header.css.php" ?>
-=======
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include   $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/header.css.php" ?>
->>>>>>> 2ca676a6f9b19df7052062c185d7ef4abb239f13
+    <?php include "../component/linkbootstrap5.php" ?>
+    <?php include "../assets/css/header.css.php" ?>
 </head>
 <body>
     <div class="container">
@@ -47,7 +41,19 @@
             <div class="col-3 d-flex gap-5">
                 <a href="../controller/logincontroller.php"><button>Login</button></a>
                 <a href="../controller/registercontroller.php"><button>Register</button></a>
-                <div><i class="fa-solid fa-cart-shopping cart"></i></div>
+                <a href="../controller/shoppingcartcontroller.php"><i class="fa-solid fa-cart-shopping cart"></i></a>
+                <div class="search-container">
+                    <!-- Icon tìm kiếm -->
+                    <i class="fa-solid fa-magnifying-glass search-icon" onclick="toggleSearchBox()"></i>
+
+                    <!-- Ô nhập từ khóa -->
+                    <div id="search-box-wrapper" class="search-box-wrapper" style="display: none;">
+                        <form action="../views/searchview.php" method="GET">
+                            <input type="text" id="search-box" name="keyword" class="search-box" placeholder="Enter keyword..." required />
+                        </form>
+                    </div>
+                </div>
+
             </div>
         </div> 
 
@@ -59,4 +65,18 @@
         </div>
     </div>
 </body>
+<script>
+    function toggleSearchBox() {
+        const searchBoxWrapper = document.getElementById('search-box-wrapper');
+        // Kiểm tra trạng thái hiển thị của ô nhập
+        if (searchBoxWrapper.style.display === "none" || searchBoxWrapper.style.display === "") {
+            searchBoxWrapper.style.display = "block"; // Hiển thị ô nhập
+            document.getElementById('search-box').focus(); // Tự động focus vào ô nhập
+        } else {
+            searchBoxWrapper.style.display = "none"; // Ẩn ô nhập
+        }
+    }
+
+</script>
+
 </html>

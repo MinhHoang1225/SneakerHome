@@ -25,7 +25,7 @@ body {
 }
 
 .welcome-banner {
-    background: linear-gradient(to right, #6a11cb, #2575fc);
+    background: linear-gradient(to right, #66B2FF, #2575fc);
     color: #fff;
     padding: 15px 20px;
     text-align: center;
@@ -52,7 +52,7 @@ body {
     border-radius: 50%;
     background: url('https://i.pravatar.cc/300') no-repeat center/cover;
     margin-right: 20px;
-    border: 3px solid #6a11cb;
+    border: 3px solid  #66B2FF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
@@ -63,7 +63,7 @@ body {
 }
 
 .user-details a {
-    color: #6a11cb;
+    color:  #66B2FF;
     text-decoration: none;
     font-size: 0.9rem;
 }
@@ -92,7 +92,7 @@ body {
 }
 
 .input-group input:focus {
-    border-color: #6a11cb;
+    border-color:  #66B2FF;
     outline: none;
 }
 
