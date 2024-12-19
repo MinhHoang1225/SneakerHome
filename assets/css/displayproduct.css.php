@@ -9,7 +9,7 @@
 }
 .product-card img {
     max-width: 100%;
-    height: 350px;
+    height: 300px;
     border-radius: 10px;
 }
 .product-card .icons {
@@ -59,7 +59,7 @@
     text-decoration: none;
 }
 .img-fluid {
-    height: 500px;
+    height: 450px;
     width: 500px;
 }
 </style>
