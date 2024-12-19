@@ -1,10 +1,13 @@
-<?php include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; ?>
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/displayproduct.css.php'; ?>
 <?php
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; 
+include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/displayproduct.css.php'; 
+
 $limit = isset($_GET['limit']) ? intval($_GET['limit']) : 8; // Số sản phẩm hiển thị ban đầu
+$categoryId = isset($_GET['category_id']) ? intval($_GET['category_id']) : 0; // Danh mục sản phẩm
 $totalProducts = ($categoryId == 0)
     ? $productModel->getAllBestSellersCount()
     : $productModel->getAllBestSellersCount($categoryId); // Số lượng tổng sản phẩm theo category_id
+
 ?>
 
 <body>
@@ -21,23 +24,23 @@ $totalProducts = ($categoryId == 0)
             <?php if (!empty($products)) { ?>
                 <?php foreach ($products as $row) { ?>
                     <div class="col-md-4 col-lg-3 mb-4">
-                        <!-- <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" 
-                        class="text-decoration-none text-dark"> -->
-                            <div class="product-card">
-                                <div class="icons">
-                                    <i class="far fa-heart"></i>
-                                    <i class="fas fa-cart-plus cart" data-product-id="<?php echo $row['product_id']; ?>"></i>
-                                </div>
-                                <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" 
-                                    class="text-decoration-none text-dark"><img src="<?php echo htmlspecialchars($row['image_url']); ?>" 
-                                    alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300"></a>
-                                <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
-                                <div class="price">$<?php echo number_format($row['price'], 2); ?></div>
-                                <div>
-                                    <span class="old-price">$<?php echo number_format($row['old_price'], 2); ?></span>
-                                    <span class="discount"><?php echo $row['discount']; ?>% Off</span>
-                                </div>
+                        <div class="product-card">
+                            <div class="icons">
+                                <i class="far fa-heart"></i>
+                                <i class="fas fa-cart-plus cart" data-product-id="<?php echo $row['product_id']; ?>"></i>
                             </div>
+                            <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" 
+                               class="text-decoration-none text-dark">
+                               <img src="<?php echo htmlspecialchars($row['image_url']); ?>" 
+                                    alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
+                            </a>
+                            <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
+                            <div class="price">$<?php echo number_format($row['price'], 2); ?></div>
+                            <div>
+                                <span class="old-price">$<?php echo number_format($row['old_price'], 2); ?></span>
+                                <span class="discount"><?php echo $row['discount']; ?>% Off</span>
+                            </div>
+                        </div>
                     </div>
                 <?php } ?>
             <?php } else { ?>
@@ -60,37 +63,35 @@ $totalProducts = ($categoryId == 0)
         }
 
         // Xử lý click vào biểu tượng giỏ hàng
-        const cartButtons = document.querySelectorAll('.cart');
-        
-
+        const cartButtons = document.querySelectorAll('.fa-cart-plus');
         cartButtons.forEach(button => {
             button.addEventListener('click', function () {
                 const productId = this.getAttribute('data-product-id');
                 addToCart(productId);
             });
         });
-        
+
         // Hàm thêm sản phẩm vào giỏ hàng
         function addToCart(productId) {
             fetch('../models/shoppingcartmodels.php', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ product_id: productId })
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Sản phẩm đã được thêm vào giỏ hàng!');
-                } else {
-                    alert('Lỗi: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Đã xảy ra lỗi, vui lòng thử lại!');
-            });
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ product_id: productId })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('OK');
+            } else {
+                alert('Lỗi: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi, vui lòng thử lại!');
+        });
         }
     });
-</script>
+</script>   
