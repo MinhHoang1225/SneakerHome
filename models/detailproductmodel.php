@@ -16,22 +16,19 @@ function getProductDetails($product_id) {
     return $stmt->fetch(PDO::FETCH_ASSOC); // Trả về 1 sản phẩm
 }
 
-function getRelatedProducts($product_id, $category_id, $limit = 4) {
+function getRelatedProducts($product_id, $category_id) {
     $conn = connectdb();
     $sql = "SELECT product_id, name, price, old_price, discount, image_url
             FROM product 
-            WHERE category_id = :category_id AND product_id != :product_id
-            LIMIT :limit";
+            WHERE category_id = :category_id AND product_id != :product_id";
 
     $stmt = $conn->prepare($sql);
 
     $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
     $stmt->bindParam(':product_id', $product_id, PDO::PARAM_INT);
-    $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+
 
     $stmt->execute();
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
-
-
 ?>

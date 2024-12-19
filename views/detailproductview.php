@@ -21,8 +21,8 @@ if ($product): ?>
                 <!-- Thông tin sản phẩm -->
                 <h2><?php echo htmlspecialchars($product['name']); ?></h2>
                 <p class="price">
-                    <span class="new-price">$<?php echo number_format($product['price']); ?></span>
-                    <span class="old-price text-muted">$<?php echo number_format($product['old_price']); ?></span>
+                    <span class="new-price"><?php echo number_format($product['price']); ?>  VNĐ</span>
+                    <span class="old-price text-muted"><?php echo number_format($product['old_price']); ?>  VNĐ</span>
                 </p>
                 <p class="discount"><?php echo $product['discount']; ?>% Off</p>
                 <p class="availability">
@@ -72,7 +72,7 @@ if ($product): ?>
             <div class="col-md-3 mb-4" style="position: relative">
                 <div class="icons">
                     <!-- <i class="far fa-heart" ></i> -->
-                    <button onclick="toggleHeart(this)" style="background-color: white">
+                    <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
                         <i class="far fa-heart" ></i> <!-- Tăng kích thước trái tim -->
                     </button>
                     <i class="fas fa-cart-plus"></i>
@@ -94,11 +94,11 @@ if ($product): ?>
                         <?php if (!empty($related_product['old_price']) && $related_product['old_price'] > $related_product['price']): ?>
                             <p class="price">
                                 <span class="new-price  fw-bold">
-                                    $<?php echo number_format($related_product['price']); ?>
+                                    <?php echo number_format($related_product['price']); ?>  VNĐ
                                 </span>
                                 <div>
                                     <span class="old-price text-muted text-decoration-line-through">
-                                        $<?php echo number_format($related_product['old_price']); ?>
+                                        <?php echo number_format($related_product['old_price']); ?>  VNĐ
                                     </span>
                                     <span class="discount">
                                         <?php echo number_format($related_product['discount']); ?>% Off
@@ -108,7 +108,7 @@ if ($product): ?>
                             </p>
                         <?php else: ?>
                             <p class="price fw-bold">
-                                $<?php echo number_format($related_product['price'], 2); ?>
+                                <?php echo number_format($related_product['price']); ?>VNĐ
                             </p>
                         <?php endif; ?>
                             

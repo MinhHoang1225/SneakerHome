@@ -54,11 +54,11 @@ h2 {
 
 .card {
     margin-bottom: 20px;
-    height: 450px;
+    height: 500px;
 }
 
 .card-img-top {
-    height: 300px;
+    height: 350px;
     /* object-fit: cover; */
 }
 
@@ -69,6 +69,7 @@ h2 {
 .card-title {
     font-size: 1.25rem;
     font-weight: bold;
+    height: 50px;
 }
 
 .card-text {
@@ -128,5 +129,9 @@ button[type="submit"], button[type="button"] {
     display:flex;
     justify-content: center;
     padding: 20px
+}
+.img-fluid {
+    height: 500px;
+    width: 500px;
 }
   </style>
