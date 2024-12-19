@@ -20,24 +20,27 @@ $totalProducts = ($categoryId == 0)
         <div class="row" id="product-container">
             <?php if (!empty($products)) { ?>
                 <?php foreach ($products as $row) { ?>
-                    <div class="col-md-4 col-lg-3 mb-4">
-                        <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" 
-                        class="text-decoration-none text-dark">
+                    <div class="col-md-4 col-lg-3 mb-4">                       
                             <div class="product-card">
                                 <div class="icons">
-                                    <i class="far fa-heart"></i>
+                                    <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
+                                        <i class="far fa-heart" ></i> <!-- Tăng kích thước trái tim -->
+                                    </button>
                                     <i class="fas fa-cart-plus"></i>
                                 </div>
-                                <img src="<?php echo htmlspecialchars($row['image_url']); ?>" 
-                                    alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
+                                <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
+                                    <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
+                                </a>
                                 <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
-                                <div class="price">$<?php echo number_format($row['price']); ?></div>
+
+                                <div class="price"><?php echo number_format($row['price']); ?>  VNĐ</div>
                                 <div>
-                                    <span class="old-price">$<?php echo number_format($row['old_price']); ?></span>
+                                    <span class="old-price"><?php echo number_format($row['old_price']); ?>  VNĐ</span>
+
                                     <span class="discount"><?php echo $row['discount']; ?>% Off</span>
                                 </div>
                             </div>
-                        </a>
+                        
                     </div>
                 <?php } ?>
             <?php } else { ?>
@@ -60,3 +63,17 @@ $totalProducts = ($categoryId == 0)
 });
 
 </script>
+<script>
+        function toggleHeart(button) {
+            const icon = button.querySelector('i'); // Lấy phần tử <i> bên trong button
+            if (icon.classList.contains('fa-regular')) {
+                // Nếu trái tim rỗng -> đổi sang trái tim đầy
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid');
+            } else {
+                // Nếu trái tim đầy -> đổi lại trái tim rỗng
+                icon.classList.remove('fa-solid');
+                icon.classList.add('fa-regular');
+            }
+        }
+    </script>

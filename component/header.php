@@ -1,11 +1,11 @@
 <?php 
     $array_navbar_1 = [
         ["label" => "Home", "url" => "../controller/home"],
-        ["label" => "Shoes", "url" => "../controller/shoes"],
-        ["label" => "Clother", "url" => "../controller/clother"],
-        ["label" => "Accessories", "url" => "../controller/accessories"],
+        ["label" => "Shoes", "url" => "../controller/productcontroller.php?category_id=1"],
+        ["label" => "Clother", "url" => "../controller/productcontroller.php?category_id=2"],
+        ["label" => "Accessories", "url" => "../controller/productcontroller.php?category_id=3"],
         ["label" => "About us", "url" => "../controller/aboutus"],
-        ["label" => "Promotion", "url" => "../controller/promotion"],
+        ["label" => "Collections", "url" => "../controller/productcontroller.php"],
     ];
 
     function generateNavbar($navItems,$class) {
