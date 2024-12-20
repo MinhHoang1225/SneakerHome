@@ -1,5 +1,6 @@
 <?php
 session_start();
+// include '../component/header.php';
 require_once '../controller/profilecontroller.php';
 
 $controller = new ProfileController();
@@ -42,7 +43,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="profile-section">
             <div class="profile-info">
-                <div class="avatar"></div>
+            <div class="avatar" id="avatar" tabindex="0"></div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
                 <div class="user-details">
                     <h3><?php echo htmlspecialchars($user['name']); ?></h3>
                     <a href="mailto:<?php echo htmlspecialchars($user['email']); ?>">
@@ -94,4 +96,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </body>
+<script>
+    // Lấy các phần tử
+const avatarDiv = document.getElementById('avatar');
+const fileInput = document.getElementById('fileInput');
+
+// Lắng nghe sự kiện bàn phím trên div avatar
+avatarDiv.addEventListener('keydown', (event) => {
+    // Kiểm tra nếu nhấn phím Enter hoặc Space
+    if (event.key === 'Enter' || event.key === ' ') {
+        fileInput.click(); // Kích hoạt input file ẩn
+    }
+});
+
+// Lắng nghe sự kiện thay đổi khi người dùng chọn file
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]; // Lấy file đầu tiên
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            avatarDiv.style.backgroundImage = `url(${e.target.result})`;
+        };
+        reader.readAsDataURL(file); // Đọc file và chuyển thành URL
+    }
+});
+
+</script>
 </html>

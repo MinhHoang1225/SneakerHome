@@ -5,16 +5,16 @@
     box-sizing: border-box;
     font-family: Arial, Helvetica, sans-serif;
 }
-
+/* 
 body {
     background-color: #f9f9f9;
     color: #333;
     line-height: 1.6;
     padding: 20px;
-}
+} */
 
 .container {
-    max-width: 1200px;
+    max-width: 100%;
     margin: auto;
     background: #fff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
@@ -46,7 +46,7 @@ body {
     align-items: center;
 }
 
-.avatar {
+/* .avatar {
     width: 80px;
     height: 80px;
     border-radius: 50%;
@@ -54,6 +54,20 @@ body {
     margin-right: 20px;
     border: 3px solid  #66B2FF;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+} */
+.avatar {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.avatar:focus {
+    outline: 2px solid #0078ff;
 }
 
 .user-details h3 {
