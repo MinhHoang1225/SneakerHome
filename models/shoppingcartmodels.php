@@ -30,6 +30,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['success' => $success]);
         exit;
     }
+    if ($action === 'remove_from_cart') {
+        $productId = intval($data['product_id']);
+    
+        // Đảm bảo userId được lấy từ session   
+        $userId = $_SESSION['user_id'] ?? null;
+    
+        if ($userId === null) {
+            echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
+            exit;
+        }
+    
+        if ($cartModel->removeFromCart($userId, $productId)) {
+            echo json_encode(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
+        }
+        exit;
+    }
 }
     
     class CartModel {
@@ -79,7 +97,41 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             return $stmt->execute();
         }
 
-        //Thêm sản phẩm vào giỏ hàng
+        public function removeFromCart($userId, $productId) {
+            try {
+                // Truy vấn lấy cart_id từ user_id
+                $sqlCartId = "SELECT cart_id FROM shoppingcart WHERE user_id = :user_id";
+                $stmtCartId = $this->db->prepare($sqlCartId);
+                $stmtCartId->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $stmtCartId->execute();
+                $cartId = $stmtCartId->fetchColumn();
+        
+                if (!$cartId) {
+                    error_log("Cart ID not found for user_id: $userId");
+                    return false;
+                }
+        
+                // Xóa sản phẩm khỏi cartitem dựa trên cart_id và product_id
+                $sqlDelete = "DELETE FROM cartitem WHERE cart_id = :cart_id AND product_id = :product_id";
+                $stmtDelete = $this->db->prepare($sqlDelete);
+                $stmtDelete->bindParam(':cart_id', $cartId, PDO::PARAM_INT);
+                $stmtDelete->bindParam(':product_id', $productId, PDO::PARAM_INT);
+        
+                if ($stmtDelete->execute()) {
+                    error_log("Deleted product_id: $productId from cart_id: $cartId");
+                    return true;
+                } else {
+                    error_log("Failed to delete product_id: $productId from cart_id: $cartId");
+                    return false;
+                }
+            } catch (Exception $e) {
+                error_log("Error removing product from cart: " . $e->getMessage());
+                return false;
+            }
+        }
+        
+        
+                //Thêm sản phẩm vào giỏ hàng
         public function addToCart($userId, $productId, $quantity) {
             try {
                 // Check if the user already has a cart
