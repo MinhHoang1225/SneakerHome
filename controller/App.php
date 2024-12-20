@@ -32,7 +32,7 @@ class App {
             '/shoes' =>  'shoescontroller.php',
             '/accessories' => 'accessoriescontroller.php',
             '/clother' => 'clothercontroller.php',
-            '/promotion' => 'promotioncontroller.php'
+            '/promotion' => 'promotioncontroller.php',
         ];
 
         if (isset($_SESSION['users']) && $_SESSION['users']['role'] == 'admin') {
