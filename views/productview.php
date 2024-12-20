@@ -67,6 +67,7 @@
             <?php endforeach; ?>
         </div>
     </div>
+    <?php include "../views/footer.php"; ?>
     <script>
         function toggleHeart(button) {
             const icon = button.querySelector('i'); // Lấy phần tử <i> bên trong button

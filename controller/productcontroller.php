@@ -10,4 +10,7 @@ $products = getProductsByCategory($category_id);
 
 // Import view
 include_once "../views/productview.php";
+
+include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\models\btn_up.php';
+
 ?>

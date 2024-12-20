@@ -22,6 +22,10 @@
      font-size: 20px;
      padding-top: 70px;
    }
+   li:hover{
+    /* padding: 10px; */
+    border-bottom: 1px solid black;   
+  }
    .search-container {
     position: relative;
     display: inline-block;
@@ -52,4 +56,9 @@
     border: 1px solid #ccc;
     border-radius: 5px;
 }
+.profile,.cart {
+  font-size: 28px;
+  color: black
+}
+
 </style>

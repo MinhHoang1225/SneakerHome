@@ -27,7 +27,8 @@
 }
 .product-card .icons i {
     margin-left: 10px;
-    color: #00aaff;
+    color:red;
+    font-size: 20px;
 }
 .product-card .price {
     color: #00aaff;
@@ -75,4 +76,5 @@
     font-weight: bold;
     height: 50px;
 }
+
 </style>
