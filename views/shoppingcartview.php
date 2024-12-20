@@ -13,6 +13,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th></th>
                     <th>Image</th>
                     <th>Product</th>
                     <th>Price</th>
@@ -23,6 +24,11 @@
             <tbody>
                 <?php foreach ($cartItems as $item): ?>
                 <tr data-product-id="<?php echo $item['product_id']; ?>">
+                    <td><button class="remove-from-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="fas fa-trash-alt"></i> <!-- Biểu tượng xóa -->
+                        </button>
+                    </td>
+                    
                     <td><img class='img_product' src="<?php echo $item['image_url']; ?>" alt="Product Image" /></td>
                     <td><?php echo htmlspecialchars($item['name']); ?></td>
                     <td><?php echo number_format($item['price']); ?> đ </td>
@@ -40,7 +46,7 @@
 
         <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ </span></h4>
         <div class="checkout-btn gap-3 pt-3">
-            <button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button>
+            <a href="../controller/homecontroller.php"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button></a>
             <button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
@@ -52,7 +58,7 @@
         const productId = row.dataset.productId; // ID sản phẩm
         const input = row.querySelector('.qty-input'); // Ô input số lượng
         let quantity = parseInt(input.value); // Giá trị số lượng hiện tại
-        
+
         // Tăng hoặc giảm số lượng
         quantity = this.classList.contains('increase-qty') ? quantity + 1 : quantity - 1;
         if (quantity < 1) return; // Không cho phép số lượng < 1
@@ -70,10 +76,8 @@
                 input.value = quantity;
 
                 // Cập nhật tổng tiền của sản phẩm
-                const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace('$', '').replace(',', '')); // Lấy giá sản phẩm, loại bỏ ký tự không cần thiết
-                const total = (price * quantity).toFixed(3); // Tính tổng tiền sản phẩm
-
-                // Định dạng tổng tiền theo VND
+                const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace(/[^\d.]/g, '')); // Loại bỏ ký tự không cần thiết
+                const total = price * quantity; // Tính tổng tiền sản phẩm
                 const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
 
                 // Cập nhật tổng tiền của sản phẩm
@@ -81,8 +85,6 @@
 
                 // Cập nhật tổng tiền giỏ hàng
                 const formattedCartTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.total);
-
-                // Cập nhật tổng tiền giỏ hàng
                 document.getElementById('cart-total').innerText = formattedCartTotal;
 
                 // Hiệu ứng mượt (tuỳ chọn)
@@ -94,6 +96,31 @@
     });
 });
 
+document.querySelectorAll('.remove-from-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+
+        // Hiển thị xác nhận trước khi xóa
+        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
+            fetch('../models/shoppingcartmodels.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'remove_from_cart', product_id: productId })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Xóa sản phẩm thành công!');
+                    // Xóa sản phẩm khỏi giao diện
+                    this.closest('.col-md-3').remove();
+                } else {
+                    alert(data.message || 'Có lỗi xảy ra!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    });
+});
 
     </script>
 </body>

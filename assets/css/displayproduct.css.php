@@ -5,10 +5,11 @@
     padding: 15px;
     text-align: center;
     position: relative;
+    height: 500px;
 }
 .product-card img {
     max-width: 100%;
-    height: auto;
+    height: 300px;
     border-radius: 10px;
 }
 .product-card .icons {
@@ -56,5 +57,9 @@
 .load-more a {
     color: #00aaff;
     text-decoration: none;
+}
+.img-fluid {
+    height: 450px;
+    width: 500px;
 }
 </style>

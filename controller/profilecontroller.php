@@ -1,4 +1,5 @@
 <?php
+require_once '../database/connect.php';
 require_once '../models/profilemodels.php'; 
 
 class ProfileController {
@@ -38,6 +39,11 @@ class ProfileController {
         }
 
         return $this->userModel->updateUser();
+
     }
 }
+include_once "../views/profileview.php" ;
+
+
 ?>
+

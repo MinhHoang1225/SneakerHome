@@ -1,8 +1,4 @@
 <style>
-h2 {
-    font-size: 2rem;
-    margin-bottom: 20px;
-}
 
 .price {
     font-size: 1.25rem;
@@ -58,7 +54,7 @@ h2 {
 }
 
 .card-img-top {
-    height: 300px;
+    height: 310px;
     /* object-fit: cover; */
 }
 
@@ -131,7 +127,7 @@ button[type="submit"], button[type="button"] {
     padding: 20px
 }
 .img-fluid {
-    height: 450px;
+    height: 500px;
     width: 500px;
 }
   </style>
