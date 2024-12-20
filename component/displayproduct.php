@@ -21,13 +21,13 @@ $totalProducts = ($categoryId == 0)
         <!-- Carousel Items -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Avj9hHag-Z35f_gmEbr-tbG3IwVfTFpEzQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 1">
+            <img src="../assets/img/banner1.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 1">
             </div>
             <div class="carousel-item">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeEpswwGyZF8zlTC6UlyIdQbVERMor6if1oQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 2">
+            <img src="../assets/img/banner2.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 2">
             </div>
             <div class="carousel-item">
-            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlb_gXh_KsLtYHwzqgjM43FS90jtH9akTMEQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 3">
+            <img src="../assets/img/banner3.jpg" class="d-block " style="width: 100%; height: 600px; object-fit: cover;" alt="Product 3">
             </div>
         </div>
         </div>

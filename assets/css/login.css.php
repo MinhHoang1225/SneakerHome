@@ -52,4 +52,7 @@
     .login-part-btn{
         gap: 200px
     }
+    a{
+        text-decoration: none   ;
+}
 </style>

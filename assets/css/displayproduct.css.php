@@ -5,8 +5,16 @@
     padding: 15px;
     text-align: center;
     position: relative;
-    height: 500px;
+    height: 470px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 }
+
+.product-card:hover {
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Bóng đổ đẹp */
+    border-color: #007bff; /* Thay đổi màu viền khi hover */
+}
+
 .product-card img {
     max-width: 100%;
     height: 300px;
@@ -19,7 +27,8 @@
 }
 .product-card .icons i {
     margin-left: 10px;
-    color: #00aaff;
+    color:red;
+    font-size: 20px;
 }
 .product-card .price {
     color: #00aaff;
@@ -62,4 +71,10 @@
     height: 450px;
     width: 500px;
 }
+.mt-3 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    height: 50px;
+}
+
 </style>

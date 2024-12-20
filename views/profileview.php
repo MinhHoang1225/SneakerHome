@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($controller->updateProfile($data)) {
-            header("Location: profileview.php?success=1");
+            header("Location: profilecontroller.php?success=1");
             exit;
         } else {
             $error_message = "Cập nhật thông tin thất bại!";
@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/css/profile.css">
 </head>
 <body>
+    
     <div class="container">
         <div class="welcome-banner">
             <p>Welcome, <b><?php echo htmlspecialchars($user['name']); ?></b></p>
