@@ -1,9 +1,10 @@
+
 <?php
 require_once '../database/connect.php';
 
 class User {
     private $conn;
-    private $table_name = "User";
+    private $table_name = "user";
 
     public $user_id;
     public $name;
@@ -16,7 +17,7 @@ class User {
     }
     // Thêm phương thức trong model User để lấy đơn hàng
     public function getOrdersByUserId($user_id) {
-        $query = "SELECT * FROM Orders WHERE user_id = :user_id";
+        $query = "SELECT * FROM `order`WHERE user_id = :user_id";
         $stmt = $this->conn->prepare($query);
         $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->execute();
