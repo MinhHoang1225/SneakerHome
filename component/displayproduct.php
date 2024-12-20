@@ -8,7 +8,28 @@ $totalProducts = ($categoryId == 0)
 ?>
 
 <body>
-    <img src="../assets/img/Offer Banner.png" alt="Offer Banner">
+        <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+        <!-- Indicators/Dots -->
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#productCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+
+        <!-- Carousel Items -->
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR5Avj9hHag-Z35f_gmEbr-tbG3IwVfTFpEzQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 1">
+            </div>
+            <div class="carousel-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeEpswwGyZF8zlTC6UlyIdQbVERMor6if1oQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 2">
+            </div>
+            <div class="carousel-item">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQlb_gXh_KsLtYHwzqgjM43FS90jtH9akTMEQ&s" class="d-block " style="width: 1000px; height: 500px" alt="Product 3">
+            </div>
+        </div>
+        </div>
+
     <div class="container mt-5">
         <h2 class="text-center">BEST SELLER</h2>
         <div class="text-center my-4">
