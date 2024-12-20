@@ -7,6 +7,8 @@
         border-radius: 10px ;
         padding: 10px;
         border: none;
+        background-color: blue;
+        color: white
     }
     .container{
         position: relative;
@@ -21,10 +23,6 @@
     .login-register-btn{
         display: flex;
         gap: 40px;
-    }
-    .btn-login{
-        background-color: blue;
-        color: white
     }
     .btn-login:hover{
         background-color: red;

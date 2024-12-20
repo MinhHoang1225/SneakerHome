@@ -54,7 +54,7 @@
 }
 
 .card-img-top {
-    height: 350px;
+    height: 310px;
     /* object-fit: cover; */
 }
 
