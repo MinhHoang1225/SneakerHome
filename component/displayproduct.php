@@ -21,13 +21,13 @@ $totalProducts = ($categoryId == 0)
         <!-- Carousel Items -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="../assets/img/banner1.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 1">
+            <img src="../assets/img/banner2.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 1">
             </div>
             <div class="carousel-item">
-            <img src="../assets/img/banner2.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 2">
+            <img src="../assets/img/banner1.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 2">
             </div>
             <div class="carousel-item">
-            <img src="../assets/img/banner3.jpg" class="d-block " style="width: 100%; height: 600px; object-fit: cover;" alt="Product 3">
+            <img src="../assets/img/banner3.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 3">
             </div>
         </div>
         </div>
@@ -110,7 +110,7 @@ $totalProducts = ($categoryId == 0)
         fetch('../models/shoppingcartmodels.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) // Giả định user_id = 1
+            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) 
         })
         .then(response => response.json())
         .then(data => {

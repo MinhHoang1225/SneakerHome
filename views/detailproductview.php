@@ -49,7 +49,10 @@ if ($product): ?>
                         <i class="fas fa-cart-plus"></i>
                             Add to Cart
                         </button>
-
+                        <button type="submit" class="btn btn-sm btn-primary me-2" >
+                        <i class="fas fa-shopping-bag"></i>
+                            Buy now
+                        </button>
                         <!-- Nút Trái Tim -->
                         <button type="button" class="btn btn-sm btn-outline-danger" onclick="toggleHeart(this)">
                             <i class="fa-regular fa-heart" style="font-size: 20px;"></i> <!-- Tăng kích thước trái tim -->
