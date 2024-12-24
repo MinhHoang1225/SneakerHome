@@ -8,7 +8,7 @@
 }
 
 /* Điều chỉnh khoảng cách và căn chỉnh */
-.container {
+.container1 {
     /* max-width: 900px; */
     margin: auto; /* Canh giữa trang */
     background-color: #f9f9f9;
