@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($controller->updateProfile($data)) {
-            header("Location: profileview.php?success=1");
+            header("Location: profilecontroller.php?success=1");
             exit;
         } else {
             $error_message = "Cập nhật thông tin thất bại!";
