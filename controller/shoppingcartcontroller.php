@@ -1,6 +1,6 @@
 <?php
 // session_start();
-require_once '../models/shoppingcartmodels.php';
+require_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/models/shoppingcartmodels.php';
 
 $userId = $_SESSION['user_id'] ?? null;
 
@@ -26,5 +26,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'], $_POST[
 $cartItems = $cartModel->getCartItems($userId);
 $cartTotal = $cartModel->calculateCartTotal($userId);
 
-include '../views/shoppingcartview.php';
+include $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/views/shoppingcartview.php';
 ?>

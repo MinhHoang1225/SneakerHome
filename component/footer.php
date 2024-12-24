@@ -7,6 +7,7 @@
     <!-- <link rel="stylesheet" href="footer.css"> -->
      <style>
         footer {
+            margin-top: 40px;
             background-color: #add8e6;
             padding: 40px 20px;
             font-family: Arial, sans-serif;

@@ -36,6 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/css/profile.css">
 </head>
 <body>
+    
     <div class="container">
         <div class="welcome-banner">
             <p>Welcome, <b><?php echo htmlspecialchars($user['name']); ?></b></p>

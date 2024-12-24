@@ -33,6 +33,14 @@ class App {
             '/accessories' => 'accessoriescontroller.php',
             '/clother' => 'clothercontroller.php',
             '/promotion' => 'promotioncontroller.php',
+            '/profile' => 'profilecontroller.php',
+            '/product' => 'productcontroller.php',
+            '/detailproduct' => 'detailproductcontroller.php',
+            '/shoppingcart' => 'shoppingcartcontroller.php'
+
+
+
+            
         ];
 
         if (isset($_SESSION['users']) && $_SESSION['users']['role'] == 'admin') {

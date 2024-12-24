@@ -8,5 +8,7 @@
 <body>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/header.php'; ?>    <!-- <h1>Container</h1> -->
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controller/displayproductcontroller.php" ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/footer.php'; ?>  
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\models\btn_up.php'; ?>
 </body>
 </html> 
