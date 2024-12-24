@@ -5,7 +5,7 @@ require_once '../controller/profilecontroller.php';
 
 $controller = new ProfileController();
 
-$user_id = 1; 
+$user_id = $_SESSION['user_id'];
 $user = $controller->showProfile($user_id);
 $orders = $controller->getOrdersByUserId($user_id);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($controller->updateProfile($data)) {
-            header("Location: profileview.php?success=1");
+            header("Location: profilecontroller.php?success=1");
             exit;
         } else {
             $error_message = "Cập nhật thông tin thất bại!";
@@ -37,6 +37,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <link rel="stylesheet" href="../assets/css/profile.css">
 </head>
 <body>
+    
     <div class="container">
         <div class="welcome-banner">
             <p>Welcome, <b><?php echo htmlspecialchars($user['name']); ?></b></p>
@@ -97,27 +98,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     </div>
 </body>
 <script>
-    // Lấy các phần tử
 const avatarDiv = document.getElementById('avatar');
 const fileInput = document.getElementById('fileInput');
-
-// Lắng nghe sự kiện bàn phím trên div avatar
 avatarDiv.addEventListener('keydown', (event) => {
-    // Kiểm tra nếu nhấn phím Enter hoặc Space
     if (event.key === 'Enter' || event.key === ' ') {
-        fileInput.click(); // Kích hoạt input file ẩn
+        fileInput.click(); 
     }
 });
-
-// Lắng nghe sự kiện thay đổi khi người dùng chọn file
 fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0]; // Lấy file đầu tiên
+    const file = event.target.files[0]; 
     if (file) {
         const reader = new FileReader();
         reader.onload = (e) => {
             avatarDiv.style.backgroundImage = `url(${e.target.result})`;
         };
-        reader.readAsDataURL(file); // Đọc file và chuyển thành URL
+        reader.readAsDataURL(file); 
     }
 });
 

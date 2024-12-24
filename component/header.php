@@ -2,7 +2,7 @@
     $array_navbar_1 = [
         ["label" => "Home", "url" => "../controller/home"],
         ["label" => "Shoes", "url" => "../controller/productcontroller.php?category_id=1"],
-        ["label" => "Clother", "url" => "../controller/productcontroller.php?category_id=2"],
+        ["label" => "Clothers", "url" => "../controller/productcontroller.php?category_id=2"],
         ["label" => "Accessories", "url" => "../controller/productcontroller.php?category_id=3"],
         ["label" => "About us", "url" => "../controller/aboutus"],
         ["label" => "Collections", "url" => "../controller/productcontroller.php"],
@@ -31,15 +31,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
 
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include   $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/header.css.php" ?>
+    <?php include_once "../component/linkbootstrap5.php" ?>
+    <?php include   "../assets/css/header.css.php" ?>
 
 </head>
 <body>
     <div class="container">
         <div class="row row1">
-            <div style="font-size: 12px; padding-top: 15px" class="col-5">sneakerhome@gmail.com | 84+ 123 456 789</div>
-            <div class="col-4 bg-white"></div>
+            <div style="font-size: 12px; padding-top: 15px" class="col-3">sneakerhome@gmail.com | 84+ 123 456 789</div>
+            <div class="col-5 bg-white"></div>
             <div class="col-3 d-flex gap-5">
                 <a href="../controller/profilecontroller.php"><i class="fa-solid fa-user-circle profile"></i></a>
                 <a href="../controller/logincontroller.php"><button>Login</button></a>
