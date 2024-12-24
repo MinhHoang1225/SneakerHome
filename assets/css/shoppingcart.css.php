@@ -8,7 +8,7 @@
 }
 
 /* Điều chỉnh khoảng cách và căn chỉnh */
-.container {
+.container1 {
     /* max-width: 900px; */
     margin: auto; /* Canh giữa trang */
     background-color: #f9f9f9;
@@ -66,4 +66,5 @@ hr {
     width: 150px; /* Thay đổi chiều rộng phù hợp với dữ liệu */
     text-align: center;
 }
+
   </style>

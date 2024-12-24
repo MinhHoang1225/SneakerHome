@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,14 +19,14 @@
                     <th>Product</th>
                     <th>Price</th>
                     <th>Quantity</th>
-                    <th>Total</th>
+                    <th>Total</th> 
                 </tr>
             </thead>
             <tbody>
                 <?php foreach ($cartItems as $item): ?>
                 <tr data-product-id="<?php echo $item['product_id']; ?>">
                     <td><button class="remove-from-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
-                            <i class="fas fa-trash-alt"></i> 
+                            <i class="fas fa-trash-alt"></i> <!-- Biểu tượng xóa -->
                         </button>
                     </td>
                     
@@ -53,61 +54,55 @@
 
     <script>
         document.querySelectorAll('.increase-qty, .decrease-qty').forEach(button => {
-    button.addEventListener('click', function() {
-        const row = this.closest('tr');
-        const productId = row.dataset.productId; 
-        const input = row.querySelector('.qty-input');
-        let quantity = parseInt(input.value);
+    button.addEventListener('click', function () {
+        const row = this.closest('tr'); // Lấy hàng hiện tại
+        const productId = row.dataset.productId; // ID sản phẩm
+        const input = row.querySelector('.qty-input'); // Ô input số lượng
+        let quantity = parseInt(input.value); // Giá trị số lượng hiện tại
 
+        // Tăng hoặc giảm số lượng
         quantity = this.classList.contains('increase-qty') ? quantity + 1 : quantity - 1;
-        if (quantity < 1) return; 
+        if (quantity < 1) return; // Không cho phép số lượng < 1
 
+        // Gửi request đến server
         fetch('shoppingcartcontroller.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             body: `product_id=${productId}&quantity=${quantity}`
         })
-        .then(response => response.json()) 
-        .then(data => {
-            if (data.status === 'success') {
-                input.value = quantity;
-
-                const price = parseFloat(row.querySelector('td:nth-child(3)').innerText.replace(/[^\d.]/g, '')); 
-                const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
-
-                row.querySelector('.product-total').innerText = formattedTotal;
-
-                const formattedCartTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.total);
-                document.getElementById('cart-total').innerText = formattedCartTotal;
-                row.classList.add('updated-row');
-                setTimeout(() => row.classList.remove('updated-row'), 300);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    });
-});
-
-document.querySelectorAll('.remove-from-cart').forEach(button => {
-    button.addEventListener('click', function () {
-        const productId = this.getAttribute('data-product-id');
-
-        if (confirm('Bạn có chắc chắn muốn xóa sản phẩm này khỏi giỏ hàng?')) {
-            fetch('../models/shoppingcartmodels.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'remove_from_cart', product_id: productId })
-            })
-            .then(response => response.json())
+            .then(response => response.json()) // Chuyển phản hồi thành JSON
             .then(data => {
-                if (data.success) {
-                    alert('Xóa sản phẩm thành công!');
-                    this.closest('.col-md-3').remove();
-                } else {
-                    alert(data.message || 'Có lỗi xảy ra!');
+                if (data.status === 'success') {
+                    // Cập nhật số lượng trên giao diện
+                    input.value = quantity;
+
+                    // Tính toán và cập nhật tổng tiền của sản phẩm
+                    const priceElement = row.querySelector('td:nth-child(3)'); // Giá sản phẩm
+                    const totalElement = row.querySelector('.product-total'); // Tổng tiền của sản phẩm
+                    const price = parseFloat(priceElement.innerText.replace(/[^\d.]/g, '')); // Lấy giá sản phẩm (loại bỏ ký tự không cần thiết)
+                    const total = price * quantity; // Tính tổng tiền sản phẩm
+
+                    // Định dạng số tiền
+                    const formattedTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(total);
+                    totalElement.innerText = formattedTotal; // Cập nhật tổng tiền sản phẩm
+
+                    // Cập nhật tổng tiền giỏ hàng
+                    const cartTotalElement = document.getElementById('cart-total');
+                    const formattedCartTotal = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.total);
+                    cartTotalElement.innerText = formattedCartTotal; // Cập nhật tổng tiền giỏ hàng
+
+                    // Hiệu ứng mượt mà
+                    totalElement.classList.add('updated-qty');
+                    setTimeout(() => totalElement.classList.remove('updated-qty'), 300);
+
+                    cartTotalElement.classList.add('updated-qty');
+                    setTimeout(() => cartTotalElement.classList.remove('updated-qty'), 300);
+
+                    row.classList.add('updated-row');
+                    setTimeout(() => row.classList.remove('updated-row'), 500);
                 }
             })
             .catch(error => console.error('Error:', error));
-        }
     });
 });
 
