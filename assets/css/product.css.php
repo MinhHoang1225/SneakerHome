@@ -49,8 +49,19 @@
 }
 
 .card {
-    margin-bottom: 20px;
-    height: 500px;
+    border: 1px solid #eaeaea;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    position: relative;
+    height: 470px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.card:hover {
+    transform: scale(1.05); /* Phóng to nhẹ khi hover */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); /* Bóng đổ đẹp */
+    border-color: #007bff; /* Thay đổi màu viền khi hover */
 }
 
 .card-img-top {
