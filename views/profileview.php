@@ -1,10 +1,14 @@
 <?php
 session_start();
+// include '../component/header.php';
 require_once '../controller/profilecontroller.php';
 
 $controller = new ProfileController();
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    die('Error: User is not logged in.');
+}
 
-$user_id = 1; 
+$user_id = $_SESSION['user_id'];
 $user = $controller->showProfile($user_id);
 $orders = $controller->getOrdersByUserId($user_id);
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -43,7 +47,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
         <div class="profile-section">
             <div class="profile-info">
-                <div class="avatar"></div>
+            <div class="avatar" id="avatar" tabindex="0"></div>
+            <input type="file" id="fileInput" accept="image/*" style="display: none;">
                 <div class="user-details">
                     <h3><?php echo htmlspecialchars($user['name']); ?></h3>
                     <a href="mailto:<?php echo htmlspecialchars($user['email']); ?>">
@@ -95,4 +100,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         </div>
     </div>
 </body>
+<script>
+const avatarDiv = document.getElementById('avatar');
+const fileInput = document.getElementById('fileInput');
+avatarDiv.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+        fileInput.click(); 
+    }
+});
+fileInput.addEventListener('change', (event) => {
+    const file = event.target.files[0]; 
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            avatarDiv.style.backgroundImage = `url(${e.target.result})`;
+        };
+        reader.readAsDataURL(file); 
+    }
+});
+
+</script>
 </html>

@@ -31,8 +31,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
 
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include   $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/header.css.php" ?>
+    <?php include_once "../component/linkbootstrap5.php" ?>
+    <?php include   "../assets/css/header.css.php" ?>
 
 </head>
 <body>
