@@ -4,11 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once "../component/linkbootstrap5.php"; ?>
-    <?php include "../assets/css/shoppingcart.css.php"; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/component/linkbootstrap5.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/assets/css/shoppingcart.css.php"; ?>
 </head>
 <body>
-    <div class="container mt-5">
+<?php include $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/component/header.php"; ?>
+
+    <div class="container container1 mt-5">
         <h3>Your Shopping Cart</h3>
         <table class="table">
             <thead>
@@ -50,6 +52,7 @@
             <button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button>
         </div>
     </div>
+    <?php include $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/controller/footercontroller.php"; ?>
 
     <script>
         document.querySelectorAll('.increase-qty, .decrease-qty').forEach(button => {

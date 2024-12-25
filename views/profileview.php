@@ -4,6 +4,9 @@ session_start();
 require_once '../controller/profilecontroller.php';
 
 $controller = new ProfileController();
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    die('Error: User is not logged in.');
+}
 
 $user_id = $_SESSION['user_id'];
 $user = $controller->showProfile($user_id);
