@@ -9,6 +9,7 @@ $totalProducts = ($categoryId == 0)
 
 ?>
 
+  
 <body>
         <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <!-- Indicators/Dots -->
@@ -47,7 +48,7 @@ $totalProducts = ($categoryId == 0)
                     <div class="col-md-4 col-lg-3 mb-4">                       
                             <div class="product-card">
                                 <div class="icons">
-                                    <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
+                                    <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
                                         <i class="far fa-heart"></i>
                                     </button>
                                     <button class="add-to-cart" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
@@ -91,17 +92,47 @@ $totalProducts = ($categoryId == 0)
 
 </script>
 <script>
-        function toggleHeart(button) {
-            const icon = button.querySelector('i'); // Lấy phần tử <i> bên trong button
-            if (icon.classList.contains('fa-regular')) {
-                // Nếu trái tim rỗng -> đổi sang trái tim đầy
-                icon.classList.remove('fa-regular');
-                icon.classList.add('fa-solid');
+function toggleHeart(button) {
+    const productId = button.getAttribute('data-product-id');
+    const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
+
+    // Kiểm tra userId trước khi gửi yêu cầu
+    if (!userId) {
+        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        return;
+    }
+
+    console.log('Product ID:', productId, 'User ID:', userId);
+
+    // Gửi yêu cầu đến server để toggle yêu thích
+    fetch('../controller/favoritecontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'toggle_favorite',
+            user_id: userId,
+            product_id: productId
+        })
+    })
+
+        .then(response => {
+        console.log('Server response:', response);  // Log server response
+        return response.json();
+        })
+        .then(data => {
+            console.log('Parsed JSON:', data);  // Log dữ liệu đã phân tích từ JSON
+            if (data.success) {
+                const icon = button.querySelector('i');
+                icon.classList.toggle('fas');  // Đổi từ class 'far' (trái tim rỗng) thành 'fas' (trái tim đầy)
+                icon.classList.toggle('far');  // Đổi từ class 'fas' (trái tim đầy) thành 'far' (trái tim rỗng)
+                alert(data.message || 'Sản phẩm đã được thêm vào danh sách yêu thích!');
             } else {
-                // Nếu trái tim đầy -> đổi lại trái tim rỗng
-                icon.classList.remove('fa-solid');
-                icon.classList.add('fa-regular');
+                alert(data.message || 'Có lỗi xảy ra khi thêm sản phẩm vào yêu thích.');
             }
+        })
+            .catch(error => {
+                alert('Sản phẩm đã được thêm vào danh sách yêu thích!');
+            });
         }
 
         document.querySelectorAll('.add-to-cart').forEach(button => {
@@ -125,4 +156,3 @@ $totalProducts = ($categoryId == 0)
 });
 
     </script>
-  
