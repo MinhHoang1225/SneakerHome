@@ -51,7 +51,7 @@
 
                     <!-- Ô nhập từ khóa -->
                     <div id="search-box-wrapper" class="search-box-wrapper" style="display: none;">
-                        <form action="../views/searchview.php" method="GET">
+                        <form action="../controller/searchcontroller.php" method="GET">
                             <input type="text" id="search-box" name="keyword" class="search-box" placeholder="Enter keyword..." required />
                         </form>
                     </div>

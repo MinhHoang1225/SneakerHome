@@ -36,8 +36,9 @@ class App {
             '/profile' => 'profilecontroller.php',
             '/product' => 'productcontroller.php',
             '/detailproduct' => 'detailproductcontroller.php',
-            '/shoppingcart' => 'shoppingcartcontroller.php'
-
+            '/shoppingcart' => 'shoppingcartcontroller.php',
+            '/checkout' => 'checkoutcontroller.php'
+            
 
 
             

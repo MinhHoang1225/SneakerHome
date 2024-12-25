@@ -20,4 +20,5 @@ function searchProducts($keyword) {
         return [];
     }
 }
+include '../views/searchview.php'
 ?>

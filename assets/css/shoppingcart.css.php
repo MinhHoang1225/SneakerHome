@@ -66,4 +66,5 @@ hr {
     width: 150px; /* Thay đổi chiều rộng phù hợp với dữ liệu */
     text-align: center;
 }
+
   </style>

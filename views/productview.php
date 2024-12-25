@@ -70,7 +70,7 @@
     <?php include "../views/footer.php"; ?>
     <script>
         function toggleHeart(button) {
-            const icon = button.querySelector('i'); // Lấy phần tử <i> bên trong button
+            const icon = button.querySelector('i'); // Lấy phần tử <i> bên t rong button
             if (icon.classList.contains('fa-regular')) {
                 // Nếu trái tim rỗng -> đổi sang trái tim đầy
                 icon.classList.remove('fa-regular');
