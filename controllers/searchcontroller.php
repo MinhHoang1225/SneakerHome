@@ -1,5 +1,6 @@
 <?php
-require_once '../database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/searchmodels.php';
 
 function searchProducts($keyword) {
     $db = connectdb();
@@ -20,5 +21,5 @@ function searchProducts($keyword) {
         return [];
     }
 }
-include '../views/searchview.php'
+include $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/searchview.php'
 ?>

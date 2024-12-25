@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once "../component/linkbootstrap5.php" ?>
-    <?php include "../assets/css/login.css.php" ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php" ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/login.css.php" ?>
 </head>
 <body>
     <div class="container">
-        <a href="../controller/home"><div class="btn-close"></div></a>
+        <a href="../controllers/home"><div class="btn-close"></div></a>
         <div class="row">
             <div class="col-10"></div>
             <div class="col-2 login-register-btn">
-                <button type="button" onclick="window.location.href='../controller/logincontroller.php';">Login</button>
-                <button type="button" onclick="window.location.href='../controller/registercontroller.php';">Register</button>
+                <button type="button" onclick="window.location.href='../controllers/login';">Login</button>
+                <button type="button" onclick="window.location.href='../controllers/register';">Register</button>
             </div>
         </div>
             <?php if (!empty($_SESSION['error_message'])): ?>
@@ -25,7 +25,7 @@
                     ?>
                 </div>
             <?php endif; ?>     
-        <form  action="../controller/logincontroller.php" method="POST">
+        <form  action="../controllers/login" method="POST">
             <div class="row pt-5">
                 <div class="col-6"></div>
                 <div class="col-6">
@@ -54,8 +54,8 @@
             <div class="row">
                 <div class="col-8"></div>
                 <div class="col-4 d-flex login-part-btn ">
-                    <button type="submit" class="px-5 py-3 btn-login" href="../controller/logincontroller.php">Login</button>
-                    <a href="../controller/registercontroller.php"><div>Register<i class="fa-solid fa-arrow-right pt-2"></i></div></a>
+                    <button type="submit" class="px-5 py-3 btn-login" href="../controllers/logincontroller.php">Login</button>
+                    <a href="../controllers/register"><div>Register<i class="fa-solid fa-arrow-right pt-2"></i></div></a>
                 </div>
             </div>
         </form>

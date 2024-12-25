@@ -1,7 +1,7 @@
 <?php
-session_start();
+// session_start();
 // include '../component/header.php';
-require_once '../controller/profilecontroller.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/controllers/profilecontroller.php';
 
 $controller = new ProfileController();
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
