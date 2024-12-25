@@ -105,7 +105,7 @@ function toggleHeart(button) {
     console.log('Product ID:', productId, 'User ID:', userId);
 
     // Gửi yêu cầu đến server để toggle yêu thích
-    fetch('../controller/favoritecontroller.php', {
+    fetch('../controllers/favoritecontroller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
