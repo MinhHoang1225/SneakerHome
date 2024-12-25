@@ -1,8 +1,8 @@
 <?php
-session_start();
+// session_start();
 $userId = $_SESSION['user_id'] ?? null;
 require_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/models/favoritemodel.php';
-include_once '../database/connect.php'; // Kết nối DB
+include_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/database/connect.php'; // Kết nối DB
 
 $response = ['success' => false];
 
@@ -39,5 +39,5 @@ if ($userId) {
 } else {
     $favorites = [];
 }
-include_once '../views/favoriteview.php';
+include_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/views/favoriteview.php';
 ?>

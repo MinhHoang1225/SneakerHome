@@ -39,7 +39,10 @@ class App {
             '/shoppingcart' => 'shoppingcartcontroller.php',
             '/checkout' => 'checkoutcontroller.php',
             '/checkoutCart' => 'checkoutCartcontroller.php',
-            '/search' => 'searchcontroller.php'
+            '/search' => 'searchcontroller.php',
+            '/favorite' => 'favoritecontroller.php'
+
+
 
 
 
