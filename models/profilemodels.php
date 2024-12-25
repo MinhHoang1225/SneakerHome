@@ -1,6 +1,6 @@
 
 <?php
-require_once '../database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
 
 class User {
     private $conn;

@@ -49,20 +49,18 @@
                             <?php echo number_format($item['price']); ?> VNĐ
                             </div>
                             <div class="col-1">
-                            x<?php echo htmlspecialchars($quantity) ?>
+                            x<?php echo ($item['quantity'])?>
                             </div>
                         </div>
 
                 
             </div>
         <?php endforeach; ?>
-        
-        
 </div>
-    <div class="total-price">
+<div class="total-price">
             Total price: 
             <span class="item-price">
-                <?php echo number_format($cartTotalCheckOut); ?> VNĐ
+                <?php echo number_format($cartTotal); ?> VNĐ
             </span>
         </div>
     <?php else: ?>

@@ -1,6 +1,11 @@
 <style>
      body {
             background-color: #f8f9fa;
+
+        }
+        a{
+            text-decoration: none;
+            color: black
         }
         .container {
             margin-top: 50px;
@@ -25,13 +30,18 @@
     font-size: 24px;
     margin-bottom: 15px;
     font-weight: bold;
+    
 }
-
+.order-summary{
+    max-height: 500px; /* Giới hạn chiều cao */
+    overflow-y: auto; 
+}
 .order-item {
     background-color: #ffffff;
     padding: 15px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+
 }
 
 .order-item .row {

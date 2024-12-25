@@ -4,8 +4,8 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Product Page</title>
-    <?php include_once "../component/linkbootstrap5.php"; ?>
-    <?php include "../assets/css/detailproduct.css.php"; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/detailproduct.css.php"; ?>
 </head>
 <body>
 <?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/header.php'; ?>
@@ -34,7 +34,7 @@
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?= $product['stock']; ?>">
             <!-- Nút thêm vào giỏ hàng -->
-            <form action="../controller/checkoutcontroller.php" method="GET">
+            <form action="../controllers/checkout" method="GET">
                 <input type="hidden" name="action" value="buy_now">
                 <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
                 <!-- Hidden quantity input that will be dynamically updated -->
@@ -78,7 +78,7 @@
                     </div>
                     <div class="card h-300">
                         <!-- Hình ảnh sản phẩm -->
-                        <a href="detailproductcontroller.php?product_id=<?php echo $related_product['product_id']; ?>">
+                        <a href="detailproduct?product_id=<?php echo $related_product['product_id']; ?>">
                             <img src="<?php echo htmlspecialchars($related_product['image_url']); ?>" alt="<?php echo htmlspecialchars($related_product['name']); ?>" class="card-img-top">
                         </a>
                         <div class="card-body text-center">

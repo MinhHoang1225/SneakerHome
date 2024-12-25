@@ -1,7 +1,7 @@
 <?php
 
-require_once '../database/connect.php';
-require_once '../models/registermodel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/registermodel.php';
 
 $name_error = "";
 $email_error = "";
@@ -51,5 +51,5 @@ exit();
     }
 }
 
-require_once '../views/registerview.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/registerview.php';
 ?>

@@ -2,8 +2,8 @@
 // checkoutController.php
 // session_start();    
 // Include the necessary model files
-require_once '../models/shoppingcartmodels.php';
-require_once '../database/connect.php'; // File kết nối DB
+require_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/models/shoppingcartmodels.php";
+require_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/database/connect.php"; // File kết nối DB
 $db = connectdb();
 
 // Start the session
@@ -50,5 +50,5 @@ if (isset($_GET['action']) && $_GET['action'] === 'buy_now' && !empty($_GET['pro
 }
 
 // Include the checkout view
-include '../views/checkoutView.php';
+include $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/checkoutView.php';
 ?>

@@ -5,12 +5,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once "../component/linkbootstrap5.php"; ?>
-    <?php include "../assets/css/shoppingcart.css.php"; ?>
+    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/shoppingcart.css.php"; ?>
 </head>
 <body>
-    <div class="container mt-5">
-        <h3>Your Shopping Cart</h3>
+<?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/header.php"; ?>
+ <h3 class="container">Your Shopping Cart</h3>
+    <div class="container mt-5 of">
+       
         <table class="table">
             <thead>
                 <tr>
@@ -45,14 +47,20 @@
             </tbody>
         </table>
 
+        
+    </div>
+    <div class="container">
         <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ </span></h4>
         <div class="checkout-btn gap-3 pt-3">
-            <a href="../controller/homecontroller.php"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button></a>
-            <button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button>
+            <a href="../controllers/home"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button></a>
+            <a href="../controllers/checkoutCart"><button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button></a>
+
         </div>
     </div>
+    
+    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controllers/footercontroller.php"; ?>
 
-    <script>
+    <script>    
         document.querySelectorAll('.increase-qty, .decrease-qty').forEach(button => {
     button.addEventListener('click', function () {
         const row = this.closest('tr'); // Lấy hàng hiện tại

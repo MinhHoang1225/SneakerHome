@@ -1,8 +1,8 @@
 <?php
-session_start();
+// session_start();
 
-require_once '../database/connect.php';
-require_once '../models/loginmodels.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/loginmodels.php';
 
 class LoginController {
     private $db;
@@ -43,7 +43,7 @@ class LoginController {
         }
 
         // Hiển thị form đăng nhập nếu không phải phương thức POST
-        require_once '../views/loginview.php';
+        require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/loginview.php';
     }
 }
 
