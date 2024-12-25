@@ -1,6 +1,6 @@
 <?php
-require_once '../database/connect.php';
-require_once '../models/profilemodels.php'; 
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/profilemodels.php'; 
 
 class ProfileController {
     private $userModel;
@@ -42,7 +42,7 @@ class ProfileController {
 
     }
 }
-include_once "../views/profileview.php" ;
+include_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/profileview.php' ;
 
 
 ?>

@@ -22,13 +22,13 @@ $totalProducts = ($categoryId == 0)
         <!-- Carousel Items -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-            <img src="../assets/img/banner1.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 1">
+            <img src="../assets/img/banner2.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 1">
             </div>
             <div class="carousel-item">
-            <img src="../assets/img/banner2.jpg" class="d-block " style="width: 100%; height: 600px ;object-fit: cover;" alt="Product 2">
+            <img src="../assets/img/banner1.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 2">
             </div>
             <div class="carousel-item">
-            <img src="../assets/img/banner3.jpg" class="d-block " style="width: 100%; height: 600px; object-fit: cover;" alt="Product 3">
+            <img src="../assets/img/banner3.jpg" class="d-block " style="width: 100%; height: 600px " alt="Product 3">
             </div>
         </div>
         </div>
@@ -55,7 +55,7 @@ $totalProducts = ($categoryId == 0)
                                         <i class="fas fa-cart-plus"></i>
                                     </button>
                                 </div>
-                                <a href="/SneakerHome/controller/detailproductcontroller.php?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
+                                <a href="/SneakerHome/controllers/detailproduct?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
                                     <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                                 </a>
                                 <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
@@ -141,7 +141,7 @@ function toggleHeart(button) {
         fetch('../models/shoppingcartmodels.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) // Giả định user_id = 1
+            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) 
         })
         .then(response => response.json())
         .then(data => {
