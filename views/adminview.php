@@ -1,8 +1,49 @@
+
+<?php
+require_once "../controllers/admincontroller.php";
+$controller = new Controller();
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
+    if (isset($_POST['product_id'])) {
+        $controller->deleteProduct($_POST['product_id']);
+    }
+    exit; 
+}
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
+    if (isset($_POST['product_id'])) {
+        $productId = $_POST['product_id'];
+        $controller->deleteProduct($productId);
+        echo json_encode(["status" => "success"]);
+    } else {
+        echo json_encode(["status" => "error", "message" => "Product ID is missing"]);
+    }
+    exit; 
+}
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
+    $controller->addProduct($_POST['name'], $_POST['price'], $_POST['stock'], $_FILES['image']);
+}
+
+$dashboardData = $controller->getDashboardData();
+$customers = $controller->getCustomers();
+$products = $controller->getProducts();
+$orders = $controller->getOrders();
+$ordersByUser = $controller->getOrdersByUser();
+$filterStatusProgress = $_GET['status'] ?? 'In Progress'; 
+$ordersByStatusProgress = $controller->getOrdersByStatus($filterStatusProgress);
+$filterStatusCompleted = $_GET['status'] ?? 'Completed'; 
+$ordersByStatusCompleted = $controller->getOrdersByStatus($filterStatusCompleted);
+$filterStatusCancelled = $_GET['status'] ?? 'Cancelled'; 
+$ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled)
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
     <title>Sneaker Home</title>
     <?php include "../assets/css/admin.css.php"; ?>
 </head>
@@ -28,9 +69,6 @@
             <a href="#" data-section="orders">
                 <i class="fa-solid fa-cart-shopping"></i>QLĐH theo trạng thái
             </a>
-            <a href="#" class="logout">
-                <i class="fa-solid fa-sign-out-alt"></i> Đăng xuất
-            </a>
         </nav>
     </aside>
 
@@ -39,7 +77,6 @@
         <header class="header">
             <h1>Quản lý Bán Hàng</h1>
         </header>
-
         <!-- Section: Thống kê -->
         <section id="dashboard" class="section">
             <h2>Thống kê</h2>
@@ -47,16 +84,20 @@
                 <div class="stat">
                     <i class="fa-solid fa-users"></i>
                     <h3>Khách hàng</h3>
-                    <p id="total-customers">0</p>
+                    <p id="total-customers"><?php echo $dashboardData['customers']; ?></p>
                 </div>
                 <div class="stat">
                     <i class="fa-solid fa-shoe-prints"></i>
                     <h3>Sản phẩm</h3>
-                    <p id="total-products">0</p>
+                    <p id="total-products"><?php echo $dashboardData['products']; ?></p>
+                </div>
+                 <div class="stat">
+                    <i class="fa-solid fa-cart-arrow-down"></i>
+                    <h3>Đơn hàng</h3>
+                    <p id="total-orders"><?php echo $dashboardData['orders'] ?></p>
                 </div>
             </div>
         </section>
-
         <!-- Section: Khách hàng -->
         <section id="users" class="section">
             <h2>Khách hàng</h2>
@@ -66,19 +107,25 @@
                         <th>ID</th>
                         <th>Tên</th>
                         <th>Email</th>
-                        <th>Hành động</th>
+                        <!-- <th>Hành động</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dữ liệu khách hàng sẽ được thêm ở đây -->
+                    <?php foreach ($customers as $customer): ?>
+                        <tr>
+                            <td><?php echo $customer['user_id']; ?></td>
+                            <td><?php echo $customer['name']; ?></td>
+                            <td><?php echo $customer['email']; ?></td>
+                            <!-- <td></td> -->
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </section>
-
         <!-- Section: Sản phẩm -->
         <section id="products" class="section">
             <h2>Sản phẩm</h2>
-            <button class="btn add_product">Thêm Sản Phẩm</button>
+            <button class="btn add_product" id="openModalBtn">Thêm Sản Phẩm</button>
             <table class="table">
                 <thead>
                     <tr>
@@ -87,11 +134,30 @@
                         <th>Tên Giày</th>
                         <th>Giá</th>
                         <th>Số lượng</th>
-                        <th>Thao tác</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dữ liệu sản phẩm sẽ được thêm ở đây -->
+                    <?php foreach ($products as $product): ?>
+                        <tr>
+                            <td><?php echo $product['product_id']; ?></td>
+                            <td><img src="<?php echo $product['image_url']; ?>" alt="Ảnh sản phẩm" width="50"></td>
+                            <td><?php echo $product['name']; ?></td>
+                            <td><?php echo $product['price']; ?></td>
+                            <td><?php echo $product['stock']; ?></td>
+                            <td>
+                                <button class="btn edit" id="editModalBtn">Sửa</button>                        
+                            </td>
+                            <td>
+                            <form method="POST" action="">
+                                <input type="hidden" name="action" value="deleteProduct">
+                                <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                <button type="submit" class="btn delete">Xóa</button>
+                            </form>
+
+                            </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
         </section>
@@ -102,20 +168,27 @@
             <table class="table">
                 <thead>
                     <tr>
-                        <th>Mã khách hàng</th>
-                        <th>Tên</th>
+                        <th>Mã đơn hàng</th>
+                        <th>Tên khách hàng</th>
                         <th>Email</th>
-                        <th>Xem đơn hàng</th>
+                        <!-- <th>Xem đơn hàng</th> -->
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dữ liệu đơn hàng sẽ được thêm ở đây -->
+                    <?php foreach ($ordersByUser as $order): ?>
+                        <tr>
+                            <td><?php echo $order['order_id']; ?></td>
+                            <td><?php echo $order['name']; ?></td>
+                            <td><?php echo $order['email']; ?></td>
+                            <!-- <td><button>Xem</button></td> -->
+                        </tr>
+                    <?php endforeach; ?>
                 </tbody>
             </table>
             <div id="order-details"></div>
         </section>
 
-        <!-- Section: Đơn hàng -->
+        <!-- Section: Đơn hàng theo trạng thái -->
         <section id="orders" class="section">
             <h2>Đang giao</h2>
             <table class="table">
@@ -128,17 +201,77 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Dữ liệu đơn hàng sẽ được thêm ở đây -->
+                    <?php if (!empty($ordersByStatusProgress)): ?>
+                        <?php foreach ($ordersByStatusProgress as $order): ?>
+                            <tr>
+                                <td><?php echo $order['order_id']; ?></td>
+                                <td><?php echo $order['name']; ?></td>
+                                <td><?php echo $order['order_date']; ?></td>
+                                <td><?php echo $order['status']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="4">Không có đơn hàng nào.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+            <h2>Đã giao</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Tài khoản người dùng</th>
+                        <th>Thời gian đặt hàng</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($ordersByStatusCompleted)): ?>
+                        <?php foreach ($ordersByStatusCompleted as $order): ?>
+                            <tr>
+                                <td><?php echo $order['order_id']; ?></td>
+                                <td><?php echo $order['name']; ?></td>
+                                <td><?php echo $order['order_date']; ?></td>
+                                <td><?php echo $order['status']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="4">Không có đơn hàng nào.</td></tr>
+                    <?php endif; ?>
+                </tbody>
+            </table>
+            <h2>Đã hủy</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Mã đơn hàng</th>
+                        <th>Tài khoản người dùng</th>
+                        <th>Thời gian đặt hàng</th>
+                        <th>Trạng thái</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php if (!empty($ordersByStatusCancelled)): ?>
+                        <?php foreach ($ordersByStatusCancelled as $order): ?>
+                            <tr>
+                                <td><?php echo $order['order_id']; ?></td>
+                                <td><?php echo $order['name']; ?></td>
+                                <td><?php echo $order['order_date']; ?></td>
+                                <td><?php echo $order['status']; ?></td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <tr><td colspan="4">Không có đơn hàng nào.</td></tr>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </section>
     </main>
 
-  
     <!-- Modal: Thêm Sản Phẩm -->
     <div id="addProductModal" class="modal">
         <div class="modal-content">
-            <span class="close " onclick="document.getElementById('addProductModal').style.display='none'">&times;</span>
+            <span class="close" onclick="document.getElementById('addProductModal').style.display='none'">&times;</span>
             <form action="admin.php" method="POST" enctype="multipart/form-data">
                 <h3 class="">Thêm Sản Phẩm</h3>
                 <label for="name">Tên sản phẩm:</label>
@@ -153,38 +286,27 @@
             </form>
         </div>
     </div>
+        <!-- Modal: Sửa Sản Phẩm -->
+    <div id="editModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+            <form method="POST" enctype="multipart/form-data">
+                <h3>Sửa Sản Phẩm</h3>
+                <input type="hidden" id="product_id" name="product_id">
+                <label for="name">Tên sản phẩm</label>
+                <input type="text" id="edit_name" name="name" required>
+                <label for="price">Giá</label>
+                <input type="number" id="edit_price" name="price" required>
+                <label for="stock">Số lượng</label>
+                <input type="number" id="edit_stock" name="stock" required>
+                <label for="image">Hình ảnh</label>
+                <input type="file" id="edit_image" name="image">
+                <button type="submit" name="edit_product">Cập nhật</button>
+            </form>
+        </div>
+    </div>
 </body>
 <script>
-function openEditModal(productId, name, price, stock, img) {
-    // Hiển thị modal
-    const modal = document.getElementById('editModal');
-    modal.style.display = 'block';
-
-    // Điền thông tin sản phẩm vào form
-    document.getElementById('product_id').value = productId;
-    document.getElementById('edit_name').value = name;
-    document.getElementById('edit_price').value = price;
-    document.getElementById('edit_stock').value = stock;
-
-    // Đặt hình ảnh cũ nếu có
-    if (img) {
-        document.getElementById('edit_image_preview').src = `../assets/img/${img}`;
-        document.getElementById('edit_image_preview').style.display = 'block';
-    } else {
-        document.getElementById('edit_image_preview').style.display = 'none';
-    }
-}
-
-function closeModal() {
-    document.getElementById('editModal').style.display = 'none';
-}
-        // JS cho modal
-        var modal = document.getElementById("addProductModal");
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
-            }
-        }
       const menuItems = document.querySelectorAll(".menu a");
       const sections = document.querySelectorAll(".section");
       menuItems.forEach((item) => {
@@ -207,73 +329,46 @@ function closeModal() {
         document.getElementById("dashboard").style.display = "block";
       });
 
-    function confirmDelete(productName) {
-    return confirm(`Bạn có chắc chắn muốn xóa sản phẩm "${productName}" không?`); }
+      const openModalBtn = document.getElementById('openModalBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const addProductModal = document.getElementById('addProductModal');
 
-    function updateOrderStatus(orderId, newStatus) {
-        // Tạo đối tượng XMLHttpRequest
-        var xhr = new XMLHttpRequest();
-
-        // Mở kết nối POST
-        xhr.open('POST', '../view/update_order_status.php', true);
-
-        // Định nghĩa kiểu dữ liệu mà bạn sẽ gửi (x-www-form-urlencoded là kiểu phổ biến cho POST)
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-        // Lắng nghe phản hồi từ server
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                console.log(xhr.responseText); // In ra phản hồi từ PHP
-                alert(xhr.responseText); // Hiển thị thông báo phản hồi
-                location.reload();
-            }
-        };
-
-        // Gửi dữ liệu (dưới dạng x-www-form-urlencoded)
-        var data = "order_id=" + orderId + "&status=" + encodeURIComponent(newStatus);
-        xhr.send(data);
-    }
-    function fetchOrderDetails(orderId) {
-        var detailsRow = document.getElementById('order-details-' + orderId);
-        var detailsDiv = detailsRow.querySelector('div');
-
-        // Kiểm tra nếu đã ẩn thì hiển thị và gọi AJAX
-        if (detailsRow.style.display === 'none') {
-            var xhr = new XMLHttpRequest();
-            xhr.open('POST', '../view/fetch_order_details.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-
-            xhr.onreadystatechange = function() {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    detailsDiv.innerHTML = xhr.responseText; // Đưa nội dung vào div
-                    detailsRow.style.display = 'table-row'; // Hiển thị hàng
-                }
-            };
-            xhr.send('order_id=' + orderId); // Gửi order_id đến PHP
-        } else {
-            // Ẩn chi tiết nếu đã hiển thị
-            detailsRow.style.display = 'none';
-        }
-    }
-document.querySelectorAll('.view-orders').forEach(item => {
-    item.addEventListener('click', function(e) {
-        e.preventDefault();
-        const userId = this.getAttribute('data-user-id');
-
-        fetch(`../view/get_user_orders.php?user_id=${userId}`)
-            .then(response => response.text())
-            .then(data => {
-                document.getElementById('order-details').innerHTML = data;
-            })
-            .catch(error => console.error('Lỗi khi tải đơn hàng:', error));
+    openModalBtn.addEventListener('click', () => {
+        addProductModal.style.display = 'block';
     });
-});
-    function sendExpiredNotification(userId) {
-        // Gửi yêu cầu tới file PHP để gửi thông báo
-        const confirmSend = confirm("Bạn có chắc muốn gửi thông báo?");
-        if (confirmSend) {
-            window.location.href = 'send_expired_notification.php?user_id=' + userId;
+
+    closeModalBtn.addEventListener('click', () => {
+        addProductModal.style.display = 'none';
+    });
+
+    window.addEventListener('click', (event) => {
+        if (event.target === addProductModal) {
+            addProductModal.style.display = 'none';
         }
-    }
+    });
 </script>
+</script><script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $(document).ready(function() {
+        $(".delete").click(function() {
+            var productId = $(this).data("id");
+            if (confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) {
+                $.ajax({
+                    type: "POST",
+                    data: {
+                        action: "deleteProduct", 
+                        product_id: productId 
+                    },
+                    success: function() {
+                        alert("Sản phẩm đã được xóa!");
+                    },
+                    error: function(xhr, status, error) {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!");
+                    }
+                });
+            }
+        });
+    });
+</script>
+</body>
 </html>
