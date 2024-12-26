@@ -32,14 +32,18 @@ class App {
             '/shoes' =>  'shoescontroller.php',
             '/accessories' => 'accessoriescontroller.php',
             '/clother' => 'clothercontroller.php',
-            '/promotion' => 'promotioncontroller.php',
             '/profile' => 'profilecontroller.php',
             '/product' => 'productcontroller.php',
             '/detailproduct' => 'detailproductcontroller.php',
             '/shoppingcart' => 'shoppingcartcontroller.php',
             '/checkout' => 'checkoutcontroller.php',
             '/checkoutCart' => 'checkoutCartcontroller.php',
-            '/search' => 'searchcontroller.php'
+            '/search' => 'searchcontroller.php',
+            '/favorite' => 'favoritecontroller.php',
+            '/admin' => 'admincontroller.php',
+
+
+
 
 
 
@@ -48,15 +52,23 @@ class App {
 
         if (isset($_SESSION['users']) && $_SESSION['users']['role'] == 'admin') {
             $routes = [ 
-                '/login' => 'logincontroller.php',
-                '/home' => 'homecontroller.php',
-                '/register' => 'registercontroller.php',
-                '/admin' => 'admincontroller.php',
-                '/aboutus' => 'aboutuscontroller.php',
-                '/shoes' =>  'shoescontroller.php',
-                '/accessories' => 'accessoriescontroller.php',
-                '/clother' => 'clothercontroller.php',
-                '/promotion' => 'promotioncontroller.php'
+                '/' => 'homecontroller.php',
+            '/home' => 'homecontroller.php',
+            '/login' => 'logincontroller.php',
+            '/register' => 'registercontroller.php',
+            '/aboutus' => 'aboutuscontroller.php',
+            '/shoes ' =>  'shoescontroller.php',
+            '/accessories' => 'accessoriescontroller.php',
+            '/clother' => 'clothercontroller.php',
+            '/profile' => 'profilecontroller.php',
+            '/product' => 'productcontroller.php',
+            '/detailproduct' => 'detailproductcontroller.php',
+            // '/shoppingcart' => 'shoppingcartcontroller.php',
+            // '/checkout' => 'checkoutcontroller.php',
+            // '/checkoutCart' => 'checkoutCartcontroller.php',
+            '/search' => 'searchcontroller.php',
+            // '/favorite' => 'favoritecontroller.php',
+            '/admin' => 'admincontroller.php',
             ];
         }
         foreach ($routes as $route => $controllerFile) {

@@ -1,6 +1,6 @@
 <?php
 // Import model
-include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/models/productmodel.php";
+include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/models/ProductModels.php";
 
 // Lấy category_id từ URL
 $category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;

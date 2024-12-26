@@ -1,116 +1,62 @@
 <?php
-require_once '../database/connect.php';
+require_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/database/connect.php";
 
-class AdminModel {
+class Model {
     private $db;
 
-    public function __construct($db) {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = connectdb();
     }
 
-    // Thêm sản phẩm
-    public function addProduct($name, $price, $stock, $image) {
-        // Kiểm tra và tải lên hình ảnh nếu có
-        if (!empty($image)) {
-            $target_dir = "../assets/img/";
-            $target_file = $target_dir . basename($image["name"]);
-            if (move_uploaded_file($image['tmp_name'], $target_file)) {
-                // Thêm sản phẩm vào CSDL
-                $sql = "INSERT INTO products (name, price, stock, img) VALUES (?, ?, ?, ?)";
-                $stmt = $this->db->prepare($sql);
-                return $stmt->execute([$name, $price, $stock, $image["name"]]);
-            }
-        }
-        return false;  // Trả về false nếu không có hình ảnh hoặc không tải lên được
-    }
-
-    // Sửa sản phẩm
-    public function editProduct($product_id, $name, $price, $stock, $image = null) {
-        // Nếu có hình ảnh mới
-        if ($image) {
-            $target_dir = "../assets/img/";
-            $target_file = $target_dir . basename($image["name"]);
-            if (move_uploaded_file($image['tmp_name'], $target_file)) {
-                $sql = "UPDATE products SET name = ?, price = ?, stock = ?, img = ? WHERE product_id = ?";
-                $stmt = $this->db->prepare($sql);
-                return $stmt->execute([$name, $price, $stock, $image["name"], $product_id]);
-            }
-        } else {
-            // Nếu không có hình ảnh mới
-            $sql = "UPDATE products SET name = ?, price = ?, stock = ? WHERE product_id = ?";
-            $stmt = $this->db->prepare($sql);
-            return $stmt->execute([$name, $price, $stock, $product_id]);
-        }
-        return false;  // Trả về false nếu không có thay đổi
-    }
-
-    // Xóa sản phẩm
-    public function deleteProduct($product_id) {
-        $sql = "DELETE FROM products WHERE product_id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$product_id]);
+    // Lấy danh sách khách hàng
+    public function getCustomers() {
+        $stmt = $this->db->prepare("SELECT * FROM user");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Lấy danh sách sản phẩm
     public function getProducts() {
-        $sql = "SELECT * FROM products";
-        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+        $stmt = $this->db->prepare("SELECT * FROM product");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy danh sách người dùng
-    public function getUsers() {
-        $sql = "SELECT * FROM users";
-        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
+    // Lấy danh sách đơn hàng
+    public function getOrders() {
+        $stmt = $this->db->prepare("SELECT * FROM `order`");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Lấy người dùng theo ID
-    public function getUserById($user_id) {
-        $sql = "SELECT * FROM users WHERE user_id = ?";
-        $stmt = $this->db->prepare($sql);
-        $stmt->execute([$user_id]);
-        return $stmt->fetch(PDO::FETCH_ASSOC);
+    // Thêm sản phẩm mới
+    public function addProduct($name, $price, $stock, $imagePath) {
+        $stmt = $this->db->prepare("INSERT INTO product (name, price, stock, image_url) VALUES (?, ?, ?, ?)");
+        $stmt->execute([$name, $price, $stock, $imagePath]);
     }
-
-    // Cập nhật thông tin người dùng
-    public function updateUser($user_id, $username, $email, $password) {
-        $sql = "UPDATE users SET username = ?, email = ?, password = ? WHERE user_id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$username, $email, password_hash($password, PASSWORD_DEFAULT), $user_id]);
+    // Sửa sản phẩm
+    public function updateProduct($id, $name, $price, $stock, $imagePath) {
+        $stmt = $this->db->prepare("UPDATE product SET name = ?, price = ?, stock = ?, image_url = ? WHERE product_id = ?");
+        $stmt->execute([$name, $price, $stock, $imagePath, $id]);
     }
-
-    // Xóa người dùng
-    public function deleteUser($user_id) {
-        $sql = "DELETE FROM users WHERE user_id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$user_id]);
+    
+    // Xóa sản phẩm 
+    public function deleteProduct($product_id) {
+        $stmt = $this->db->prepare("DELETE FROM product WHERE product_id = ?");
+        $stmt->execute([$product_id]);
     }
-
-    // Lấy tất cả đơn hàng
-    public function getAllOrders() {
-        $sql = "SELECT * FROM orders";
-        return $this->db->query($sql)->fetchAll(PDO::FETCH_ASSOC);
-    }
-
-    // Cập nhật trạng thái đơn hàng
-    public function updateOrderStatus($order_id, $status) {
-        $sql = "UPDATE orders SET status = ? WHERE order_id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$status, $order_id]);
-    }
-
-    // Xóa đơn hàng
-    public function deleteOrder($order_id) {
-        $sql = "DELETE FROM orders WHERE order_id = ?";
-        $stmt = $this->db->prepare($sql);
-        return $stmt->execute([$order_id]);
+    
+    // Lấy danh sách đơn hàng theo khách hàng
+    public function getOrdersByUser() {
+        $stmt = $this->db->prepare("SELECT o.order_id, u.name, u.email FROM `order` o JOIN user u ON o.user_id = u.user_id");
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     // Lấy danh sách đơn hàng theo trạng thái
     public function getOrdersByStatus($status) {
-        $sql = "SELECT * FROM orders WHERE status = ?";
-        $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare("SELECT o.order_id, u.name, o.order_date, o.status FROM `order` o JOIN user u ON o.user_id = u.user_id WHERE o.status = ?");
         $stmt->execute([$status]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
-?>

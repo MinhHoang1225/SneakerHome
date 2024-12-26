@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-    <title>Order Page</title>
+    <title>Sneaker Home</title>
     <?php include_once  $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
     <?php include$_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/checkout.css.php"; ?>
 </head>
