@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Product Page</title>
+    <title>Sneaker Home</title>
     <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/detailproduct.css.php"; ?>
 </head>
@@ -52,6 +52,7 @@
                         <i class="fas fa-shopping-bag"></i>
                         Buy Now
                     </button>
+                    
                 </div>
             </form>
         </div>
@@ -69,7 +70,7 @@
             foreach ($related_products as $related_product): ?>
                 <div class="col-md-3 mb-4" style="position: relative">
                     <div class="icons">
-                        <button onclick="toggleHeart(this)" style="background-color: transparent; border: none;">
+                        <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $related_product['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="far fa-heart"></i>
                         </button>
                         <button class="add-to-cart" data-product-id="<?php echo $related_product['product_id']; ?>" style="background-color: transparent; border: none;">
@@ -109,7 +110,7 @@
 <?php endif; ?>
 
 <script>
-function toggleHeart(button) {
+       function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
     const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
 

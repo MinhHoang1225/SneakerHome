@@ -2,7 +2,7 @@
 ini_set('display_errors', 1); // Hiển thị lỗi
 error_reporting(E_ALL);
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/detailproductmodel.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/ProductModels.php';
 
 // Lấy ID từ URL
 $product_id = isset($_GET['product_id']) ? intval($_GET['product_id']) : null;

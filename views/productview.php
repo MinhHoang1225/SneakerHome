@@ -19,7 +19,7 @@
                 <div class="col-md-3 mb-4" style="position: relative">
                     <div class="icons">
                         <!-- <i class="far fa-heart" ></i> -->
-                        <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $product['product_id'];?>"style="background-color: transparent; border: none;">
+                        <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
                                         <i class="far fa-heart"></i>
                                     </button>
                         <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
@@ -69,7 +69,7 @@
     </div>
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controllers/footercontroller.php"; ?>
     <script>
-function toggleHeart(button) {
+       function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
     const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
 
@@ -114,6 +114,7 @@ function toggleHeart(button) {
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
+
         document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-product-id');

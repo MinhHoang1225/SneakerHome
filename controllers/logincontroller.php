@@ -1,8 +1,9 @@
+
 <?php
 // session_start();
 
 require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/loginmodels.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/UserModels.php';
 
 class LoginController {
     private $db;
@@ -46,7 +47,7 @@ class LoginController {
         require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/views/loginview.php';
     }
 }
-
+$db = connectdb();
 // Khởi tạo và xử lý login
 $loginController = new LoginController($db);
 $loginController->login();

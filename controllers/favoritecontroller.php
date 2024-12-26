@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/favoritemodel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/ProductModels.php';
 include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';
 
 $response = ['success' => false]; // Default to failure

@@ -1,7 +1,8 @@
+
 <?php
 
 require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/registermodel.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/UserModels.php';
 
 $name_error = "";
 $email_error = "";
