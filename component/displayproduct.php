@@ -96,7 +96,6 @@ function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
     const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
 
-    // Kiểm tra userId trước khi gửi yêu cầu
     if (!userId) {
         alert('Bạn phải đăng nhập để thực hiện thao tác này!');
         return;
@@ -104,7 +103,6 @@ function toggleHeart(button) {
 
     console.log('Product ID:', productId, 'User ID:', userId);
 
-    // Gửi yêu cầu đến server để toggle yêu thích
     fetch('../controllers/favoritecontroller.php', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -114,26 +112,33 @@ function toggleHeart(button) {
             product_id: productId
         })
     })
+    .then(response => response.json()) 
+    .then(data => {
+        console.log('Server response:', data); 
 
-        .then(response => {
-        console.log('Server response:', response);  // Log server response
-        return response.json();
-        })
-        .then(data => {
-            console.log('Parsed JSON:', data);  // Log dữ liệu đã phân tích từ JSON
-            if (data.success) {
-                const icon = button.querySelector('i');
-                icon.classList.toggle('fas');  // Đổi từ class 'far' (trái tim rỗng) thành 'fas' (trái tim đầy)
-                icon.classList.toggle('far');  // Đổi từ class 'fas' (trái tim đầy) thành 'far' (trái tim rỗng)
-                alert(data.message || 'Sản phẩm đã được thêm vào danh sách yêu thích!');
+        const icon = button.querySelector('i');
+
+        if (data.success) {
+            if (data.is_favorited) {
+                icon.classList.remove('far'); 
+                icon.classList.add('fas');    
             } else {
-                alert(data.message || 'Có lỗi xảy ra khi thêm sản phẩm vào yêu thích.');
+                icon.classList.remove('fas'); 
+                icon.classList.add('far');    
             }
-        })
-            .catch(error => {
-                alert('Sản phẩm đã được thêm vào danh sách yêu thích!');
-            });
+
+            alert(data.message);
+        } else {
+            alert('Có lỗi xảy ra khi xử lý yêu cầu.');
         }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+    });
+}
+
+
 
         document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {

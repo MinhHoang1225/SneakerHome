@@ -109,18 +109,51 @@
 <?php endif; ?>
 
 <script>
-    function toggleHeart(button) {
-        const icon = button.querySelector('i'); // Lấy phần tử <i> bên trong button
-        if (icon.classList.contains('fa-regular')) {
-            // Nếu trái tim rỗng -> đổi sang trái tim đầy
-            icon.classList.remove('fa-regular');
-            icon.classList.add('fa-solid');
-        } else {
-            // Nếu trái tim đầy -> đổi lại trái tim rỗng
-            icon.classList.remove('fa-solid');
-            icon.classList.add('fa-regular');
-        }
+function toggleHeart(button) {
+    const productId = button.getAttribute('data-product-id');
+    const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
+
+    if (!userId) {
+        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        return;
     }
+
+    console.log('Product ID:', productId, 'User ID:', userId);
+
+    fetch('../controllers/favoritecontroller.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            action: 'toggle_favorite',
+            user_id: userId,
+            product_id: productId
+        })
+    })
+    .then(response => response.json()) 
+    .then(data => {
+        console.log('Server response:', data); 
+
+        const icon = button.querySelector('i');
+
+        if (data.success) {
+            if (data.is_favorited) {
+                icon.classList.remove('far'); 
+                icon.classList.add('fas');    
+            } else {
+                icon.classList.remove('fas'); 
+                icon.classList.add('far');    
+            }
+
+            alert(data.message);
+        } else {
+            alert('Có lỗi xảy ra khi xử lý yêu cầu.');
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+    });
+}
     document.getElementById('quantity').addEventListener('input', function() {
         var quantity = document.getElementById('quantity').value; // Get the quantity from the input field
         document.getElementById('hidden-quantity').value = quantity; // Update the hidden input with the selected quantity
