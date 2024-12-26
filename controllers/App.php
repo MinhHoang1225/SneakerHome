@@ -20,7 +20,7 @@ class App {
 
     public function handleUrl() {
         $fullurl = $this->getUrl();
-        $url = str_replace('/SneakerHome/controller', '', $fullurl);
+        $url = str_replace('/SneakerHome/controllers', '', $fullurl);
         $urlArr = array_filter(explode('/', $url)); 
 
         $routes = [
@@ -36,7 +36,13 @@ class App {
             '/profile' => 'profilecontroller.php',
             '/product' => 'productcontroller.php',
             '/detailproduct' => 'detailproductcontroller.php',
-            '/shoppingcart' => 'shoppingcartcontroller.php'
+            '/shoppingcart' => 'shoppingcartcontroller.php',
+            '/checkout' => 'checkoutcontroller.php',
+            '/checkoutCart' => 'checkoutCartcontroller.php',
+            '/search' => 'searchcontroller.php',
+            '/favorite' => 'favoritecontroller.php'
+
+
 
 
 
@@ -58,7 +64,7 @@ class App {
         }
         foreach ($routes as $route => $controllerFile) {
             if ('/' . implode('/', $urlArr) == $route) {
-                require_once 'controller/' . $controllerFile; 
+                require_once 'controllers/' . $controllerFile; 
             }
         }
 

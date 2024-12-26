@@ -1,6 +1,6 @@
 
 <?php
-require_once "../controller/admincontroller.php";
+require_once "../controllers/admincontroller.php";
 $controller = new Controller();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
     if (isset($_POST['product_id'])) {
@@ -171,7 +171,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
                         <th>Mã đơn hàng</th>
                         <th>Tên khách hàng</th>
                         <th>Email</th>
-                        <th>Xem đơn hàng</th>
+                        <!-- <th>Xem đơn hàng</th> -->
                     </tr>
                 </thead>
                 <tbody>
@@ -180,7 +180,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
                             <td><?php echo $order['order_id']; ?></td>
                             <td><?php echo $order['name']; ?></td>
                             <td><?php echo $order['email']; ?></td>
-                            <td><button>Xem</button></td>
+                            <!-- <td><button>Xem</button></td> -->
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

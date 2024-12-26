@@ -27,7 +27,7 @@
 }
 .product-card .icons i {
     margin-left: 10px;
-    color:#00aaff;
+    color:red;
     font-size: 20px;
 }
 .product-card .price {
@@ -43,38 +43,6 @@
 .product-card .discount {
     color: #ff0000;
     margin-left: 10px;
-}
-.mx-3 {
-    text-decoration: none;
-    color: black;
-    padding: 5px 10px; /* Khoảng cách bên trong để làm nút */
-    border: 2px solid transparent; /* Đường viền ban đầu trong suốt */
-    border-radius: 5px; /* Góc bo tròn */
-    transition: all 0.3s ease; /* Hiệu ứng mượt */
-}
-
-.mx-3:hover {
-    color: white; /* Chữ màu trắng */
-    background-color: #007bff; /* Nền màu xanh */
-    border: 2px solid #007bff; /* Đường viền cùng màu với nền */
-}
-
-.load-more {
-    text-align: center;
-    margin-top: 20px;
-}
-.load-more a {
-    color: #00aaff;
-    text-decoration: none;
-}
-.img-fluid {
-    height: 450px;
-    width: 500px;
-}
-.mt-3 {
-    font-size: 1.25rem;
-    font-weight: bold;
-    height: 50px;
 }
 
 </style>

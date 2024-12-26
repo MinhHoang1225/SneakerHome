@@ -16,7 +16,10 @@
     border-radius: 10px; /* Bo tròn khung */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Thêm bóng đổ */
 }
-
+.of{
+    max-height: 350px; /* Giới hạn chiều cao */
+    overflow-y: auto; 
+}
 h3 {
     margin-bottom: 20px;
     color: #333;
@@ -66,4 +69,5 @@ hr {
     width: 150px; /* Thay đổi chiều rộng phù hợp với dữ liệu */
     text-align: center;
 }
+
   </style>
