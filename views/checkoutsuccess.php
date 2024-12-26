@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Payment Successful</title>
-    <!-- Bootstrap 5 CSS -->
+    <title>Sneaker Home</title>    <!-- Bootstrap 5 CSS -->
     <?php include $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/component/linkbootstrap5.php' ?>
     <!-- Custom CSS -->
     <style>
