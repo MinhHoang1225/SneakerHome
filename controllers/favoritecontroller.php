@@ -1,43 +1,35 @@
 <?php
-// session_start();
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/ProductModels.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';
+
+$response = ['success' => false]; // Default to failure
+$favoriteModel = new FavoriteModel(connectdb());
 $userId = $_SESSION['user_id'] ?? null;
-require_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/models/favoritemodel.php';
-include_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/database/connect.php'; // Kết nối DB
-
-$response = ['success' => false];
-
+$favorites = $favoriteModel->getFavorites($userId);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents('php://input'), true); // Đọc dữ liệu từ body
+    $data = json_decode(file_get_contents('php://input'), true);
 
-    if (isset($data['action']) && $data['action'] === 'toggle_favorite' && isset($data['user_id']) && isset($data['product_id'])) {
+    if (isset($data['action'], $data['user_id'], $data['product_id']) && $data['action'] === 'toggle_favorite') {
         $userId = $data['user_id'];
         $productId = $data['product_id'];
 
-        // Kiểm tra dữ liệu
-        if (!$userId || !$productId) {
-            $response['message'] = 'Thiếu user_id hoặc product_id';
-            echo json_encode($response);
-            exit;
-        }
+        $favoriteModel = new FavoriteModel(connectdb());
+        $result = $favoriteModel->toggleFavorite($userId, $productId);
 
-        $favoriteModel = new FavoriteModel(connectdb()); // Kết nối DB
-        $success = $favoriteModel->toggleFavorite($userId, $productId); // Thực hiện toggle
-
-        if ($success) {
+        if (isset($result['success']) && $result['success'] === true) {
             $response['success'] = true;
-            $response['message'] = 'Sản phẩm đã được thêm vào danh sách yêu thích!';
+            $response['is_favorited'] = $result['is_favorited']; 
+            $response['message'] = $result['message']; 
         } else {
-            $response['message'] = 'Có lỗi xảy ra khi cập nhật danh sách yêu thích';
+            $response['message'] = $result['message'] ?? 'Có lỗi xảy ra khi cập nhật danh sách yêu thích.';
         }
     } else {
-        $response['message'] = 'Dữ liệu yêu cầu không hợp lệ';
+        $response['message'] = 'Dữ liệu yêu cầu không hợp lệ.';
     }
+
+    echo json_encode($response); // Send the response back to the frontend
+    exit;
 }
-if ($userId) {
-    $favoriteModel = new FavoriteModel(connectdb());
-    $favorites = $favoriteModel->getFavorites($userId); // Giả sử bạn có một phương thức lấy yêu thích theo user_id
-} else {
-    $favorites = [];
-}
-include_once $_SERVER['DOCUMENT_ROOT']. '/SneakerHome/views/favoriteview.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/views/favoriteview.php';
 ?>
