@@ -1,7 +1,7 @@
 <?php
 // session_start();
 // include '../component/header.php';
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/controllers/profilecontroller.php';
+
 
 $controller = new ProfileController();
 if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         if ($controller->updateProfile($data)) {
-            header("Location: profilecontroller.php?success=1");
+            header("Location: ../controllers/profile?success=1");
             exit;
         } else {
             $error_message = "Cập nhật thông tin thất bại!";

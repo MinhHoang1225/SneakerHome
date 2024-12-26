@@ -1,6 +1,6 @@
 
 <?php
-require_once "../controllers/admincontroller.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/controllers/admincontroller.php";
 $controller = new Controller();
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
     if (isset($_POST['product_id'])) {
@@ -45,13 +45,14 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <title>Sneaker Home</title>
-    <?php include "../assets/css/admin.css.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT']."/SneakerHome/assets/css/admin.css.php"; ?>
 </head>
 <body>
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
-            <img src="../assets/img/Shoe Logo.png" alt="" style="width: 200px;">
+            <a href="../controllers/home"><img src="../assets/img/Shoe Logo.png" alt="" style="width: 200px;"></a>
+            
         </div>
         <nav class="menu">
             <a href="#" data-section="dashboard" class="active">

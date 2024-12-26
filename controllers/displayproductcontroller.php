@@ -1,7 +1,7 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';  
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/displayproductmodels.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/ProductModels.php';
 
  // Kết nối cơ sở dữ liệu
 

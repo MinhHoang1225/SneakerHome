@@ -1,5 +1,5 @@
 <?php
-require_once "../models/adminmodels.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/models/adminmodels.php";
 
 class Controller {
     private $model;
@@ -62,4 +62,5 @@ class Controller {
         return $this->model->getOrdersByStatus($status);
     }
 }
+include $_SERVER['DOCUMENT_ROOT'].'/SneakerHome/views/adminview.php'
 ?>

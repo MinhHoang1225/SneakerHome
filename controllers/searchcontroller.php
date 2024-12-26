@@ -1,6 +1,6 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/searchmodels.php';
+require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/ProductModels.php';
 
 function searchProducts($keyword) {
     $db = connectdb();
