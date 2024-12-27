@@ -11,6 +11,6 @@ $products = getProductsByCategory($category_id);
 // Import view
 include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/views/productview.php";
 
-include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\models\btn_up.php';
+// include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\models\btn_up.php';
 
 ?>

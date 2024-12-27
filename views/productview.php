@@ -68,6 +68,7 @@
         </div>
     </div>
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controllers/footercontroller.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\views\btn_up.php'; ?>
     <script>
        function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
