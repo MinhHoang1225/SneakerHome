@@ -2,25 +2,29 @@
 <?php
 require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/controllers/admincontroller.php";
 $controller = new Controller();
+if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  isset($_POST['action']) && $_POST['action'] === 'edit_product') {
+    if (isset($_POST['id'])) {       
+        $controller->editProduct($_POST['id']);
+    }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
     if (isset($_POST['product_id'])) {
         $controller->deleteProduct($_POST['product_id']);
     }
     exit; 
 }
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
-    if (isset($_POST['product_id'])) {
-        $productId = $_POST['product_id'];
-        $controller->deleteProduct($productId);
-        echo json_encode(["status" => "success"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Product ID is missing"]);
-    }
-    exit; 
-}
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $controller->addProduct($_POST['name'], $_POST['price'], $_POST['stock'], $_FILES['image']);
+    $name = $_POST['name'];
+    $price = $_POST['price'];
+    $stock = $_POST['stock'];
+    $image = $_FILES['image'];
+
+    if ($controller->addProduct($name, $price, $stock, $image)) {
+        echo "Sản phẩm đã được thêm thành công.";
+    } else {
+        echo "Có lỗi xảy ra khi thêm sản phẩm.";
+    }
 }
 
 $dashboardData = $controller->getDashboardData();
@@ -34,8 +38,6 @@ $filterStatusCompleted = $_GET['status'] ?? 'Completed';
 $ordersByStatusCompleted = $controller->getOrdersByStatus($filterStatusCompleted);
 $filterStatusCancelled = $_GET['status'] ?? 'Cancelled'; 
 $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled)
-
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,7 +47,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <title>Sneaker Home</title>
-    <?php include $_SERVER['DOCUMENT_ROOT']."/SneakerHome/assets/css/admin.css.php"; ?>
+    <?php include "../assets/css/admin.css.php"; ?>
 </head>
 <body>
     <!-- Sidebar -->
@@ -76,25 +78,25 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
     <!-- Main Content -->
     <main class="main">
         <header class="header">
-            <h1>Quản lý Bán Hàng</h1>
+            <h1>Sales Management</h1>
         </header>
         <!-- Section: Thống kê -->
         <section id="dashboard" class="section">
-            <h2>Thống kê</h2>
+            <h2>Statistical</h2>
             <div class="stats">
                 <div class="stat">
                     <i class="fa-solid fa-users"></i>
-                    <h3>Khách hàng</h3>
+                    <h3>User</h3>
                     <p id="total-customers"><?php echo $dashboardData['customers']; ?></p>
                 </div>
                 <div class="stat">
                     <i class="fa-solid fa-shoe-prints"></i>
-                    <h3>Sản phẩm</h3>
+                    <h3>Product</h3>
                     <p id="total-products"><?php echo $dashboardData['products']; ?></p>
                 </div>
                  <div class="stat">
                     <i class="fa-solid fa-cart-arrow-down"></i>
-                    <h3>Đơn hàng</h3>
+                    <h3>Order</h3>
                     <p id="total-orders"><?php echo $dashboardData['orders'] ?></p>
                 </div>
             </div>
@@ -126,7 +128,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
         <!-- Section: Sản phẩm -->
         <section id="products" class="section">
             <h2>Sản phẩm</h2>
-            <button class="btn add_product" id="openModalBtn">Thêm Sản Phẩm</button>
+            <button type="submit" class="btn add_product" id="openModalBtn">Thêm Sản Phẩm</button>
             <table class="table">
                 <thead>
                     <tr>
@@ -148,7 +150,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
                             <td><?php echo $product['price']; ?></td>
                             <td><?php echo $product['stock']; ?></td>
                             <td>
-                                <button class="btn edit" id="editModalBtn">Sửa</button>                        
+                                <button class="btn edit" id="editModalBtn" onclick="openEditModal()">Sửa</button>                        
                             </td>
                             <td>
                             <form method="POST" action="">
@@ -269,43 +271,47 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
         </section>
     </main>
 
-    <!-- Modal: Thêm Sản Phẩm -->
-    <div id="addProductModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('addProductModal').style.display='none'">&times;</span>
-            <form action="admin.php" method="POST" enctype="multipart/form-data">
-                <h3 class="">Thêm Sản Phẩm</h3>
-                <label for="name">Tên sản phẩm:</label>
-                <input type="text" id="name" name="name" required>
-                <label for="price">Giá:</label>
-                <input type="text" id="price" name="price" required>
-                <label for="stock">Số lượng:</label>
-                <input type="number" id="stock" name="stock" required>
-                <label for="image">Hình ảnh:</label>
-                <input type="file" id="image" name="image" required>
-                <button class="" type="submit" name="add_product">Thêm</button>
-            </form>
+        <!-- Modal: Thêm Sản Phẩm -->
+        <div id="addProductModal" class="modal">
+            <div class="modal-content">
+               <!-- <span class="close" id="closeModdalBtn" >&times;</span> -->
+                <span onclick="document.getElementById('addProductModal').style.display='none'">&times;</span>
+                <form method="POST" enctype="multipart/form-data">
+                    <h3 class="">Thêm Sản Phẩm</h3>
+                    <label for="name">Tên sản phẩm:</label>
+                    <input type="text" id="name" name="name" required>
+                    <label for="price">Giá:</label>
+                    <input type="text" id="price" name="price" required>
+                    <label for="stock">Số lượng:</label>
+                    <input type="number" id="stock" name="stock" required>
+                    <label for="image">Hình ảnh:</label>
+                    <input type="file" id="image" name="image" required>
+                    <button class="" type="submit" name="add_product">Thêm</button>
+                </form>
+            </div>
         </div>
-    </div>
         <!-- Modal: Sửa Sản Phẩm -->
-    <div id="editModal" class="modal">
+        <div id="editModal" class="modal">
         <div class="modal-content">
             <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
             <form method="POST" enctype="multipart/form-data">
-                <h3>Sửa Sản Phẩm</h3>
-                <input type="hidden" id="product_id" name="product_id">
-                <label for="name">Tên sản phẩm</label>
-                <input type="text" id="edit_name" name="name" required>
-                <label for="price">Giá</label>
-                <input type="number" id="edit_price" name="price" required>
-                <label for="stock">Số lượng</label>
-                <input type="number" id="edit_stock" name="stock" required>
-                <label for="image">Hình ảnh</label>
-                <input type="file" id="edit_image" name="image">
+                <input type="text" name="id" value="<?php echo $product['product_id']; ?>">
+                <label for="name">Tên sản phẩm:</label>
+                <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" required><br>
+                <label for="price">Giá:</label>
+                <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>" required><br>
+                <label for="stock">Số lượng:</label>
+                <input type="number" id="stock" name="stock" value="<?php echo $product['stock']; ?>" required><br>
+                <label for="image">Hình ảnh:</label>
+                <input type="file" id="image" name="image"><br>
+                <?php if (!empty($product['image'])): ?>
+                    <img src="<?php echo $product['image']; ?>" alt="Hình ảnh sản phẩm" width="100"><br>
+                <?php endif; ?>
                 <button type="submit" name="edit_product">Cập nhật</button>
             </form>
         </div>
     </div>
+
 </body>
 <script>
       const menuItems = document.querySelectorAll(".menu a");
@@ -330,7 +336,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
         document.getElementById("dashboard").style.display = "block";
       });
 
-      const openModalBtn = document.getElementById('openModalBtn');
+    const openModalBtn = document.getElementById('openModalBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const addProductModal = document.getElementById('addProductModal');
 
@@ -370,6 +376,26 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
             }
         });
     });
+const editModal = document.getElementById('editModal');
+
+function openEditModal(productId, name, price, stock) {
+    editModal.style.display = 'block';
+
+    document.getElementById('product_id').value = productId;
+    document.getElementById('edit_name').value = name;
+    document.getElementById('edit_price').value = price;
+    document.getElementById('edit_stock').value = stock;
+}
+
+window.onclick = function(event) {
+    if (event.target === editModal) {
+        editModal.style.display = 'none';
+    }
+}
+
+document.querySelector('.close').onclick = function() {
+    editModal.style.display = 'none';
+}
 </script>
 </body>
 </html>
