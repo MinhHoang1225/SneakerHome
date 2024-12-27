@@ -267,8 +267,7 @@ class FavoriteModel {
                 }
             }
     
-            return $response; // Return the response array
-    
+            return $response; 
         } catch (PDOException $e) {
             // Log the error or handle accordingly
             return ['success' => false, 'message' => 'Đã xảy ra lỗi khi xử lý yêu cầu.'];
