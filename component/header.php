@@ -40,7 +40,7 @@
         <div class="row row1">
             <div style="font-size: 12px; padding-top: 15px" class="col-3">sneakerhome@gmail.com | 84+ 123 456 789</div>
             <div class="col-5 bg-white"></div>
-            <div class="col-3 d-flex gap-5">
+            <div class="col-3 d-flex gap-5 btn-lr">
                 <a href="../controllers/profile"><i class="fa-solid fa-user-circle profile"></i></a>
                 <a href="../controllers/login"><button>Login</button></a>
                 <a href="../controllers/register"><button>Register</button></a>
