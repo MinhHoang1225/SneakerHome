@@ -49,11 +49,22 @@
    }
    li{
      list-style: none;
+     font-weight: bold;
    }
    .navbar{
      font-size: 20px;
      padding-top: 70px;
    }
+   .btn-lr button {
+    background-color: #3498db; 
+    color: white;
+    border: none; 
+    padding: 6px;
+    font-weight: bold;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1); 
+}
    li:hover{
     /* padding: 10px; */
     border-bottom: 1px solid black;   
