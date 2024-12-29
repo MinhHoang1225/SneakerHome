@@ -20,8 +20,8 @@
                     <div class="icons">
                         <!-- <i class="far fa-heart" ></i> -->
                         <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
-                                        <i class="far fa-heart"></i>
-                                    </button>
+                            <i class="far fa-heart"></i>
+                        </button>
                         <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="fas fa-cart-plus"></i>
                         </button>

@@ -53,7 +53,7 @@ class UserController extends Controllers
             $_SESSION['role'] = $user['role'];
 
             if ($user['role'] === 'user') {
-                header("Location: /home");
+                header("Location: /SneakerHome/home");
             } elseif ($user['role'] === 'admin') {
                 header("Location: /Admin/admin");
             } else {
@@ -102,7 +102,7 @@ class UserController extends Controllers
     
                 if ($result === true) {
                     $_SESSION['success_message'] = "Registration successful. Please log in.";
-                    header("Location: /user/login");
+                    header("Location: /SneakerHome/user/login");
                     exit;
                 } elseif ($result === "Email already exists") {
                     $_SESSION['error_message'] = "This email is already registered.";
