@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';
+require_once './database/connect.php';
 $db = connectdb();
 class User {
     private $conn;
@@ -56,76 +56,60 @@ class LoginModel {
         $this->db = $db;
     }
 
-    // Login user
     public function loginUser($email, $password) {
         try {
             $query = "SELECT * FROM user WHERE email = :email";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':email', $email);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
             $stmt->execute();
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
             if ($user && password_verify($password, $user['password'])) {
-                return $user;
-            } else {
-                return false;
+                return $user; // Return user data if password matches
             }
+            return false; // Login failed
         } catch (PDOException $e) {
-            echo "Error: " . $e->getMessage();
+            error_log("Database error: " . $e->getMessage());
             return false;
         }
     }
 }
 
-// Validation functions
-function validate_username($name) {
-    return ctype_alnum($name);
-}
+class RegisterModel {
+    private $db;
 
-function validate_email($email) {
-    return filter_var($email, FILTER_VALIDATE_EMAIL);
-}
+    public function __construct($db) {
+        $this->db = $db;
+    }
 
-function validate_password($password) {
-    return strlen($password) >= 6;
-}
+    public function registerUser($email,$username, $password, $role = 'user') {
+        try {
+            // Kiểm tra email đã tồn tại
+            $query = "SELECT * FROM user WHERE email = :email";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->execute();
+            $existingUser = $stmt->fetch(PDO::FETCH_ASSOC);
 
-function check_email_exists($db, $email) {
-    $query = "SELECT COUNT(*) FROM user WHERE email = :email";
-    $stmt = $db->prepare($query);
-    $stmt->bindParam(":email", $email);
-    $stmt->execute();
-    return $stmt->fetchColumn() > 0;
-}
+            if ($existingUser) {
+                return "Email already exists";
+            }
 
-// Register user
-function register_user($db, $name, $email, $password, $role = 'user') {
-    try {
-        if (!$db) {
-            throw new Exception("Database connection is null.");
+            // Thêm người dùng mới
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $query = "INSERT INTO user (name, email, password, role) VALUES (:username,:email, :password, :role)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':username', $username, PDO::PARAM_STR);
+            $stmt->bindParam(':email', $email, PDO::PARAM_STR);
+            $stmt->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+            $stmt->bindParam(':role', $role, PDO::PARAM_STR);
+            $stmt->execute();
+
+            return true;
+        } catch (PDOException $e) {
+            error_log("Database error: " . $e->getMessage());
+            return false;
         }
-
-        if (check_email_exists($db, $email)) {
-            throw new Exception("Email is already registered.");
-        }
-
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
-
-        $query = "INSERT INTO user (name, email, password, role) VALUES (:name, :email, :password, :role)";
-        $stmt = $db->prepare($query);
-
-        $stmt->bindParam(":name", $name);
-        $stmt->bindParam(":email", $email);
-        $stmt->bindParam(":password", $hashed_password);
-        $stmt->bindParam(":role", $role);
-
-        return $stmt->execute();
-    } catch (PDOException $e) {
-        echo "Registration failed. PDO Error: " . $e->getMessage();
-        return false;
-    } catch (Exception $e) {
-        echo "Registration failed. Error: " . $e->getMessage();
-        return false;
     }
 }
 ?>

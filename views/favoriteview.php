@@ -1,12 +1,14 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; 
-include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/favorite.css.php'; 
+include_once './component/linkbootstrap5.php'; 
+include './assets/css/favorite.css.php'; 
+var_dump($favorite);
 ?> 
+<?php include_once './component/header.php'; ?>
 <div class="container">
     <h2>Danh sách yêu thích</h2>
     <div class="row">
         <?php
-        // Lấy danh sách yêu thích từ controller
+        // Debugging: Kiểm tra xem có dữ liệu trong $favorites không
         if (isset($favorites) && !empty($favorites)):
             foreach ($favorites as $favorite):
         ?>
@@ -36,6 +38,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/favorite.css.php';
         <?php endif; ?>
     </div>
 </div>
+
+<?php include_once './component/footer.php'; ?>
+
 <script>
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {

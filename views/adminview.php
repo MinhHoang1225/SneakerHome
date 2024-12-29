@@ -1,39 +1,39 @@
 
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/controllers/admincontroller.php";
-$controller = new Controller();
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
-    if (isset($_POST['product_id'])) {
-        $controller->deleteProduct($_POST['product_id']);
-    }
-    exit; 
-}
+// require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/controllers/admincontroller.php";
+// $controller = new Controllers();
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
+//     if (isset($_POST['product_id'])) {
+//         $controller->deleteProduct($_POST['product_id']);
+//     }
+//     exit; 
+// }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
-    if (isset($_POST['product_id'])) {
-        $productId = $_POST['product_id'];
-        $controller->deleteProduct($productId);
-        echo json_encode(["status" => "success"]);
-    } else {
-        echo json_encode(["status" => "error", "message" => "Product ID is missing"]);
-    }
-    exit; 
-}
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
-    $controller->addProduct($_POST['name'], $_POST['price'], $_POST['stock'], $_FILES['image']);
-}
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
+//     if (isset($_POST['product_id'])) {
+//         $productId = $_POST['product_id'];
+//         $controller->deleteProduct($productId);
+//         echo json_encode(["status" => "success"]);
+//     } else {
+//         echo json_encode(["status" => "error", "message" => "Product ID is missing"]);
+//     }
+//     exit; 
+// }
+// if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
+//     $controller->addProduct($_POST['name'], $_POST['price'], $_POST['stock'], $_FILES['image']);
+// }
 
-$dashboardData = $controller->getDashboardData();
-$customers = $controller->getCustomers();
-$products = $controller->getProducts();
-$orders = $controller->getOrders();
-$ordersByUser = $controller->getOrdersByUser();
-$filterStatusProgress = $_GET['status'] ?? 'In Progress'; 
-$ordersByStatusProgress = $controller->getOrdersByStatus($filterStatusProgress);
-$filterStatusCompleted = $_GET['status'] ?? 'Completed'; 
-$ordersByStatusCompleted = $controller->getOrdersByStatus($filterStatusCompleted);
-$filterStatusCancelled = $_GET['status'] ?? 'Cancelled'; 
-$ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled)
+// $dashboardData = $controller->getDashboardData();
+// $customers = $controller->getCustomers();
+// $products = $controller->getProducts();
+// $orders = $controller->getOrders();
+// $ordersByUser = $controller->getOrdersByUser();
+// $filterStatusProgress = $_GET['status'] ?? 'In Progress'; 
+// $ordersByStatusProgress = $controller->getOrdersByStatus($filterStatusProgress);
+// $filterStatusCompleted = $_GET['status'] ?? 'Completed'; 
+// $ordersByStatusCompleted = $controller->getOrdersByStatus($filterStatusCompleted);
+// $filterStatusCancelled = $_GET['status'] ?? 'Cancelled'; 
+// $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled)
 
 
 ?>
@@ -45,7 +45,7 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <title>Sneaker Home</title>
-    <?php include $_SERVER['DOCUMENT_ROOT']."/SneakerHome/assets/css/admin.css.php"; ?>
+    <?php include "./assets/css/admin.css.php"; ?>
 </head>
 <body>
     <!-- Sidebar -->
