@@ -11,7 +11,7 @@
 <div class="centered-wrapper">
     <div class="container">
         <!-- Close Button -->
-        <a href="/home" class="btn-close"></a>
+        <a href="/SneakerHome/home" class="btn-close"></a>
 
 
         <!-- Error Message -->
@@ -25,7 +25,7 @@
         <?php endif; ?>
 
         <!-- Login Form -->
-        <form action="/User/userLogin" method="POST">
+        <form action="/SneakerHome/User/userLogin" method="POST">
             <!-- Form Title -->
             <div class="row text-center pt-5">
                 <div class="col-12">

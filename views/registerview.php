@@ -12,7 +12,7 @@
 <div class="centered-wrapper">
     <div class="container">
         <!-- Close Button -->
-        <a href="/home" class="btn-close"></a>    
+        <a href="/SneakerHome/home" class="btn-close"></a>    
 
         <!-- Main Content -->
         <div class="content">
@@ -30,7 +30,7 @@
                 <!-- Form -->
                 <div class="col-8">
 
-                    <form action="/User/userRegister" method="POST">
+                    <form action="/SneakerHome/User/userRegister" method="POST">
                         <div class="input-group">
                             <label for="name">Username:</label>
                             <input type="text" id="name" name="name" placeholder="Enter your username" required>
@@ -48,7 +48,7 @@
                             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
                         </div>
                         <div class="action-buttons d-flex justify-content-end gap-5 align-items-center">
-                            <a href="./login" class="back-link">Login</a>
+                            <a href="./SneakerHome/login" class="back-link">Login</a>
                             <button type="submit" class="btn-register">Register</button>
                         </div>
                     </form>
