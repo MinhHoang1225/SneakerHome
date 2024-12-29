@@ -23,13 +23,13 @@
         <!-- Carousel Items -->
         <div class="carousel-inner">
             <div class="carousel-item active">
-                <img src="../assets/img/banner2.jpg" class="d-block w-100" style="height: 600px;" alt="Product 1">
+                <img src="./assets/img/banner2.jpg" class="d-block w-100" style="height: 600px;" alt="Product 1">
             </div>
             <div class="carousel-item">
-                <img src="../assets/img/banner1.jpg" class="d-block w-100" style="height: 600px;" alt="Product 2">
+                <img src="./assets/img/banner1.jpg" class="d-block w-100" style="height: 600px;" alt="Product 2">
             </div>
             <div class="carousel-item">
-                <img src="../assets/img/banner3.jpg" class="d-block w-100" style="height: 600px;" alt="Product 3">
+                <img src="./assets/img/banner3.jpg" class="d-block w-100" style="height: 600px;" alt="Product 3">
             </div>
         </div>
     </div>

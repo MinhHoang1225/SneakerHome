@@ -8,7 +8,7 @@
   <?php include './component/linkbootstrap5.php' ?>
 </head>
 <body>
-<?php include_once $_SERVER['DOCUMENT_ROOT'] .'../component/header.php' ?>
+<?php include_once './component/header.php' ?>
 
   <div class="about-section text-center">
     <div class="container">
