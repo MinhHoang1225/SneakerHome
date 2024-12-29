@@ -13,7 +13,7 @@ class HomeController extends Controllers{
         $this->view('aboutusview', [
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
-        ]);
+        ]); 
     }
 }
-?>
+?> 

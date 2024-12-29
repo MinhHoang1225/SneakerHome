@@ -53,6 +53,6 @@ class ShoppingCartController extends Controllers{
             'username_input' => $_SESSION['username_input'] ?? ''
         ]);
     }
-}
+} 
 
 ?>

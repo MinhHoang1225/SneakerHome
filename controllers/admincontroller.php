@@ -40,7 +40,7 @@
 //         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_product'])) {
 //             $name = $_POST['name'];
 //             $price = $_POST['price'];
-//             $stock = $_POST['stock'];
+//             $stock = $_POST['stock']; 
 //             $image = $_FILES['image'];
 
 //             $this->addProduct($name, $price, $stock, $image);

@@ -34,7 +34,7 @@ class ProductModel {
             if (!$result) {
                 error_log("No products found for category ID: " . $categoryId);
             }
-
+ 
             return $result;
         } catch (PDOException $e) {
             error_log("SQL Error in getBestSellersByCategory: " . $e->getMessage());

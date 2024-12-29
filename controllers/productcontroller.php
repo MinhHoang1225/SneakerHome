@@ -20,7 +20,7 @@ class ProductController extends Controllers {
     public function displayProducts() {
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
         $limit = 8;
-
+ 
         $productModel = new ProductModel($this->db);
         $products = $productModel->getBestSellersByCategory($categoryId, $limit);
         $totalProducts = $productModel->getAllBestSellersCount($categoryId);

@@ -41,7 +41,7 @@ class AdminModel {
     }
     
     // Xóa sản phẩm 
-    public function deleteProduct($product_id) {
+    public function deleteProduct($product_id) { 
         $stmt = $this->db->prepare("DELETE FROM product WHERE product_id = ?");
         $stmt->execute([$product_id]);
     }
