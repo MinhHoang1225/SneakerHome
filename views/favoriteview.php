@@ -1,7 +1,8 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/linkbootstrap5.php'; 
-include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/favorite.css.php'; 
+include_once './component/linkbootstrap5.php'; 
+include './assets/css/favorite.css.php'; 
 ?> 
+<?php include_once './component/header.php'; ?>
 <div class="container">
     <h2>Danh sách yêu thích</h2>
     <div class="row">
@@ -36,6 +37,8 @@ include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/assets/css/favorite.css.php';
         <?php endif; ?>
     </div>
 </div>
+<?php include_once './component/footer.php'; ?>
+
 <script>
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {

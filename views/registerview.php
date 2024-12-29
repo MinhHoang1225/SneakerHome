@@ -4,15 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/register.css.php" ?>
+    <?php include_once "./component/linkbootstrap5.php" ?>
+    <?php include "./assets/css/register.css.php" ?>
 </head>
 <body>
 
 <div class="centered-wrapper">
     <div class="container">
         <!-- Close Button -->
-        <a href="../controllers/home" class="btn-close"></a>    
+        <a href="/home" class="btn-close"></a>    
 
         <!-- Main Content -->
         <div class="content">
@@ -48,7 +48,7 @@
                             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
                         </div>
                         <div class="action-buttons d-flex justify-content-end gap-5 align-items-center">
-                            <a href="../controllers/login" class="back-link">Login</a>
+                            <a href="./login" class="back-link">Login</a>
                             <button type="submit" class="btn-register">Register</button>
                         </div>
                     </form>

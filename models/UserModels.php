@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';
+require_once './database/connect.php';
 $db = connectdb();
 class User {
     private $conn;

@@ -1,11 +1,11 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/models/adminmodels.php";
+require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/models/AdminModels.php";
 
 class Controller {
     private $model;
 
     public function __construct() {
-        $this->model = new Model();
+        $this->model = new AdminModel();
     }
     public function getDashboardData() {
         return [

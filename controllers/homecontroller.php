@@ -1,5 +1,19 @@
-<?php 
-    require_once  $_SERVER["DOCUMENT_ROOT"].'/SneakerHome/views/homeview.php';
- 
-    // require_once __DIR__ . '/../views/homeview.php';
+<?php
+require_once './core/Controllers.php';
+class HomeController extends Controller{
+
+    public function index()
+
+    {
+        $data = ['default']; 
+        $this->view('homeview', $data);
+    }
+
+    public function aboutus(){
+        $this->view('aboutusview', [
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+    }
+}
 ?>

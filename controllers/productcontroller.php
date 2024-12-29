@@ -1,16 +1,37 @@
 <?php
-// Import model
-include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/models/ProductModels.php";
+require './core/Controllers.php';  // Ensure correct path
+require "../SneakerHome/models/ProductModels.php";
+class ProductController extends Controller {
+    private $db;
+    private $productModel;
 
-// Lấy category_id từ URL
-$category_id = isset($_GET['category_id']) ? $_GET['category_id'] : null;
+    // Constructor to initialize ProductModel
+    public function __construct($db)
+    {
+        $this->db = $db;
+        $this->productModel = new ProductModel($this->db); // Initialize ProductModel
+    }
 
-// Gọi model để lấy danh sách sản phẩm
-$products = getProductsByCategory($category_id);
+    // Method to display products
+    public function displayProducts(){
+        $this->view('homeview', [
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+    }
 
-// Import view
-include_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/views/productview.php";
+    public function productsCategory(){
+        $this->view('productview', [
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+    }
 
-// include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\models\btn_up.php';
-
+    public function favorite(){
+        $this->view('favoriteview', [
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+    }
+}
 ?>
