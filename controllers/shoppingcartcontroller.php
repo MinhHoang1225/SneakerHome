@@ -37,7 +37,7 @@
 // // Bao gồm view hiển thị giỏ hàng
 // include $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/views/shoppingcartview.php";
 require './core/Controllers.php';
-class ShoppingCartController extends Controller{
+class ShoppingCartController extends Controllers{
     private $db;
 
     // Constructor to initialize ProductModel

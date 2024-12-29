@@ -1,5 +1,4 @@
 <?php
-// connect.php - Kết nối cơ sở dữ liệu
 function connectdb() {
     $host     = 'localhost'; 
     $database = 'mrdinh';

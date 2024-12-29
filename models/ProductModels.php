@@ -2,6 +2,7 @@
 
 <?php 
 require_once './database/connect.php';
+
 class ProductModel {
     private $db;
 
@@ -12,45 +13,51 @@ class ProductModel {
     }
 
     // Lấy sản phẩm bán chạy theo danh mục với giới hạn
-    public function getBestSellersByCategory($categoryId, $limit = 8)
-    {
+    public function getBestSellersByCategory($categoryId, $limit = 8) {
         try {
             $sql = "SELECT product_id, name, price, old_price, discount, image_url 
                     FROM product 
-                    WHERE is_best_seller = 1 AND category_id = :category_id 
-                    LIMIT :limit";
+                    WHERE is_best_seller = 1" .
+                    ($categoryId > 0 ? " AND category_id = :category_id" : "") . 
+                    " LIMIT :limit";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->execute();
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            if ($categoryId > 0) {
+                $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+            }
+            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+
+            $stmt->execute();
+            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$result) {
+                error_log("No products found for category ID: " . $categoryId);
+            }
+
+            return $result;
         } catch (PDOException $e) {
-            // Ghi lại lỗi và trả về thông báo cho người dùng
-            die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
+            error_log("SQL Error in getBestSellersByCategory: " . $e->getMessage());
+            die("Database error: " . $e->getMessage());
         }
     }
 
-    // Lấy tổng số lượng sản phẩm bán chạy theo danh mục (hoặc tất cả nếu không có danh mục)
-    public function getAllBestSellersCount($categoryId = null)
-    {
+    public function getAllBestSellersCount($categoryId = null) {
         try {
-            if ($categoryId === null) {
-                $sql = "SELECT COUNT(*) FROM product WHERE is_best_seller = 1";
-            } else {
-                $sql = "SELECT COUNT(*) FROM product WHERE is_best_seller = 1 AND category_id = :category_id";
-            }
+            $sql = "SELECT COUNT(*) FROM product WHERE is_best_seller = 1" . 
+                   ($categoryId ? " AND category_id = :category_id" : "");
 
             $stmt = $this->db->prepare($sql);
-            if ($categoryId !== null) {
+
+            if ($categoryId) {
                 $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
             }
             $stmt->execute();
 
             return $stmt->fetchColumn();
         } catch (PDOException $e) {
-            die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
+            error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
+            die("Database error: " . $e->getMessage());
         }
     }
 
@@ -187,12 +194,19 @@ class FavoriteModel {
         try {
             $stmt = $this->db->prepare("SELECT p.* FROM product p JOIN favorite f ON p.product_id = f.product_id WHERE f.user_id = ?");
             $stmt->execute([$userId]);
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+            $favorites = $stmt->fetchAll(PDO::FETCH_ASSOC);
+            
+            // Debugging: Log dữ liệu trả về
+            error_log(print_r($favorites, true));
+            
+            return $favorites;
         } catch (PDOException $e) {
             // Log the error or handle accordingly
+            error_log('Error fetching favorites: ' . $e->getMessage());
             return [];
         }
     }
+    
 
     // PHP method to handle removing a favorite from the database
     public function removeFavorite($userId, $productId) {

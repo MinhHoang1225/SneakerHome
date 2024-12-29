@@ -30,7 +30,7 @@
                 <!-- Form -->
                 <div class="col-8">
 
-                    <form action="../controllers/registercontroller.php" method="POST">
+                    <form action="/User/userRegister" method="POST">
                         <div class="input-group">
                             <label for="name">Username:</label>
                             <input type="text" id="name" name="name" placeholder="Enter your username" required>

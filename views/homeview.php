@@ -9,7 +9,9 @@
 <body>
     <?php include './component/header.php'; ?>
 
-    <!-- Carousel -->
+    <pre>
+<?php var_dump($products) ?>
+</pre>
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <!-- Indicators/Dots -->
         <div class="carousel-indicators">
@@ -83,6 +85,7 @@
     <?php include './component/footer.php'; ?>  
     <?php include './component/btn_up.php'; ?>
 
+    <!-- 
     <script>
         function toggleHeart(button) {
             const productId = button.getAttribute('data-product-id');

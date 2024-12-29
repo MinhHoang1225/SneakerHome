@@ -1,6 +1,6 @@
 <?php
 require_once './core/Controllers.php';
-class HomeController extends Controller{
+class HomeController extends Controllers{
 
     public function index()
 

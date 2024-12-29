@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/database/connect.php";
+require_once "./database/connect.php";
 
 class AdminModel {
     private $db;

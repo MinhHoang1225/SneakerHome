@@ -1,5 +1,5 @@
 <?php
-class Controller
+class Controllers
 {
     // Phương thức để hiển thị view
     public function view($view, $data = [])
@@ -9,5 +9,6 @@ class Controller
         // Yêu cầu tệp view
        
         require_once "./views/$view.php";
+        echo "$view";
     }
 }

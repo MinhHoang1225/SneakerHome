@@ -1,14 +1,15 @@
 <?php
 require_once './core/Controllers.php';
 require_once './models/UserModels.php';
-// var_dump($_SESSION);
-class UserController extends Controller
+var_dump($_SESSION);
+// session_unset();
+// unset($_SESSION);
+class UserController extends Controllers
 {
     private $db;
 
-    public function __construct($db)
-    {
-        $this->db = $db;
+    public function __construct() {
+        $this->db = connectdb(); 
     }
 
     public function login()
@@ -21,49 +22,47 @@ class UserController extends Controller
         ]);
     }
 
-    public function userLogin()
-    {
+    public function userLogin() {
         session_start();
 
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $email = $_POST['email'] ?? '';
-            $passWord = htmlspecialchars($_POST['passWord'] ?? '');
+            $password = $_POST['password'] ?? '';
 
-            if (empty($email) || empty($passWord)) {
+            // Validate input
+            if (empty($email) || empty($password)) {
                 $_SESSION['error_message'] = "Email and password are required.";
-                $_SESSION['username_input'] = $email;
-                header("Location: /user/Login");
+                header("Location: /user/login");
                 exit;
             }
 
-            $userModel = new LoginModel($this->db);
-            $result = $userModel->loginUser($email, $passWord);
+            // Login logic
+            $loginModel = new LoginModel($this->db);
+            $user = $loginModel->loginUser($email, $password);
 
-            if ($result === false) {
-                // Nếu mật khẩu hoặc email sai
+            if ($user === false) {
                 $_SESSION['error_message'] = "Invalid email or password. Please try again.";
-                $_SESSION['username_input'] = $email;
-                header("Location: /user/Login");
-                exit;
-            } else {
-                // Nếu đăng nhập thành công
-                // session_unset();
-                $_SESSION['isLogin'] = true;
-                $_SESSION['email'] = $result->email;
-                $_SESSION['userId'] = $result->userId;
-                $_SESSION['role'] = $result->role;
-
-                if ($result->role == 'admin') {
-                    header("Location: /admin");
-                } elseif ($result->role == 'user') {
-                    header("Location: /home");
-                } else {
-                    echo "Invalid role.";
-                }
+                header("Location: /user/login");
                 exit;
             }
+
+            // Set session and redirect based on role
+            $_SESSION['isLogin'] = true;
+            $_SESSION['email'] = $user['email'];
+            $_SESSION['userId'] = $user['user_id'];
+            $_SESSION['role'] = $user['role'];
+
+            if ($user['role'] === 'user') {
+                header("Location: /home");
+            } elseif ($user['role'] === 'admin') {
+                header("Location: /Admin/admin");
+            } else {
+                $_SESSION['error_message'] = "Unknown role detected.";
+                header("Location: /user/login");
+            }
+            exit;
         }
-    }                                                                                                                                                               
+    }                                                                                                                                                         
 
     public function register()
     {
@@ -76,7 +75,46 @@ class UserController extends Controller
     }
 
     public function userRegister(){
-     
+            session_start();
+    
+            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                $username = $_POST['name'] ??'';
+                $email = $_POST['email'] ?? '';
+                $password = $_POST['password'] ?? '';
+                $confirmPassword = $_POST['confirm_password'] ?? '';
+    
+                // Kiểm tra nhập liệu
+                if (empty($email) || empty($password) || empty($confirmPassword)) {
+                    $_SESSION['error_message'] = "All fields are required.";
+                    header("Location: /user/register");
+                    exit;
+                }
+    
+                if ($password !== $confirmPassword) {
+                    $_SESSION['error_message'] = "Passwords do not match.";
+                    header("Location: /user/register");
+                    exit;
+                }
+    
+                // Đăng ký người dùng
+                $registerModel = new RegisterModel($this->db);
+                $result = $registerModel->registerUser($email,$username, $password);
+    
+                if ($result === true) {
+                    $_SESSION['success_message'] = "Registration successful. Please log in.";
+                    header("Location: /user/login");
+                    exit;
+                } elseif ($result === "Email already exists") {
+                    $_SESSION['error_message'] = "This email is already registered.";
+                    header("Location: /user/register");
+                    exit;
+                } else {
+                    $_SESSION['error_message'] = "Registration failed. Please try again.";
+                    header("Location: /user/register");
+                    exit;
+                }
+            }
+        
     }
 
 
