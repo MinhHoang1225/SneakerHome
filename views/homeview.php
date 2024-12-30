@@ -56,7 +56,7 @@
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
                             </div>
-                            <a href="/SneakerHome/controllers/detailproduct?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
+                            <a href="detailproduct?product_id=<?php echo $row['product_id']; ?>" >
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                             </a>
                             <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
