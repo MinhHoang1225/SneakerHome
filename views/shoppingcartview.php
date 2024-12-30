@@ -1,4 +1,4 @@
-
+<?php var_dump($_SESSION) ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,7 +25,8 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($cartItems as $item): ?>
+                <?php foreach ($cart as $item): ?>
+
                 <tr data-product-id="<?php echo $item['product_id']; ?>">
                     <td><button class="remove-from-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="fas fa-trash-alt"></i> <!-- Biểu tượng xóa -->

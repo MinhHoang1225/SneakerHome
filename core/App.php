@@ -20,7 +20,7 @@ class App
         if (!empty($_SERVER['PATH_INFO'])) {
             $url = $_SERVER['PATH_INFO'];
         } else {
-            $url = '/homse/index'; // URL mặc định
+            $url = '/home/index'; // URL mặc định
         }
         return trim($url, '/');
     }

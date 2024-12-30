@@ -1,7 +1,6 @@
 <?php
 include_once './component/linkbootstrap5.php'; 
 include './assets/css/favorite.css.php'; 
-var_dump($favorite);
 ?> 
 <?php include_once './component/header.php'; ?>
 <div class="container">
@@ -11,6 +10,8 @@ var_dump($favorite);
         // Debugging: Kiểm tra xem có dữ liệu trong $favorites không
         if (isset($favorites) && !empty($favorites)):
             foreach ($favorites as $favorite):
+                var_dump($favorite);
+
         ?>
             <div class="col-md-4 col-lg-3 mb-4">
                 <div class="product-card">
