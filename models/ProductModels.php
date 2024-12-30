@@ -12,7 +12,6 @@ class ProductModel {
         $this->db = $db;
     }
 
-    // Lấy sản phẩm bán chạy theo danh mục với giới hạn
     public function getBestSellersByCategory($categoryId, $limit = 8) {
         try {
             $sql = "SELECT product_id, name, price, old_price, discount, image_url 
@@ -29,16 +28,10 @@ class ProductModel {
             $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
 
             $stmt->execute();
-            $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            if (!$result) {
-                error_log("No products found for category ID: " . $categoryId);
-            }
- 
-            return $result;
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (PDOException $e) {
-            error_log("SQL Error in getBestSellersByCategory: " . $e->getMessage());
-            die("Database error: " . $e->getMessage());
+            error_log("Error in getBestSellersByCategory: " . $e->getMessage());
+            return [];
         }
     }
 
@@ -56,26 +49,12 @@ class ProductModel {
 
             return $stmt->fetchColumn();
         } catch (PDOException $e) {
-            error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
-            die("Database error: " . $e->getMessage());
+            error_log("Error in getAllBestSellersCount: " . $e->getMessage());
+            return 0;
         }
     }
 
-    // Lấy danh sách sản phẩm bán chạy (tất cả danh mục)
-    public function getBestSellers($limit = 8)
-    {
-        try {
-            $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT :limit";
 
-            $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->execute();
-
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
-        }
-    }
 
     // Lấy chi tiết sản phẩm
     public function getProductDetails($product_id)
@@ -94,10 +73,10 @@ class ProductModel {
             die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
         }
     }
-}
+
     
-    function getRelatedProducts($product_id, $category_id) {
-        $conn = connectdb();
+    public function getRelatedProducts($product_id, $category_id) {
+        // $conn = connectdb();
         $sql = "SELECT product_id, name, price, old_price, discount, image_url
                 FROM product 
                 WHERE category_id = :category_id AND product_id != :product_id";
@@ -111,20 +90,34 @@ class ProductModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-   // Lấy danh sách sản phẩm theo category_id
-function getProductsByCategory($category_id = null) {
-    $conn = connectdb();
-    if ($category_id) {
-        $stmt = $conn->prepare("SELECT * FROM product WHERE category_id = :category_id");
-        $stmt->bindParam(':category_id', $category_id, PDO::PARAM_INT);
-    } else {
-        $stmt = $conn->prepare("SELECT * FROM product");
+    // Lấy danh sách sản phẩm theo danh mục
+    function getProductsByCategory($categoryId = null) {
+        try {
+            $sql = $categoryId 
+                ? "SELECT * FROM product WHERE category_id = :category_id"
+                : "SELECT * FROM product";
+
+            $stmt = $this->db->prepare($sql);
+            if ($categoryId) {
+                $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+            }
+            $stmt->execute();
+
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            die("Database query error: " . $e->getMessage());
+        }
     }
-    $stmt->execute();
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    public function getProductById($productId) {
+        $sql = "SELECT * FROM product WHERE product_id = :product_id";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+    
+        return $stmt->fetch(PDO::FETCH_ASSOC);  // Trả về một mảng chứa thông tin chi tiết sản phẩm
+    }
+    
 }
-
-
 class Product {
     private $db;
 

@@ -21,7 +21,7 @@ var_dump($favorite);
                             <i class="fas fa-cart-plus"></i>
                         </button>
                     </div>
-                    <a href="/SneakerHome/controllers/detailproduct?product_id=<?php echo $favorite['product_id']; ?>" class="text-decoration-none text-dark">
+                    <a href="detailproduct?product_id=<?php echo $favorite['product_id']; ?>" >
                         <img src="<?php echo htmlspecialchars($favorite['image_url']); ?>" alt="<?php echo htmlspecialchars($favorite['name']); ?>" height="200" width="300">
                     </a>
                     <h5 class="mt-3"><?php echo htmlspecialchars($favorite['name']); ?></h5>
