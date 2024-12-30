@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SneakerHome</title>
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/product.css.php"; ?>
+    <?php include_once "./component/linkbootstrap5.php"; ?>
+    <?php include "./assets/css/product.css.php"; ?>
 </head>
 <body>
     <!-- Include Header -->
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/header.php"; ?>
+    <?php include "./component/header.php"; ?>
 
     <!-- Danh sách sản phẩm -->
     <div class="product-container container">
@@ -20,8 +20,8 @@
                     <div class="icons">
                         <!-- <i class="far fa-heart" ></i> -->
                         <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
-                                        <i class="far fa-heart"></i>
-                                    </button>
+                            <i class="far fa-heart"></i>
+                        </button>
                         <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="fas fa-cart-plus"></i>
                         </button>
@@ -67,8 +67,8 @@
             <?php endforeach; ?>
         </div>
     </div>
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/controllers/footercontroller.php"; ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\views\btn_up.php'; ?>
+    <?php include "./controllers/footercontroller.php"; ?>
+    <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\component\btn_up.php'; ?>
     <script>
        function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');

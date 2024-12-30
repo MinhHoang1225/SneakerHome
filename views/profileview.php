@@ -3,33 +3,33 @@
 // include '../component/header.php';
 
 
-$controller = new ProfileController();
-if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-    die('Error: User is not logged in.');
-}
+// $controller = new ProfileController();
+// if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+//     die('Error: User is not logged in.');
+// }
 
-$user_id = $_SESSION['user_id'];
-$user = $controller->showProfile($user_id);
-$orders = $controller->getOrdersByUserId($user_id);
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $data = [
-        'user_id' => $user_id,
-        'name' => $_POST['name'],
-        'email' => $_POST['email'],
-        'password' => $_POST['password']
-    ];
+// $user_id = $_SESSION['user_id'];
+// $user = $controller->showProfile($user_id);
+// $orders = $controller->getOrdersByUserId($user_id);
+// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+//     $data = [
+//         'user_id' => $user_id,
+//         'name' => $_POST['name'],
+//         'email' => $_POST['email'],
+//         'password' => $_POST['password']
+//     ];
 
-    try {
-        if ($controller->updateProfile($data)) {
-            header("Location: ../controllers/profile?success=1");
-            exit;
-        } else {
-            $error_message = "Cập nhật thông tin thất bại!";
-        }
-    } catch (Exception $e) {
-        $error_message = $e->getMessage();
-    }
-}
+//     try {
+//         if ($controller->updateProfile($data)) {
+//             header("Location: ../controllers/profile?success=1");
+//             exit;
+//         } else {
+//             $error_message = "Cập nhật thông tin thất bại!";
+//         }
+//     } catch (Exception $e) {
+//         $error_message = $e->getMessage();
+//     }
+// }
 ?>
 <!DOCTYPE html>
 <html lang="en">

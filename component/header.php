@@ -1,11 +1,11 @@
 <?php 
     $array_navbar_1 = [
-        ["label" => "Home", "url" => "../controllers/home"],
-        ["label" => "Shoes", "url" => "../controllers/product?category_id=1"],
-        ["label" => "Clothers", "url" => "../controllers/product?category_id=2"],
-        ["label" => "Accessories", "url" => "../controllers/product?category_id=3"],
-        ["label" => "About us", "url" => "../controllers/aboutus"],
-        ["label" => "Collections", "url" => "../controllers/favorite"],
+        ["label" => "Home", "url" => "/SneakerHome/home"],
+        ["label" => "Shoes", "url" => "/SneakerHome/Product/productsCategory?category_id=1"],
+        ["label" => "Clothers", "url" => "/SneakerHome/Product/productsCategory?category_id=2"],
+        ["label" => "Accessories", "url" => "/SneakerHome/Product/productsCategory?category_id=3"],
+        ["label" => "About us", "url" => "/SneakerHome/Home/aboutus"],
+        ["label" => "Collections", "url" => "/SneakerHome/Product/favorite"],
     ];
 
     function generateNavbar($navItems,$class) {
@@ -31,8 +31,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
 
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include   $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/header.css.php" ?>
+    <?php include   "./component/linkbootstrap5.php" ?>
+    <?php include "./assets/css/header.css.php" ?>
 
 </head>
 <body>
@@ -41,10 +41,10 @@
             <div style="font-size: 12px; padding-top: 15px" class="col-3">sneakerhome@gmail.com | 84+ 123 456 789</div>
             <div class="col-5 bg-white"></div>
             <div class="col-3 d-flex gap-5 btn-lr">
-                <a href="../controllers/profile"><i class="fa-solid fa-user-circle profile"></i></a>
-                <a href="../controllers/login"><button>Login</button></a>
-                <a href="../controllers/register"><button>Register</button></a>
-                <a href="../controllers/shoppingcart"><i class="fa-solid fa-cart-shopping cart"></i></a>
+                <a href="/SneakerHome/User/profile"><i class="fa-solid fa-user-circle profile"></i></a>
+                <a href='/SneakerHome/User/login'><button>Login</button></a>
+                <a href="/SneakerHome/User/register"><button>Register</button></a>
+                <a href="/SneakerHome/ShoppingCart/shoppingCart"><i class="fa-solid fa-cart-shopping cart"></i></a>
                 <div class="search-container">
                     <!-- Icon tìm kiếm -->
                     <i class="fa-solid fa-magnifying-glass search-icon" onclick="toggleSearchBox()"></i>

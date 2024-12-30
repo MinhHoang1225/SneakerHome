@@ -4,14 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php" ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/login.css.php" ?>
+    <?php include_once "./component/linkbootstrap5.php" ?>
+    <?php include "./assets/css/login.css.php" ?>
 </head>
 <body>
 <div class="centered-wrapper">
     <div class="container">
         <!-- Close Button -->
-        <a href="../controllers/home" class="btn-close"></a>
+        <a href="/SneakerHome/home" class="btn-close"></a>
 
 
         <!-- Error Message -->
@@ -25,7 +25,7 @@
         <?php endif; ?>
 
         <!-- Login Form -->
-        <form action="../controllers/login" method="POST">
+        <form action="/SneakerHome/User/userLogin" method="POST">
             <!-- Form Title -->
             <div class="row text-center pt-5">
                 <div class="col-12">
@@ -59,7 +59,7 @@
                 <div class="col-8"></div>
                 <div class="col-4 d-flex justify-content-end login-part-btn ">
                     <button type="submit" class="btn-login">Login</button>
-                    <a href="../controllers/register" class="ml-4 register-link">Register</a>
+                    <a href="./register" class="ml-4 register-link">Register</a>
                 </div>
             </div>
         </form>

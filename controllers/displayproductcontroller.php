@@ -1,7 +1,7 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/database/connect.php';  
+require_once  './database/connect.php';  
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/models/ProductModels.php';
+require_once  './models/ProductModels.php';
 
  // Kết nối cơ sở dữ liệu
 
@@ -29,6 +29,6 @@ $totalProducts = ($categoryId == 0)
     ? $productModel->getAllBestSellersCount()
     : $productModel->getAllBestSellersCount($categoryId);
 
-require $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/displayproduct.php';  // Truyền biến $products vào file view
+require  './views/displayproduct.php';  // Truyền biến $products vào file view
 ?>
 

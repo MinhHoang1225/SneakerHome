@@ -1,7 +1,7 @@
 <?php
-require_once "../database/connect.php";
+require_once "./database/connect.php";
 
-class Model {
+class AdminModel {
     private $db;
 
     public function __construct() {
@@ -34,9 +34,14 @@ class Model {
         $stmt = $this->db->prepare("INSERT INTO product (name, price, stock, image_url) VALUES (?, ?, ?, ?)");
         $stmt->execute([$name, $price, $stock, $imagePath]);
     }
+    // Sửa sản phẩm
+    public function updateProduct($id, $name, $price, $stock, $imagePath) {
+        $stmt = $this->db->prepare("UPDATE product SET name = ?, price = ?, stock = ?, image_url = ? WHERE product_id = ?");
+        $stmt->execute([$name, $price, $stock, $imagePath, $id]);
+    }
     
     // Xóa sản phẩm 
-    public function deleteProduct($product_id) {
+    public function deleteProduct($product_id) { 
         $stmt = $this->db->prepare("DELETE FROM product WHERE product_id = ?");
         $stmt->execute([$product_id]);
     }

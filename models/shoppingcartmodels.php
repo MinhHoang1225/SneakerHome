@@ -3,52 +3,6 @@
     require_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/database/connect.php";
     // $userId = $_SESSION['user_id'] ?? null;
     session_start(); // Make sure to start the session if it's not already started
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $data = json_decode(file_get_contents("php://input"), true);
-    $action = $data['action'] ?? '';
-    $cartModel = new CartModel();
-
-    // If the action is 'add_to_cart', handle adding to the cart
-    if ($action === 'add_to_cart') {
-        // Get the product details from the POST data
-        $productId = intval($data['product_id']);
-        $quantity = intval($data['quantity']);
-
-        // Retrieve the user_id from the session
-        $userId = $_SESSION['user_id'] ?? null;
-
-        // Check if user is logged in
-        if ($userId === null) {
-            // If user is not logged in, return an error response
-            echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
-            exit;
-        }
-
-        // Call the method to add the product to the cart
-        $success = $cartModel->addToCart($userId, $productId, $quantity);
-        echo json_encode(['success' => $success]);
-        exit;
-    }
-    if ($action === 'remove_from_cart') {
-        $productId = intval($data['product_id']);
-    
-        // Đảm bảo userId được lấy từ session   
-        $userId = $_SESSION['user_id'] ?? null;
-    
-        if ($userId === null) {
-            echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
-            exit;
-        }
-    
-        if ($cartModel->removeFromCart($userId, $productId)) {
-            echo json_encode(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.']);
-        } else {
-            echo json_encode(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
-        }
-        exit;
-    }
-}
     
     class CartModel {
         private $db;
@@ -68,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        }
+        } 
 
         // Tính tổng tiền của giỏ hàng
         public function calculateCartTotal($userId) {
@@ -170,6 +124,51 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 error_log('Error adding to cart: ' . $e->getMessage());
                 return false; // In case of exception
             }
+        }
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $data = json_decode(file_get_contents("php://input"), true);
+        $action = $data['action'] ?? '';
+        $cartModel = new CartModel();
+    
+        // If the action is 'add_to_cart', handle adding to the cart
+        if ($action === 'add_to_cart') {
+            // Get the product details from the POST data
+            $productId = intval($data['product_id']);
+            $quantity = intval($data['quantity']);
+    
+            // Retrieve the user_id from the session
+            $userId = $_SESSION['user_id'] ?? null;
+    
+            // Check if user is logged in
+            if ($userId === null) {
+                // If user is not logged in, return an error response
+                echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
+                exit;
+            }
+    
+            // Call the method to add the product to the cart
+            $success = $cartModel->addToCart($userId, $productId, $quantity);
+            echo json_encode(['success' => $success]);
+            exit;
+        }
+        if ($action === 'remove_from_cart') {
+            $productId = intval($data['product_id']);
+        
+            // Đảm bảo userId được lấy từ session   
+            $userId = $_SESSION['user_id'] ?? null;
+        
+            if ($userId === null) {
+                echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
+                exit;
+            }
+        
+            if ($cartModel->removeFromCart($userId, $productId)) {
+                echo json_encode(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi giỏ hàng.']);
+            } else {
+                echo json_encode(['success' => false, 'message' => 'Không thể xóa sản phẩm.']);
+            }
+            exit;
         }
     }
 

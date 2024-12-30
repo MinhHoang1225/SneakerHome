@@ -2,7 +2,7 @@
 // checkoutController.php
 // session_start();    
 // Include the necessary model files
-require_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/models/ProductModels.php";
+require_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/models/ShoppingCartModels.php";
 require_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/database/connect.php"; // File kết nối DB
 $db = connectdb();
 
