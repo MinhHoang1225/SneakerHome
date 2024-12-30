@@ -62,13 +62,14 @@ class ProductModel {
     }
 
     // Lấy danh sách sản phẩm bán chạy (tất cả danh mục)
-    public function getBestSellers($limit = 8)
+    // public function getBestSellers($limit = 8)
+    public function getBestSellers()
     {
         try {
-            $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT :limit";
+            $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT 8";
 
             $stmt = $this->db->prepare($sql);
-            $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
+            // $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
             $stmt->execute();
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -207,8 +208,6 @@ class FavoriteModel {
         }
     }
     
-
-    // PHP method to handle removing a favorite from the database
     public function removeFavorite($userId, $productId) {
         try {
             $stmt = $this->db->prepare("DELETE FROM favorite WHERE user_id = ? AND product_id = ?");
