@@ -53,7 +53,7 @@ class ProductModel {
             die("Database error: " . $e->getMessage());
         }
     }
-
+ 
     // Lấy danh sách sản phẩm bán chạy (tất cả danh mục)
     // public function getBestSellers($limit = 8)
     public function getBestSellers()
@@ -88,7 +88,30 @@ class ProductModel {
             die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
         }
     }
-      
+    public function getCheckoutCart($userId) {
+        $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
+                    FROM shoppingcart sc
+                    JOIN cartitem ci ON sc.cart_id = ci.cart_id
+                    JOIN product p ON p.product_id = ci.product_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function calculateCheckoutTotal($userId)
+        {
+            $sql = "SELECT SUM(ci.quantity * p.price) AS total
+                    FROM cartitem ci
+                    JOIN product p ON ci.product_id = p.product_id
+                    JOIN shoppingcart sc ON ci.cart_id = sc.cart_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+    
     public function getCheckoutBuyNow($productId, $quantity) {
         try {
             $query = "SELECT * FROM product WHERE product_id = :product_id AND stock >= :quantity";

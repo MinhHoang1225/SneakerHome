@@ -33,7 +33,7 @@
 // // Lấy thông tin giỏ hàng và tổng giá trị giỏ hàng
 // $cartItems = $cartModel->getCartItems($userId);
 // $cartTotal = $cartModel->calculateCartTotal($userId);
-
+ 
 // // Bao gồm view hiển thị giỏ hàng
 // include $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/views/shoppingcartview.php";
 require './core/Controllers.php';
@@ -55,7 +55,7 @@ class ShoppingCartController extends Controllers{
         ]);
     }
 
-    public function getCart(){
+    public function Cart(){
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
             $userId = $_SESSION['userId'];
     
@@ -76,6 +76,40 @@ class ShoppingCartController extends Controllers{
         }
     }
 
+    // public function cart() {
+    //     header('Content-Type: application/json');
+    
+    //     $userId = $_SESSION['user_id'] ?? null;
+    //     $data = json_decode(file_get_contents('php://input'), true);
+    
+    //     $productId = isset($data['product_id']) ? (int)$data['product_id'] : 0;
+    //     $quantity = isset($data['quantity']) ? (int)$data['quantity'] : 0;
+    
+    //     if (!$userId || $productId <= 0 || $quantity <= 0) {
+    //         echo json_encode(['success' => false, 'error' => 'Dữ liệu không hợp lệ.']);
+    //         return;
+    //     }
+    
+    //     $cartModel = new CartModel($this->db);
+    
+    //     // Kiểm tra tồn kho
+    //     $stock = $cartModel->checkStock($productId);
+    //     if ($quantity > $stock) {
+    //         echo json_encode(['success' => false, 'error' => 'Số lượng vượt quá tồn kho.']);
+    //         return;
+    //     }
+    
+    //     // Cập nhật số lượng
+    //     if ($cartModel->updateCartItem($userId, $productId, $quantity)) {
+    //         // Tính lại tổng giá
+    //         $cartTotal = $cartModel->calculateCartTotal($userId);
+    //         $productTotal = $quantity * $cartModel->getProductPrice($productId);
+    //         echo json_encode(['success' => true, 'cartTotal' => $cartTotal, 'productTotal' => $productTotal]);
+    //     } else {
+    //         echo json_encode(['success' => false, 'error' => 'Cập nhật thất bại.']);
+    //     }
+    // }
+    
     
 } 
 

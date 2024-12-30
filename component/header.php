@@ -44,7 +44,7 @@
                 <a href="/SneakerHome/User/profile"><i class="fa-solid fa-user-circle profile"></i></a>
                 <a href='/SneakerHome/User/login'><button>Login</button></a>
                 <a href="/SneakerHome/User/register"><button>Register</button></a>
-                <a href="/SneakerHome/ShoppingCart/getCart"><i class="fa-solid fa-cart-shopping cart"></i></a>
+                <a href="/SneakerHome/ShoppingCart/Cart"><i class="fa-solid fa-cart-shopping cart"></i></a>
                 <div class="search-container">
                     <!-- Icon tìm kiếm -->
                     <i class="fa-solid fa-magnifying-glass search-icon" onclick="toggleSearchBox()"></i>

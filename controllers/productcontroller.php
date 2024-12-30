@@ -106,10 +106,29 @@ class ProductController extends Controllers {
         }
     }
     
+    public function checkoutCart(){
+        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
     
+            $productModel = new ProductModel($this->db);
+            $products = $productModel -> getCheckoutCart($userId);
+            $cartTotal = $productModel -> calculateCheckoutTotal($userId);
+    
+            $this->view('checkoutCartviews', [
+                'products' => $products,  
+                'cartTotal' => $cartTotal,
+                'error_message' => $_SESSION['error_message'] ?? null,
+                'username_input' => $_SESSION['username_input'] ?? ''
+            ]);
+        } else {
+            header("Location: /SneakerHome/User/login");
+            exit();
+        }
+        
+    }
     public function checkoutBuyNow() {
         $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
-        $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 1; // Default quantity is 1
+        $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 1; 
     
         if ($productId <= 0 || $quantity <= 0) {
             $this->view('errorview', [

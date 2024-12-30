@@ -35,8 +35,8 @@
         <div class="col-md-6">
         <div class="order-summary">
             <h2>Order</h2>
-            <?php if (!empty($cartItems)): ?>
-                <?php foreach ($cartItems as $item): ?>
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $item): ?>
                     <div class="order-item container">
                         <div class="row">
                             <div class="col-2">
