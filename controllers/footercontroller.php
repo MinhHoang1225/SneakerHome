@@ -1,1 +1,0 @@
-<?php include $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/component/footer.php" ?>

@@ -34,7 +34,7 @@
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?= $product['stock']; ?>">
             <!-- Nút thêm vào giỏ hàng -->
-            <form action="../controllers/checkout" method="GET">
+            <form action="/SneakerHome/Product/checkoutBuyNow" method="GET">
                 <input type="hidden" name="action" value="buy_now">
                 <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
                 <!-- Hidden quantity input that will be dynamically updated -->
@@ -47,11 +47,15 @@
                         Add to Cart
                     </button>
 
-                    <!-- Buy Now button -->
-                    <button type="submit" class="btn btn-sm btn-primary me-2">
-                        <i class="fas fa-shopping-bag"></i>
-                        Buy Now
-                    </button>
+                    <a href="/SneakerHome/Product/checkoutBuyNow?product_id=<?php echo $product['product_id']; ?>&quantity=" 
+                        onclick="return updateQuantity('<?php echo $product['product_id']; ?>');">
+                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-shopping-bag"></i>
+                            Buy Now
+                        </button>
+                        </a>
+
+        
                     
                 </div>
             </form>
@@ -66,7 +70,7 @@
         <div class="row">
             <?php 
             // Lấy sản phẩm liên quan từ model
-            $related_products = getRelatedProducts($product['product_id'], $product['category_id']); 
+            // $related_products = getRelatedProducts($product['product_id'], $product['category_id']); 
             foreach ($related_products as $related_product): ?>
                 <div class="col-md-3 mb-4" style="position: relative">
                     <div class="icons">
@@ -108,7 +112,7 @@
 <?php else: ?>
     <p>Product details not available.</p>
 <?php endif; ?>
-
+<?php include  './component/footer.php'; ?>
 <script>
        function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
@@ -155,10 +159,13 @@
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
-    document.getElementById('quantity').addEventListener('input', function() {
-        var quantity = document.getElementById('quantity').value; // Get the quantity from the input field
-        document.getElementById('hidden-quantity').value = quantity; // Update the hidden input with the selected quantity
-    });
+function updateQuantity(productId) {
+    const quantityInput = document.getElementById('quantity');
+    const quantity = quantityInput ? quantityInput.value : 1; // Lấy giá trị quantity từ input
+    window.location.href = `/SneakerHome/product/checkoutBuyNow?product_id=${productId}&quantity=${quantity}`;
+    return false; // Ngăn chặn hành động mặc định
+}
+
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function () {
             const productId = this.getAttribute('data-product-id');
