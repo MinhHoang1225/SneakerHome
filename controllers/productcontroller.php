@@ -2,7 +2,7 @@
 require_once './core/Controllers.php';
 require_once './models/ProductModels.php';
 // require './database/connect.php';
-var_dump($_SESSION);
+// var_dump($_SESSION);
 class ProductController extends Controllers {
     private $db;
 
@@ -22,10 +22,12 @@ class ProductController extends Controllers {
         $limit = 8;
  
         $productModel = new ProductModel($this->db);
+        $allProduct = $productModel -> getBestSellers();
         $products = $productModel->getBestSellersByCategory($categoryId, $limit);
         $totalProducts = $productModel->getAllBestSellersCount($categoryId);
     
         $this->view('homeview', [
+            'allProduct' => $allProduct,
             'products' => $products,
             'totalProducts' => $totalProducts,
             'categoryId' => $categoryId,
@@ -42,25 +44,20 @@ class ProductController extends Controllers {
     }
 
     public function favorite() {
-        // Kiểm tra session để đảm bảo user_id tồn tại
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
-            $userId = $_SESSION['userId'];  // Lấy user_id từ session
+            $userId = $_SESSION['userId'];
     
             $favoriteModel = new FavoriteModel($this->db);
             $favorites = $favoriteModel->getFavorites($userId);
     
-            // Debugging: Kiểm tra dữ liệu favorites
-            error_log(print_r($favorites, true));
     
-            // Gọi view và truyền dữ liệu vào view
             $this->view('favoriteview', [
-                'favorites' => $favorites,  // Danh sách sản phẩm yêu thích
+                'favorites' => $favorites,  
                 'error_message' => $_SESSION['error_message'] ?? null,
                 'username_input' => $_SESSION['username_input'] ?? ''
             ]);
         } else {
-            // Nếu không có user_id trong session, chuyển hướng về trang đăng nhập
-            header("Location: /User/login");
+            header("Location: /SneakerHome/User/login");
             exit();
         }
     }

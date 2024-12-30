@@ -1,7 +1,6 @@
 <?php
 include_once './component/linkbootstrap5.php'; 
 include './assets/css/favorite.css.php'; 
-var_dump($favorite);
 ?> 
 <?php include_once './component/header.php'; ?>
 <div class="container">
@@ -11,6 +10,8 @@ var_dump($favorite);
         // Debugging: Kiểm tra xem có dữ liệu trong $favorites không
         if (isset($favorites) && !empty($favorites)):
             foreach ($favorites as $favorite):
+                var_dump($favorite);
+
         ?>
             <div class="col-md-4 col-lg-3 mb-4">
                 <div class="product-card">
@@ -21,7 +22,7 @@ var_dump($favorite);
                             <i class="fas fa-cart-plus"></i>
                         </button>
                     </div>
-                    <a href="/SneakerHome/controllers/detailproduct?product_id=<?php echo $favorite['product_id']; ?>" class="text-decoration-none text-dark">
+                    <a href="?product_id=<?php echo $favorite['product_id']; ?>" class="text-decoration-none text-dark">
                         <img src="<?php echo htmlspecialchars($favorite['image_url']); ?>" alt="<?php echo htmlspecialchars($favorite['name']); ?>" height="200" width="300">
                     </a>
                     <h5 class="mt-3"><?php echo htmlspecialchars($favorite['name']); ?></h5>
