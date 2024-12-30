@@ -13,22 +13,23 @@ class HomeController extends Controllers{
     }
 
 
-    public function displayProducts() {
+    public function home() {
+        $data = ['default'];
+
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
         $limit = 8;
  
         $productModel = new ProductModel($this->db);
         $allProduct = $productModel -> getBestSellers();
         $products = $productModel->getBestSellersByCategory($categoryId, $limit);
-        $totalProducts = $productModel->getAllBestSellersCount($categoryId);
-    
+        $totalProducts = $productModel->getAllBestSellersCount($categoryId);   
         $this->view('homeview', [
             'allProduct' => $allProduct,
             'products' => $products,
             'totalProducts' => $totalProducts,
             'categoryId' => $categoryId,
             'limit' => $limit,
-        ]);
+        ] , $data);
     }
     public function aboutus(){
         $this->view('aboutusview', [

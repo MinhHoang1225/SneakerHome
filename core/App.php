@@ -16,11 +16,10 @@ class App
 
     private function getUrl()
     {
-        // Kiểm tra nếu URL tồn tại trong PATH_INFO
         if (!empty($_SERVER['PATH_INFO'])) {
             $url = $_SERVER['PATH_INFO'];
         } else {
-            $url = '/home/index'; // URL mặc định
+            $url = '/home/home'; // URL mặc định
         }
         return trim($url, '/');
     }
@@ -33,7 +32,7 @@ class App
         // Phân tách URL thành các phần
         $urlParts = explode('/', $url);
         $controllerName = ucfirst($urlParts[0]) . 'Controller'; // Ví dụ: home -> HomeController
-        $action = isset($urlParts[1]) ? $urlParts[1] : 'index'; // Mặc định action là index
+        $action = isset($urlParts[1]) ? $urlParts[1] : 'home'; // Mặc định action là index
         $params = array_slice($urlParts, 2); // Các tham số còn lại
 
         // Kiểm tra file controller
