@@ -4,11 +4,11 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>Sneaker Home</title>
-    <?php include_once $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/component/linkbootstrap5.php"; ?>
-    <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/detailproduct.css.php"; ?>
+    <?php include_once "./component/linkbootstrap5.php"; ?>
+    <?php include "./assets/css/detailproduct.css.php"; ?>
 </head>
 <body>
-<?php include $_SERVER['DOCUMENT_ROOT'] . '/SneakerHome/component/header.php'; ?>
+<?php include  './component/header.php'; ?>
 <?php if ($product): ?>
     <div class="container mt-5">
     <div class="row">
