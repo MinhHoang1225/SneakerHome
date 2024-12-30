@@ -49,7 +49,7 @@ public function getAllBestSellersCount($categoryId = null) {
         error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
         return 0;  
     }
-}
+
 
 public function getBestSellers($limit = 8) {
     try {
@@ -57,6 +57,7 @@ public function getBestSellers($limit = 8) {
                 FROM product 
                 WHERE is_best_seller = 1 
                 LIMIT :limit";
+
 
         $stmt = $this->db->prepare($sql);
 
@@ -88,7 +89,46 @@ public function getBestSellers($limit = 8) {
             die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
         }
     }
-
+    public function getCheckoutCart($userId) {
+        $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
+                    FROM shoppingcart sc
+                    JOIN cartitem ci ON sc.cart_id = ci.cart_id
+                    JOIN product p ON p.product_id = ci.product_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function calculateCheckoutTotal($userId)
+        {
+            $sql = "SELECT SUM(ci.quantity * p.price) AS total
+                    FROM cartitem ci
+                    JOIN product p ON ci.product_id = p.product_id
+                    JOIN shoppingcart sc ON ci.cart_id = sc.cart_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+    
+    public function getCheckoutBuyNow($productId, $quantity) {
+        try {
+            $query = "SELECT * FROM product WHERE product_id = :product_id AND stock >= :quantity";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in getCheckoutBuyNow: " . $e->getMessage());
+            return null;
+        }
+    }
+    
+    
     
     public function getRelatedProducts($product_id, $category_id) {
         $sql = "SELECT product_id, name, price, old_price, discount, image_url
@@ -127,6 +167,31 @@ public function getBestSellers($limit = 8) {
     
         return $stmt->fetch(PDO::FETCH_ASSOC);  
     }
+
+    public function getCheckoutSuccess($userId) {
+        $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
+                    FROM shoppingcart sc
+                    JOIN cartitem ci ON sc.cart_id = ci.cart_id
+                    JOIN product p ON p.product_id = ci.product_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function calculateCheckoutSuccessTotal($userId)
+        {
+            $sql = "SELECT SUM(ci.quantity * p.price) AS total
+                    FROM cartitem ci
+                    JOIN product p ON ci.product_id = p.product_id
+                    JOIN shoppingcart sc ON ci.cart_id = sc.cart_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+    
     
 }
 class Product {

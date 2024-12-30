@@ -68,6 +68,51 @@ class ProductController extends Controllers {
             ]);
         }
     }
+    public function checkoutBuyNow() {
+        $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
+        $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 1; 
+    
+        if ($productId <= 0 || $quantity <= 0) {
+            $this->view('errorview', [
+                'error_message' => 'Sản phẩm hoặc số lượng không hợp lệ.'
+            ]);
+            return;
+        }
+    
+        $productModel = new ProductModel($this->db);
+    
+        try {
+            $product = $productModel->getCheckoutBuyNow($productId, $quantity);
+    
+            if ($product) {
+                // Cập nhật thông tin giỏ hàng
+                $product['quantity'] = $quantity;
+                $product['total_price'] = $product['price'] * $quantity; // Tính tổng giá
+                
+                $cartItems = [$product];
+                $cartTotalCheckOut = $product['total_price'];
+    
+                $this->view('checkoutview', [
+                    'cartItems' => $cartItems,
+                    'cartTotalCheckOut' => $cartTotalCheckOut,
+                    'product' => $product,
+                    'error_message' => $_SESSION['error_message'] ?? null,
+                    'username_input' => $_SESSION['username_input'] ?? ''
+                ]);
+            } else {
+                $this->view('errorview', [
+                    'error_message' => 'Sản phẩm không tồn tại hoặc đã bị xóa.'
+                ]);
+            }
+        } catch (Exception $e) {
+            error_log("Error in checkoutBuyNow: " . $e->getMessage());
+            $this->view('errorview', [
+                'error_message' => 'Có lỗi xảy ra. Vui lòng thử lại sau.'
+            ]);
+        }
+    }
+    
+ 
     public function favorite() {
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
             $userId = $_SESSION['userId'];
@@ -87,7 +132,41 @@ class ProductController extends Controllers {
         }
     }
     
+    public function checkoutCart(){
+        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
     
+            $productModel = new ProductModel($this->db);
+            $products = $productModel -> getCheckoutCart($userId);
+            $cartTotal = $productModel -> calculateCheckoutTotal($userId);
     
+            $this->view('checkoutCartviews', [
+                'products' => $products,  
+                'cartTotal' => $cartTotal,
+                'error_message' => $_SESSION['error_message'] ?? null,
+                'username_input' => $_SESSION['username_input'] ?? ''
+            ]);
+        } else {
+            header("Location: /SneakerHome/User/login");
+            exit();
+        }
+        
+    }
+
+    public function checkoutSuccess() {
+        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
+    
+            $productModel = new ProductModel($this->db);
+            $products = $productModel -> getCheckoutSuccess($userId);
+            $priceTotal = $productModel -> calculateCheckoutSuccessTotal($userId);
+        $this->view('checkoutsuccess', [
+            'products' => $products,  
+            'priceTotal' => $priceTotal,
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+    }  
+}
 }
 ?>
