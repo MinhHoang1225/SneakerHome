@@ -75,6 +75,8 @@ class ShoppingCartController extends Controllers{
             exit();
         }
     }
+
+    
 } 
 
 ?>

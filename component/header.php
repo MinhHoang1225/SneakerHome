@@ -61,7 +61,7 @@
         </div> 
 
         <div class="row">
-            <div class="col-2 logo"><img src="../assets/img/Shoe Logo.png" alt=""></div>
+            <div class="col-2 logo"><img src="/SneakerHome/assets/img/Shoe Logo.png" alt=""></div>
             <div class="col-9">
                 <?php generateNavbar($array_navbar_1, 'navbar d-flex'); ?>
             </div>

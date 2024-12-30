@@ -54,7 +54,7 @@
         <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ </span></h4>
         <div class="checkout-btn gap-3 pt-3">
             <a href="../controllers/home"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buy</button></a>
-            <a href="../controllers/checkoutCart"><button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button></a>
+            <a href="/SneakerHome/product/checkoutBuyNow"><button class="btn btn-primary">Checkout   <i class="fa-solid fa-arrow-right"></i></button></a>
 
         </div>
     </div>

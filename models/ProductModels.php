@@ -88,7 +88,23 @@ class ProductModel {
             die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
         }
     }
-
+      
+    public function getCheckoutBuyNow($productId, $quantity) {
+        try {
+            $query = "SELECT * FROM product WHERE product_id = :product_id AND stock >= :quantity";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            $stmt->execute();
+    
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            error_log("Error in getCheckoutBuyNow: " . $e->getMessage());
+            return null;
+        }
+    }
+    
+    
     
     public function getRelatedProducts($product_id, $category_id) {
         // $conn = connectdb();
