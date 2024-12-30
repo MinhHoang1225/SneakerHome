@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/models/adminmodels.php";
+require_once "../models/adminmodels.php";
 
 class Controller {
     
@@ -39,21 +39,6 @@ class Controller {
             $imageData = file_get_contents($image['tmp_name']);
             return $this->model->addProduct($name, $price, $stock, $imageData);
     }
-        public function editProduct($id) {
-            $product = $this->model->getProductById($id);
-            if (!$product) {
-                die("Sản phẩm không tồn tại.");
-            }
-        }
-    
-        public function updateProduct($id, $name, $price, $stock,$imagePath) {
-            $result = $this->model->updateProduct($id, $name, $price, $stock,$imagePath);
-            if ($result) {
-                echo "Cập nhật sản phẩm thành công.";
-            } else {
-                echo "Cập nhật sản phẩm thất bại.";
-            }
-        }
     public function deleteProduct($product_id) {
         $this->model->deleteProduct($product_id);
     }
@@ -67,5 +52,5 @@ class Controller {
     }
 }
 
-include $_SERVER['DOCUMENT_ROOT'].'/SneakerHome/views/adminview.php'
+// include $_SERVER['DOCUMENT_ROOT'].'/SneakerHome/views/adminview.php'
 ?>

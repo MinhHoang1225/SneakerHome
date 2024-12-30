@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']. "/SneakerHome/database/connect.php";
+require_once "../database/connect.php";
 
 class Model {
     private $db;
@@ -33,32 +33,6 @@ class Model {
     public function addProduct($name, $price, $stock, $imagePath) {
         $stmt = $this->db->prepare("INSERT INTO product (name, price, stock, image_url) VALUES (?, ?, ?, ?)");
         $stmt->execute([$name, $price, $stock, $imagePath]);
-    }
-    public function getProductById($id) {
-        try {
-            $stmt = $this->db->prepare("SELECT * FROM product WHERE product_id = :id");
-            
-            $stmt->bindParam(':id', $id, PDO::PARAM_INT);
-            
-            $stmt->execute();
-            
-            $product = $stmt->fetch(PDO::FETCH_ASSOC);
-            
-            if ($product) {
-                return $product; 
-            } else {
-                return null; 
-            }
-        } catch (PDOException $e) {
-            error_log("Error fetching product by ID: " . $e->getMessage());
-            return null;
-        }
-    }
-    
-    // Cập nhật thông tin sản phẩm
-    public function updateProduct($id, $name, $price, $stock,$imagePath) {
-        $stmt = $this->db->prepare("UPDATE product SET name = ?, price = ?, stock = ?, imagePath = ? WHERE product_id = ?");
-        return $stmt->execute([$id, $name, $price, $stock, $imagePath]);
     }
     
     // Xóa sản phẩm 

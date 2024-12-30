@@ -1,12 +1,7 @@
 
 <?php
-require_once $_SERVER['DOCUMENT_ROOT']."/SneakerHome/controllers/admincontroller.php";
+require_once "../controllers/admincontroller.php";
 $controller = new Controller();
-if ($_SERVER['REQUEST_METHOD'] === 'POST' &&  isset($_POST['action']) && $_POST['action'] === 'edit_product') {
-    if (isset($_POST['id'])) {       
-        $controller->editProduct($_POST['id']);
-    }
-}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'deleteProduct') {
     if (isset($_POST['product_id'])) {
@@ -292,25 +287,31 @@ $ordersByStatusCancelled = $controller->getOrdersByStatus($filterStatusCancelled
         </div>
         <!-- Modal: Sửa Sản Phẩm -->
         <div id="editModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
-            <form method="POST" enctype="multipart/form-data">
-                <input type="text" name="id" value="<?php echo $product['product_id']; ?>">
-                <label for="name">Tên sản phẩm:</label>
-                <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" required><br>
-                <label for="price">Giá:</label>
-                <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>" required><br>
-                <label for="stock">Số lượng:</label>
-                <input type="number" id="stock" name="stock" value="<?php echo $product['stock']; ?>" required><br>
-                <label for="image">Hình ảnh:</label>
-                <input type="file" id="image" name="image"><br>
-                <?php if (!empty($product['image'])): ?>
-                    <img src="<?php echo $product['image']; ?>" alt="Hình ảnh sản phẩm" width="100"><br>
-                <?php endif; ?>
-                <button type="submit" name="edit_product">Cập nhật</button>
-            </form>
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+                <form method="POST" action=" " enctype="multipart/form-data">
+                    <input type="hidden" name="id" value="<?php echo $product['product_id']; ?>">
+
+                    <label for="name">Tên sản phẩm:</label>
+                    <input type="text" id="name" name="name" value="<?php echo $product['name']; ?>" required><br>
+
+                    <label for="price">Giá:</label>
+                    <input type="number" id="price" name="price" value="<?php echo $product['price']; ?>" required><br>
+
+                    <label for="stock">Số lượng:</label>
+                    <input type="number" id="stock" name="stock" value="<?php echo $product['stock']; ?>" required><br>
+
+                    <label for="image">Hình ảnh:</label>
+                    <input type="file" id="image" name="image"><br>
+
+                    <?php if (!empty($product['image'])): ?>
+                        <img src="<?php echo $product['image']; ?>" alt="Hình ảnh sản phẩm" width="100"><br>
+                    <?php endif; ?>
+
+                    <button type="submit" name="edit_product">Cập nhật</button>
+                </form>
+            </div>
         </div>
-    </div>
 
 </body>
 <script>
