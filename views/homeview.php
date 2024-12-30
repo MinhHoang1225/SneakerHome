@@ -7,7 +7,13 @@
     <?php include './component/linkbootstrap5.php'; ?>
 </head>
 <body>
-<?php var_dump($allProducts) ?>
+<?php
+var_dump($categoryId);
+var_dump($limit);
+var_dump($totalProducts);
+?>
+
+
 
     <?php include './component/header.php'; ?>
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
@@ -41,6 +47,7 @@
             <a class="mx-3" href="?category_id=2">Clothes</a>
             <a class="mx-3" href="?category_id=3">Accessories</a>
         </div>
+
         <div class="row" id="product-container">
             <?php if (!empty($products)) { ?>
                 <?php foreach ($products as $row) {  ?>  
@@ -83,13 +90,3 @@
     <?php include './component/footer.php'; ?>  
     <?php include './component/btn_up.php'; ?>
 
-    <!-- 
-    <script>
-        function toggleHeart(button) {
-            const productId = button.getAttribute('data-product-id');
-            console.log('Toggle favorite for product ID:', productId);
-            // You can add logic to update the favorite status here
-        }
-    </script>
-</body>
-</html>

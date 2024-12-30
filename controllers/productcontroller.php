@@ -19,12 +19,20 @@ class ProductController extends Controllers {
     public function displayProducts() {
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
         $limit = 8;
-
+    
         $productModel = new ProductModel($this->db);
-        $allProduct = $productModel -> getBestSellers();
+        $allProduct = $productModel->getBestSellers();
         $products = $productModel->getBestSellersByCategory($categoryId, $limit);
         $totalProducts = $productModel->getAllBestSellersCount($categoryId);
-
+    
+        error_log([ 
+            'allProduct' => $allProduct,
+            'products' => $products,
+            'totalProducts' => $totalProducts,
+            'categoryId' => $categoryId,
+            'limit' => $limit
+        ]);
+        
         $this->view('homeview', [
             'allProduct' => $allProduct,
             'products' => $products,
@@ -33,6 +41,8 @@ class ProductController extends Controllers {
             'limit' => $limit,
         ]);
     }
+    
+    
 
     public function productsCategory() {
         // Kiểm tra category_id từ URL hoặc gán mặc định là 0

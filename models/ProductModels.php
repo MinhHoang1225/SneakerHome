@@ -12,64 +12,78 @@ class ProductModel {
         $this->db = $db;
     }
 
-    public function getBestSellersByCategory($categoryId, $limit = 8) {
-        try {
-            $sql = "SELECT product_id, name, price, old_price, discount, image_url 
-                    FROM product 
-                    WHERE is_best_seller = 1" .
-                    ($categoryId > 0 ? " AND category_id = :category_id" : "") . 
-                    " LIMIT :limit";
+// Get best sellers by category (with limit)
+public function getBestSellersByCategory($categoryId, $limit = 8) {
+    try {
+        // Dynamically add category filter to SQL if category is provided
+        $sql = "SELECT product_id, name, price, old_price, discount, image_url 
+                FROM product 
+                WHERE is_best_seller = 1" .
+                ($categoryId > 0 ? " AND category_id = :category_id" : "") . 
+                " LIMIT :limit";
 
-            $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare($sql);
 
-            if ($categoryId > 0) {
-                $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
-            }
-            $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
-
-            $stmt->execute();
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            error_log("Error in getBestSellersByCategory: " . $e->getMessage());
-            return [];
+        // Bind the categoryId parameter if needed
+        if ($categoryId > 0) {
+            $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
         }
+
+        // Bind the limit parameter (ensure it's an integer)
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Return an array of results
+    } catch (PDOException $e) {
+        error_log("Error in getBestSellersByCategory: " . $e->getMessage());
+        return [];  // Return empty array on error to avoid breaking the application
     }
+}
 
-    public function getAllBestSellersCount($categoryId = null) {
-        try {
-            $sql = "SELECT COUNT(*) FROM product WHERE is_best_seller = 1" . 
-                   ($categoryId ? " AND category_id = :category_id" : "");
+// Get the count of all best-selling products (with optional category filter)
+public function getAllBestSellersCount($categoryId = null) {
+    try {
+        $sql = "SELECT COUNT(*) 
+                FROM product 
+                WHERE is_best_seller = 1" .
+                ($categoryId ? " AND category_id = :category_id" : "");
 
-            $stmt = $this->db->prepare($sql);
+        $stmt = $this->db->prepare($sql);
 
-            if ($categoryId) {
-                $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
-            }
-            $stmt->execute();
-
-            return $stmt->fetchColumn();
-        } catch (PDOException $e) {
-            error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
-            die("Database error: " . $e->getMessage());
+        // Bind categoryId parameter if it's provided
+        if ($categoryId) {
+            $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
         }
+        $stmt->execute();
+
+        return $stmt->fetchColumn();  // Return the count as a single value
+    } catch (PDOException $e) {
+        error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
+        return 0;  // Return 0 if an error occurs, indicating no results
     }
+}
 
-    // Lấy danh sách sản phẩm bán chạy (tất cả danh mục)
-    // public function getBestSellers($limit = 8)
-    public function getBestSellers()
-    {
-        try {
-            $sql = "SELECT product_id, name, price, old_price, discount, image_url FROM product WHERE is_best_seller = 1 LIMIT 8";
+// Get all best-selling products (with limit)
+public function getBestSellers($limit = 8) {
+    try {
+        $sql = "SELECT product_id, name, price, old_price, discount, image_url 
+                FROM product 
+                WHERE is_best_seller = 1 
+                LIMIT :limit";
 
-            $stmt = $this->db->prepare($sql);
-            // $stmt->bindParam(':limit', $limit, PDO::PARAM_INT);
-            $stmt->execute();
+        $stmt = $this->db->prepare($sql);
 
-            return $stmt->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
-        }
+        // Bind the limit parameter (ensure it's an integer)
+        $stmt->bindValue(':limit', (int)$limit, PDO::PARAM_INT);
+
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  // Return an array of results
+    } catch (PDOException $e) {
+        error_log("Error in getBestSellers: " . $e->getMessage());
+        return [];  // Return empty array on error to avoid breaking the application
     }
+}
+
 
     // Lấy chi tiết sản phẩm
     public function getProductDetails($product_id)

@@ -11,12 +11,7 @@ class HomeController extends Controllers{
         }
         $this->db = $db;
     }
-    public function index()
 
-    {
-        $data = ['default']; 
-        $this->view('homeview', $data);
-    }
 
     public function displayProducts() {
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
