@@ -48,7 +48,7 @@
                             <input type="password" id="confirm_password" name="confirm_password" placeholder="Confirm your password" required>
                         </div>
                         <div class="action-buttons d-flex justify-content-end gap-5 align-items-center">
-                            <a href="./SneakerHome/login" class="back-link">Login</a>
+                            <a href="./login" class="back-link">Login</a>
                             <button type="submit" class="btn-register">Register</button>
                         </div>
                     </form>

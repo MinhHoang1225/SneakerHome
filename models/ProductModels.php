@@ -170,6 +170,31 @@ class ProductModel {
     
         return $stmt->fetch(PDO::FETCH_ASSOC);  // Trả về một mảng chứa thông tin chi tiết sản phẩm
     }
+
+    public function getCheckoutSuccess($userId) {
+        $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
+                    FROM shoppingcart sc
+                    JOIN cartitem ci ON sc.cart_id = ci.cart_id
+                    JOIN product p ON p.product_id = ci.product_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function calculateCheckoutSuccessTotal($userId)
+        {
+            $sql = "SELECT SUM(ci.quantity * p.price) AS total
+                    FROM cartitem ci
+                    JOIN product p ON ci.product_id = p.product_id
+                    JOIN shoppingcart sc ON ci.cart_id = sc.cart_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchColumn();
+        }
+    
     
 }
 class Product {

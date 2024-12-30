@@ -67,9 +67,12 @@
         <i class="fas fa-arrow-left"></i>
         <a href="../controllers/shoppingcart">Shopping cart</a>
     </div>
-    <button class="btn btn-payment mt-3" type="submit">
+
+    <a href="./SneakerHome/product/checkoutSuccess">
+        <button class="btn btn-payment mt-3" type="submit">
         Payment
     </button>
+    </a>
 </div>
 
         </div>
