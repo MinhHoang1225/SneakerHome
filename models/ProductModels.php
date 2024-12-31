@@ -49,7 +49,7 @@ public function getAllBestSellersCount($categoryId = null) {
         error_log("SQL Error in getAllBestSellersCount: " . $e->getMessage());
         return 0;  
     }
-
+}
 
 public function getBestSellers($limit = 8) {
     try {
@@ -191,8 +191,72 @@ public function getBestSellers($limit = 8) {
             $stmt->execute();
             return $stmt->fetchColumn();
         }
+
+        public function getCheckoutSuccessBuyNow($productId, $quantity) {
+            try {
+                // Lấy thông tin sản phẩm từ bảng product
+                $query = "SELECT product_id, name, price, image_url, :quantity AS quantity 
+                          FROM product 
+                          WHERE product_id = :product_id";
+                $stmt = $this->db->prepare($query);
+                $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+                $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+                $stmt->execute();
+        
+                // Trả về một mảng chứa sản phẩm
+                $product = $stmt->fetch(PDO::FETCH_ASSOC);
+                return $product ? [$product] : [];
+            } catch (PDOException $e) {
+                error_log("Error in getCheckoutSuccessBuyNow: " . $e->getMessage());
+                return [];
+            }
+        }
+    
+    // public function calculateCheckoutSuccessBuyNowBuyNowTotal($userId)
+    // {
+    //     $sql = "SELECT SUM(ci.quantity * p.price) AS total
+    //             FROM cartitem ci
+    //             JOIN product p ON ci.product_id = p.product_id
+    //             JOIN shoppingcart sc ON ci.cart_id = sc.cart_id
+    //             WHERE sc.user_id = :user_id";
+    //     $stmt = $this->db->prepare($sql);
+    //     $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+    //     $stmt->execute();
+    //     return $stmt->fetchColumn();
+    // }   
+
+
+
+    public function saveOrder($productId, $quantity, $totalPrice) {
+        try {
+            // Insert order into order table
+            $query = "INSERT INTO order (user_id, order_date, status, total_amount) VALUES (:user_id, NOW(), 'pending', :total_amount)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
+            $stmt->execute();
+    
+            // Get the last inserted order ID
+            $orderId = $this->db->lastInsertId();
+    
+            // Insert order items into orderitem table
+            $query = "INSERT INTO orderitem (order_id, product_id, quantity, price) VALUES (:order_id, :product_id, :quantity, :price)";
+            $stmt = $this->db->prepare($query);
+            $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+            $stmt->bindParam(':price', $totalPrice, PDO::PARAM_STR); // You may want to store the unit price, not total price
+            $stmt->execute();
+    
+            return $orderId;
+        } catch (PDOException $e) {
+            error_log("Error in saveOrder: " . $e->getMessage());
+            return null;
+        }
+    }
     
     
+
 }
 class Product {
     private $db;

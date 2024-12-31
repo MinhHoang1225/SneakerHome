@@ -13,7 +13,7 @@
         <!-- User Information Form -->
         <div class="col-md-6">
             <h2>User Information</h2>
-            <form action="./checkoutSuccess" method="POST">
+            <form action="./checkoutSuccessCart" method="POST">
                 <div class="mb-3">
                     <input class="form-control" placeholder="Fullname" type="text" name="fullname" required/>
                 </div>
@@ -71,7 +71,7 @@
         <i class="fas fa-arrow-left"></i>
         <a href="../controllers/shoppingcart">Shopping cart</a>
     </div>
-    <a href="./SneakerHome/product/checkoutSuccess">
+    <a href="./SneakerHome/product/checkoutSuccessCart">
         <button class="btn btn-payment mt-3" type="submit">
         Payment
     </button>

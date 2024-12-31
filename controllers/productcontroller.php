@@ -68,10 +68,12 @@ class ProductController extends Controllers {
             ]);
         }
     }
+
     public function checkoutBuyNow() {
         $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
         $quantity = isset($_GET['quantity']) ? (int)$_GET['quantity'] : 1; 
-    
+        $_SESSION['product_id'] = $productId;
+        $_SESSION['quantity'] = $quantity;
         if ($productId <= 0 || $quantity <= 0) {
             $this->view('errorview', [
                 'error_message' => 'Sản phẩm hoặc số lượng không hợp lệ.'
@@ -112,7 +114,6 @@ class ProductController extends Controllers {
         }
     }
     
- 
     public function favorite() {
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
             $userId = $_SESSION['userId'];
@@ -153,20 +154,123 @@ class ProductController extends Controllers {
         
     }
 
-    public function checkoutSuccess() {
+    public function checkoutSuccessCart() {
+        $username_input = htmlspecialchars($_POST['fullname'] ?? 'Guest');
+        $address = htmlspecialchars($_POST['address'] ?? 'Unknown Address');
+
+        // Store data in session (optional, for persistence across steps)
+        $_SESSION['username_input'] = $username_input;
+        $_SESSION['address'] = $address;
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
             $userId = $_SESSION['userId'];
     
             $productModel = new ProductModel($this->db);
             $products = $productModel -> getCheckoutSuccess($userId);
             $priceTotal = $productModel -> calculateCheckoutSuccessTotal($userId);
-        $this->view('checkoutsuccess', [
+        $this->view('checkoutSuccessCart', [
             'products' => $products,  
             'priceTotal' => $priceTotal,
+            'username_input' => $username_input,
+            'address' => $address,
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
         ]);
     }  
 }
+
+public function checkoutSuccessBuyNow() {
+    // Retrieve information from POST or session
+    $username_input = htmlspecialchars($_POST['fullname'] ?? $_SESSION['username_input'] ?? 'Guest');
+    $address = htmlspecialchars($_POST['address'] ?? $_SESSION['address'] ?? 'Unknown Address');
+    $quantity = $_POST['quantity'] ?? $_SESSION['quantity'] ?? 0;
+    $productId = $_POST['product_id'] ?? $_SESSION['product_id'] ?? 0;
+
+    // Store POST data in session for future requests
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $_SESSION['username_input'] = $username_input;
+        $_SESSION['address'] = $address;
+        $_SESSION['quantity'] = $quantity;
+        $_SESSION['product_id'] = $productId;
+    }
+
+    // Initialize ProductModel and get product details
+    $productModel = new ProductModel($this->db);
+    try {
+        $products = $productModel->getCheckoutSuccessBuyNow($productId, $quantity);
+        // $totalPrice = $products['price'] * $quantity;
+        $totalPrice = 5;
+
+        // $totalPrice = 88 * $quantity;
+
+
+        // Save the order and return the order ID
+        $saveorder = $productModel->saveOrder($productId, $quantity, $totalPrice);  
+
+        // Display the success view
+        $this->view('checkoutSuccessBuyNow', [
+            'saveorder' => $saveorder,
+            'products' => $products,
+            'username_input' => $username_input,
+            'address' => $address,
+            'error_message' => $_SESSION['error_message'] ?? null,
+        ]);
+    } catch (Exception $e) {
+        error_log("Error in checkoutSuccessBuyNow: " . $e->getMessage());
+        $this->view('errorview', [
+            'error_message' => 'Có lỗi xảy ra. Vui lòng thử lại sau.'
+        ]);
+    }
+}
+
+public function saveOrderBuyNow() {
+    // Kiểm tra phương thức HTTP
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        http_response_code(405); // Method Not Allowed
+        echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
+        return;
+    }
+
+    // Lấy dữ liệu từ POST
+    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
+    $productId = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+
+    // Kiểm tra dữ liệu đầu vào
+    if ($quantity <= 0 || $productId <= 0) {
+        http_response_code(400); // Bad Request
+        echo json_encode(['success' => false, 'message' => 'Invalid product ID or quantity.']);
+        return;
+    }
+
+    try {
+        // Tạo model và lưu đơn hàng
+        $productModel = new ProductModel($this->db);
+
+        // Tính tổng giá trị đơn hàng (nếu cần)
+        $product = $productModel->getProductById($productId); // Giả sử bạn có phương thức này
+        if (!$product) {
+            http_response_code(404); // Not Found
+            echo json_encode(['success' => false, 'message' => 'Product not found.']);
+            return;
+        }
+
+        $totalPrice = $product['price'] * $quantity;
+
+        // Lưu đơn hàng
+        $orderId = $productModel->saveOrder($productId, $quantity, $totalPrice);
+
+        // Trả về phản hồi JSON
+        if ($orderId) {
+            echo json_encode(['success' => true, 'message' => 'Order saved successfully.', 'order_id' => $orderId]);
+        } else {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(['success' => false, 'message' => 'Failed to save order.']);
+        }
+    } catch (Exception $e) {
+        error_log("Error in saveOrderBuyNow: " . $e->getMessage());
+        http_response_code(500); // Internal Server Error
+        echo json_encode(['success' => false, 'message' => 'An error occurred while processing your order.']);
+    }
+}
+
 }
 ?>
