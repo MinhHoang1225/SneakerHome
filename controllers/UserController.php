@@ -7,9 +7,79 @@ var_dump($_SESSION);
 class UserController extends Controllers
 {
     private $db;
-
-    public function __construct() {
+    public function __construct( ) {
         $this->db = connectdb(); 
+    }
+    // private $conn;
+    // public function __construct() {
+    //     $this->conn = connectdb(); 
+    // }
+    public function profile() {
+        session_start();
+
+        if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
+            $_SESSION['error_message'] = "Please log in to access your profile.";
+            header("Location: /SneakerHome/User/login");
+            exit;
+        }
+
+        $userModel = new UserModel();
+        $user = $userModel->getUserById($_SESSION['userId']);
+        $orders = $userModel->getOrdersByUserId($_SESSION['userId']);
+
+        // if (!$user) {
+        //     $_SESSION['error_message'] = "User not found.";
+        //     header("Location: /user/login");
+        //     exit;
+        // }
+
+        $this->view('profileview', [
+            'user' => $user,
+            'orders' => $orders,
+            'success_message' => $_SESSION['success_message'] ?? null
+        ]);
+
+        unset($_SESSION['success_message']);
+    }
+
+    public function updateProfile() {
+        session_start();
+
+        // if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
+        //     $_SESSION['error_message'] = "Please log in to update your profile.";
+        //     header("Location: /user/login");
+        //     exit;
+        // }
+
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $name = $_POST['name'] ?? '';
+            $email = $_POST['email'] ?? '';
+            $password = $_POST['password'] ?? '';
+
+            // if (empty($name) || empty($email)) {
+            //     $_SESSION['error_message'] = "Name and email are required.";
+            //     header("Location: /SneakerHome/User/profile");
+            //     exit;
+            // }
+
+            $userModel = new UserModel();
+            $userModel->user_id = $_SESSION['userId'];
+            $userModel->name = $name;
+            $userModel->email = $email;
+
+            if (!empty($password)) {
+                $userModel->password = password_hash($password, PASSWORD_BCRYPT);
+            }
+
+            $updated = $userModel->updateUser(  $_SESSION['userId'], $name, $email, $password = null);
+
+            if ($updated) {
+                $_SESSION['success_message'] = "Profile updated successfully.";
+            } else {
+                $_SESSION['error_message'] = "Failed to update profile.";
+            }
+
+        }
     }
 
     public function login()
@@ -55,7 +125,7 @@ class UserController extends Controllers
             if ($user['role'] === 'user') {
                 header("Location: /SneakerHome/home");
             } elseif ($user['role'] === 'admin') {
-                header("Location: /Admin/admin");
+                header("Location: /SneakerHome/Admin/adminview");
             } else {
                 $_SESSION['error_message'] = "Unknown role detected.";
                 header("Location: /user/login");
@@ -118,13 +188,13 @@ class UserController extends Controllers
     }
 
 
-    public function profile()
-    {
-        // Hiển thị view login
-        // session_start();
-        $this->view('profileview', [
-            'error_message' => $_SESSION['error_message'] ?? null,
-            'username_input' => $_SESSION['username_input'] ?? ''
-        ]);
-    }
+    // public function profile()
+    // {
+    //     // Hiển thị view login
+    //     // session_start();
+    //     $this->view('profileview', [
+    //         'error_message' => $_SESSION['error_message'] ?? null,
+    //         'username_input' => $_SESSION['username_input'] ?? ''
+    //     ]);
+    // }
 }

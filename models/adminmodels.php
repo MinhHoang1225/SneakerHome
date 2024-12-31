@@ -7,6 +7,29 @@ class AdminModel {
     public function __construct() {
         $this->db = connectdb();
     }
+    public function getDashboardData() {
+        $data = [];
+    
+        // Lấy số lượng khách hàng
+        $sql = "SELECT COUNT(*) as total_customers FROM user";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data['total_customers'] = $stmt->fetch(PDO::FETCH_ASSOC)['total_customers'];
+    
+        // Lấy số lượng sản phẩm
+        $sql = "SELECT COUNT(*) as total_products FROM product";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data['total_products'] = $stmt->fetch(PDO::FETCH_ASSOC)['total_products'];
+    
+        // Lấy số lượng đơn hàng
+        $sql = "SELECT COUNT(*) as total_orders FROM `order`";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        $data['total_orders'] = $stmt->fetch(PDO::FETCH_ASSOC)['total_orders'];
+
+        return $data;
+    }
 
     // Lấy danh sách khách hàng
     public function getCustomers() {

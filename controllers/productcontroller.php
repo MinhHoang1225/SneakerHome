@@ -222,16 +222,24 @@ public function checkoutSuccessBuyNow() {
     }
 }
 
-public function saveOrder() {
+public function saveOrder()
+{
+    // Debug: Kiểm tra phương thức yêu cầu
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
         return;
     }
 
+    // Debug: Kiểm tra dữ liệu JSON
     $input = json_decode(file_get_contents('php://input'), true);
+    error_log('Input Data: ' . json_encode($input));
+
     $quantity = isset($input['quantity']) ? (int)$input['quantity'] : 0;
     $productId = isset($input['product_id']) ? (int)$input['product_id'] : 0;
+
+    // Debug: Kiểm tra giá trị đầu vào
+    error_log("Product ID: $productId, Quantity: $quantity");
 
     if ($quantity <= 0 || $productId <= 0) {
         http_response_code(400);
@@ -239,15 +247,21 @@ public function saveOrder() {
         return;
     }
 
+    // Debug: Kiểm tra session
     if (!isset($_SESSION['userId'])) {
+        error_log('Session User ID not found.');
         http_response_code(401); // Unauthorized
         echo json_encode(['success' => false, 'message' => 'User not logged in.']);
         return;
     }
 
     try {
+        // Lấy thông tin sản phẩm
         $productModel = new ProductModel($this->db);
         $product = $productModel->getProductById($productId);
+
+        // Debug: Kiểm tra sản phẩm
+        error_log('Product Data: ' . json_encode($product));
 
         if (!$product) {
             http_response_code(404);
@@ -255,7 +269,11 @@ public function saveOrder() {
             return;
         }
 
+        // Tính toán tổng giá
         $totalPrice = $product['price'] * $quantity;
+        error_log("Total Price: $totalPrice");
+
+        // Lưu đơn hàng
         $orderId = $productModel->saveOrder($productId, $quantity, $totalPrice);
 
         if ($orderId) {
@@ -270,7 +288,6 @@ public function saveOrder() {
         echo json_encode(['success' => false, 'message' => 'An error occurred while processing your order.']);
     }
 }
-
 
 }
 ?>

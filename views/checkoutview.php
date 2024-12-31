@@ -70,12 +70,15 @@
                     </div>
 
                     <!-- Nút Payment trong form -->
-                    <button onclick="toggleHeart(this)" class="btn btn-payment" 
+                     <a href="/SneakerHome/product/checkoutSuccessBuyNow">
+                        <button onclick="toggleHeart(this)" class="btn btn-payment" 
                         type="button" 
                         data-product-id="<?php echo $item['product_id']; ?>" 
                         style=" border: none;">
                         Payment
                 </button>
+                     </a>
+                    
 <?php var_dump($item['product_id']) ?>
 
                 </div>
@@ -87,7 +90,11 @@
        <script>
         function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
-    const quantity = 1; // Mặc định số lượng (hoặc thay đổi theo logic)
+    const quantity = 1;
+
+    // Debug: Kiểm tra productId
+    console.log('Product ID:', productId);
+
     if (!productId) {
         alert('Product ID is missing.');
         return;
@@ -100,11 +107,15 @@
         },
         body: JSON.stringify({ product_id: productId, quantity: quantity }),
     })
-        .then((response) => response.json())
+        .then((response) => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
         .then((data) => {
+            console.log('Response data:', data);
             if (data.success) {
                 alert('Order saved successfully! Order ID: ' + data.order_id);
-                location.reload(); // Refresh để cập nhật giao diện
+                location.reload(); // Làm mới giao diện
             } else {
                 alert('Error: ' + data.message);
             }
