@@ -232,7 +232,7 @@ public function getBestSellers($limit = 8) {
             // Insert order into order table
             $query = "INSERT INTO order (user_id, order_date, status, total_amount) VALUES (:user_id, NOW(), 'pending', :total_amount)";
             $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+            $stmt->bindParam(':user_id', $_SESSION['userId'], PDO::PARAM_INT);
             $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
             $stmt->execute();
     
@@ -247,7 +247,7 @@ public function getBestSellers($limit = 8) {
             $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
             $stmt->bindParam(':price', $totalPrice, PDO::PARAM_STR); // You may want to store the unit price, not total price
             $stmt->execute();
-    
+            
             return $orderId;
         } catch (PDOException $e) {
             error_log("Error in saveOrder: " . $e->getMessage());
