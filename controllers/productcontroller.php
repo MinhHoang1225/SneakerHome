@@ -10,7 +10,105 @@ class ProductController extends Controllers {
         }
         $this->db = $db;
     }
+    public function favorite() {
+        // header('Content-Type: application/json');
+        
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+            // Kiểm tra xem người dùng đã đăng nhập chưa
+            if (!isset($_SESSION['userId'])) {
+                echo "Bạn cần đăng nhập để xem danh sách yêu thích.";
+                return;
+            }
 
+            $userId = $_SESSION['userId'];
+            $productId = $input['product_id'] ?? null;
+
+            $favoriteModel = new FavoriteModel($this->db);
+            $favorites = $favoriteModel->getFavorites($userId);
+            $result = $favoriteModel->favorite($userId, $productId);
+            $this->view('favoriteview', [
+                'productId' => $productId,             
+                'userId' => $userId, 
+                'favorites'=> $favorites, 
+                'result' => $result ,      
+                'error_message' => $_SESSION['error_message'] ?? null,
+                'username_input' => $_SESSION['username_input'] ?? ''
+            ]);
+            $this->view('productview', [
+                'productId' => $productId,             
+                'userId' => $userId, 
+                'favorites'=> $favorites, 
+                'result' => $result ,      
+                'error_message' => $_SESSION['error_message'] ?? null,
+                'username_input' => $_SESSION['username_input'] ?? ''
+            ]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+        exit;
+    }
+
+    public function favorites() {
+        header('Content-Type: application/json');
+        
+        try {
+            $input = json_decode(file_get_contents('php://input'), true);
+            if (!isset($_SESSION['userId'])) {
+                echo json_encode(["success" => false, "message" => "Bạn cần đăng nhập để xem danh sách yêu thích."]);
+                return;
+            }
+    
+            $userId = $_SESSION['userId'];
+            $productId = $input['product_id'] ?? null;
+    
+            if (!$productId) {
+                echo json_encode(["success" => false, "message" => "Thiếu Product ID."]);
+                return;
+            }
+    
+            $favoriteModel = new FavoriteModel($this->db);
+            $favorites = $favoriteModel->getFavorites($userId);
+            $result = $favoriteModel->favorite($userId, $productId);
+    
+            echo json_encode($result);
+            return;
+        } catch (Exception $e) {
+            echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
+        }
+    }
+    
+
+    public function removeFavorite() {
+        header('Content-Type: application/json');
+        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+            try {
+                $input = json_decode(file_get_contents('php://input'), true);
+                $userId = $_SESSION['userId'];
+                $productId = $input['product_id'] ?? null;
+    
+                if (!$productId) {
+                    echo json_encode(['success' => false, 'message' => 'Không có sản phẩm nào được chỉ định.']);
+                    return;
+                }
+    
+                $favoriteModel = new FavoriteModel($this->db);
+                $result = $favoriteModel->removeFavorite($userId, $productId);
+    
+                if ($result) {
+                    echo json_encode(['success' => true, 'message' => 'Sản phẩm đã được xóa khỏi danh sách yêu thích.']);
+                } else {
+                    echo json_encode(['success' => false, 'message' => 'Không thể xóa sản phẩm khỏi danh sách yêu thích.']);
+                }
+            } catch (Exception $e) {
+                echo json_encode(['success' => false, 'message' => 'Có lỗi xảy ra: ' . $e->getMessage()]);
+            }
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Bạn chưa đăng nhập.']);
+        }
+        exit;
+    }
+    
     public function productsCategory() {
         //  category_id từ URL
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
@@ -114,24 +212,7 @@ class ProductController extends Controllers {
         }
     }
     
-    public function favorite() {
-        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
-            $userId = $_SESSION['userId'];
-    
-            $favoriteModel = new FavoriteModel($this->db);
-            $favorites = $favoriteModel->getFavorites($userId);
-    
-    
-            $this->view('favoriteview', [
-                'favorites' => $favorites,  
-                'error_message' => $_SESSION['error_message'] ?? null,
-                'username_input' => $_SESSION['username_input'] ?? ''
-            ]);
-        } else {
-            header("Location: /SneakerHome/User/login");
-            exit();
-        }
-    }
+
     
     public function checkoutCart(){
         if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
