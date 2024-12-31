@@ -125,7 +125,7 @@ class UserController extends Controllers
             if ($user['role'] === 'user') {
                 header("Location: /SneakerHome/home");
             } elseif ($user['role'] === 'admin') {
-                header("Location: /Admin/admin");
+                header("Location: /SneakerHome/Admin/adminview");
             } else {
                 $_SESSION['error_message'] = "Unknown role detected.";
                 header("Location: /user/login");
