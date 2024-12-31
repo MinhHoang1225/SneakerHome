@@ -74,6 +74,7 @@
                         <button onclick="toggleHeart(this)" class="btn btn-payment" 
                         type="button" 
                         data-product-id="<?php echo $item['product_id']; ?>" 
+                        data-quantity="<?php echo $item['quantity'];?>"
                         style=" border: none;">
                         <a href="/SneakerHome/product/checkoutSuccessBuyNow">
                         Payment</a>
@@ -90,7 +91,7 @@
        <script>
         function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
-    const quantity = 1;
+    const quantity =button.getAttribute('data-quantity');
 
     // Debug: Kiểm tra productId
     console.log('Product ID:', productId);
