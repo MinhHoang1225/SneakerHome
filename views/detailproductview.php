@@ -34,7 +34,7 @@
             <label for="quantity">Quantity</label>
             <input type="number" id="quantity" name="quantity" class="form-control" value="1" min="1" max="<?= $product['stock']; ?>">
             <!-- Nút thêm vào giỏ hàng -->
-            <form action="../controllers/checkout" method="GET">
+            <form action="/SneakerHome/Product/checkoutBuyNow" method="GET">
                 <input type="hidden" name="action" value="buy_now">
                 <input type="hidden" name="product_id" value="<?= $product['product_id']; ?>">
                 <input type="hidden" name="quantity" id="hidden-quantity" value="1">
@@ -44,10 +44,15 @@
                         <i class="fas fa-cart-plus"></i>
                         Add to Cart
                     </button>
-                    <button type="submit" class="btn btn-sm btn-primary me-2">
-                        <i class="fas fa-shopping-bag"></i>
-                        Buy Now
-                    </button>
+
+
+                    <a href="/SneakerHome/Product/checkoutBuyNow?product_id=<?php echo $product['product_id']; ?>&quantity=" 
+                        onclick="return updateQuantity('<?php echo $product['product_id']; ?>');">
+                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                            <i class="fas fa-shopping-bag"></i>
+                            Buy Now
+                        </button>
+                        </a>
                     
                 </div>
             </form>
@@ -105,6 +110,7 @@
 <?php else: ?>
     <p>Product details not available.</p>
 <?php endif; ?>
+<?php include  './component/footer.php'; ?>
 <script>
 function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
@@ -157,6 +163,34 @@ function toggleHeart(button) {
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
+function updateQuantity(productId) {
+    const quantityInput = document.getElementById('quantity');
+    const quantity = quantityInput ? quantityInput.value : 1; // Lấy giá trị quantity từ input
+    window.location.href = `/SneakerHome/product/checkoutBuyNow?product_id=${productId}&quantity=${quantity}`;
+    return false; // Ngăn chặn hành động mặc định
+}
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function () {
+            const productId = this.getAttribute('data-product-id');
+            const quantity = document.getElementById('quantity').value;
+
+            fetch('../models/shoppingcartmodels.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ action: 'add_to_cart', product_id: productId,quantity: quantity }) 
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Thêm vào giỏ hàng thành công!');
+                } else {
+                    alert('Có lỗi xảy ra!');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    });
 </script>
 
 </body>

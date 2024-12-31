@@ -1,26 +1,28 @@
-<?php
-include_once './component/linkbootstrap5.php'; 
-include './assets/css/favorite.css.php'; 
-?> 
+<?php include_once './component/linkbootstrap5.php'; ?> 
+<?php include './assets/css/favorite.css.php'; ?> 
+
 <?php include_once './component/header.php'; ?>
+
 <div class="container">
     <h2>Danh sách yêu thích</h2>
     <div class="row">
         <?php
-        // Debugging: Kiểm tra xem có dữ liệu trong $favorites không
+        // Check if favorites are passed and not empty
         if (isset($favorites) && !empty($favorites)):
             foreach ($favorites as $favorite):
         ?>
             <div class="col-md-4 col-lg-3 mb-4">
                 <div class="product-card">
                     <div class="icons">
-
+                        <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $favorite['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="far fa-heart"></i>
+                        </button>
                         <!-- Button thêm vào giỏ -->
                         <button class="add-to-cart" data-product-id="<?php echo $favorite['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="fas fa-cart-plus"></i>
                         </button>
                     </div>
-                    <a href="detailproduct?product_id=<?php echo $favorite['product_id']; ?>" >
+                    <a href="./Product/detailproduct?product_id=<?php echo $favorite['product_id']; ?>" >
                         <img src="<?php echo htmlspecialchars($favorite['image_url']); ?>" alt="<?php echo htmlspecialchars($favorite['name']); ?>" height="200" width="300">
                     </a>
                     <h5 class="mt-3"><?php echo htmlspecialchars($favorite['name']); ?></h5>
@@ -41,6 +43,58 @@ include './assets/css/favorite.css.php';
 <?php include_once './component/footer.php'; ?>
 
 <script>
+function toggleHeart(button) {
+    const productId = button.getAttribute('data-product-id');
+    const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
+
+    console.log('Product ID:', productId); // Kiểm tra giá trị productId
+    console.log('User ID:', userId);
+
+    if (!productId) {
+        alert('Không thể lấy Product ID!');
+        return;
+    }
+
+    if (!userId) {
+        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        return;
+    }
+
+    fetch('/SneakerHome/product/removeFavorite', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            product_id: productId,
+        }),
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Server response:', data);
+
+        if (data.success) {
+            // Xóa sản phẩm khỏi giao diện
+            const card = button.closest('.product-card');
+            card.parentNode.removeChild(card);
+
+            alert(data.message);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+    });
+}
+
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-product-id');

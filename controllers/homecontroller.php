@@ -44,7 +44,6 @@ class HomeController extends Controllers{
             $input = json_decode(file_get_contents('php://input'), true);
             $userId = $input['user_id'] ?? null;
             $productId = $input['product_id'] ?? null;
-
             if (!$userId || !$productId) {
                 echo json_encode(['success' => false, 'message' => 'Missing user or product ID.']);
                 return;

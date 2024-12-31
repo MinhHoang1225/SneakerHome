@@ -13,7 +13,7 @@
         <!-- User Information Form -->
         <div class="col-md-6">
             <h2>User Information</h2>
-            <form action="checkoutControllers.php" method="POST">
+            <form action="./checkoutSuccessCart" method="POST">
                 <div class="mb-3">
                     <input class="form-control" placeholder="Fullname" type="text" name="fullname" required/>
                 </div>
@@ -35,8 +35,8 @@
         <div class="col-md-6">
         <div class="order-summary">
             <h2>Order</h2>
-            <?php if (!empty($cartItems)): ?>
-                <?php foreach ($cartItems as $item): ?>
+            <?php if (!empty($products)): ?>
+                <?php foreach ($products as $item): ?>
                     <div class="order-item container">
                         <div class="row">
                             <div class="col-2">
@@ -71,9 +71,12 @@
         <i class="fas fa-arrow-left"></i>
         <a href="../controllers/shoppingcart">Shopping cart</a>
     </div>
-    <button class="btn btn-payment mt-3" type="submit">
+    <a href="./SneakerHome/product/checkoutSuccessCart">
+        <button class="btn btn-payment mt-3" type="submit">
         Payment
     </button>
+    </a>
+    
 </div>
 
         </div>

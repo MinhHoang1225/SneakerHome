@@ -65,6 +65,7 @@
                                 <span class="discount"><?php echo $row['discount']; ?>% Off</span>
                             </div>
                         </div>
+                        
                     </div>
                 <?php } ?>
             <?php } else { ?>

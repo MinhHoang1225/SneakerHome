@@ -44,7 +44,7 @@
                 <a href="/SneakerHome/User/profile"><i class="fa-solid fa-user-circle profile"></i></a>
                 <a href='/SneakerHome/User/login'><button>Login</button></a>
                 <a href="/SneakerHome/User/register"><button>Register</button></a>
-                <a href="/SneakerHome/ShoppingCart/getCart"><i class="fa-solid fa-cart-shopping cart"></i></a>
+                <a href="/SneakerHome/ShoppingCart/Cart"><i class="fa-solid fa-cart-shopping cart"></i></a>
                 <div class="search-container">
                     <!-- Icon tìm kiếm -->
                     <i class="fa-solid fa-magnifying-glass search-icon" onclick="toggleSearchBox()"></i>
@@ -61,7 +61,7 @@
         </div> 
 
         <div class="row">
-            <div class="col-2 logo"><img src="../assets/img/Shoe Logo.png" alt=""></div>
+            <div class="col-2 logo"><img src="/SneakerHome/assets/img/Shoe Logo.png" alt=""></div>
             <div class="col-9">
                 <?php generateNavbar($array_navbar_1, 'navbar d-flex'); ?>
             </div>
