@@ -5,10 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sneaker Home</title>
     <?php include './component/linkbootstrap5.php'; ?>
+    <?php include './assets/css/displayproduct.css.php'; ?>
 </head>
 <body>
-<?php var_dump($allProducts) ?>
-
     <?php include './component/header.php'; ?>
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <!-- Indicators/Dots -->
@@ -41,6 +40,7 @@
             <a class="mx-3" href="?category_id=2">Clothes</a>
             <a class="mx-3" href="?category_id=3">Accessories</a>
         </div>
+
         <div class="row" id="product-container">
             <?php if (!empty($products)) { ?>
                 <?php foreach ($products as $row) {  ?>  
@@ -54,7 +54,7 @@
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
                             </div>
-                            <a href="detailproduct?product_id=<?php echo $row['product_id']; ?>" >
+                            <a href="./Product/detailproduct?product_id=<?php echo $row['product_id']; ?>" >
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                             </a>
                             <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
@@ -83,13 +83,3 @@
     <?php include './component/footer.php'; ?>  
     <?php include './component/btn_up.php'; ?>
 
-    <!-- 
-    <script>
-        function toggleHeart(button) {
-            const productId = button.getAttribute('data-product-id');
-            console.log('Toggle favorite for product ID:', productId);
-            // You can add logic to update the favorite status here
-        }
-    </script>
-</body>
-</html>

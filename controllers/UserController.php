@@ -1,7 +1,6 @@
 <?php
 require_once './core/Controllers.php';
-require_once '.
-/models/UserModels.php';
+require_once './models/UserModels.php';
 var_dump($_SESSION);
 // session_unset();
 // unset($_SESSION);
