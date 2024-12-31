@@ -42,8 +42,20 @@
             <div class="col-5 bg-white"></div>
             <div class="col-3 d-flex gap-5 btn-lr">
                 <a href="/SneakerHome/User/profile"><i class="fa-solid fa-user-circle profile"></i></a>
-                <a href='/SneakerHome/User/login'><button>Login</button></a>
-                <a href="/SneakerHome/User/register"><button>Register</button></a>
+                <?php
+                    if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
+                        echo "
+                            <a href='/SneakerHome/User/login'><button>Login</button></a>
+                            <a href='/SneakerHome/User/register'><button>Register</button></a>
+                        ";
+                    } else {
+                        echo '
+                        <form method="POST" action="/SneakerHome/User/logout">
+                            <button type="submit">Logout</button>
+                        </form>
+                       ';
+                    }
+                    ?>             
                 <a href="/SneakerHome/ShoppingCart/Cart"><i class="fa-solid fa-cart-shopping cart"></i></a>
                 <div class="search-container">
                     <!-- Icon tìm kiếm -->
