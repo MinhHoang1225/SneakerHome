@@ -30,7 +30,7 @@
         <div class="card mb-4">
             <div class="card-header">Profile Information</div>
             <div class="card-body">
-                <form action="/user/updateProfile" method="POST">
+                <form action="?SneakerHome/User/updateProfile" method="POST">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>

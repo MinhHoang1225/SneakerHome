@@ -15,7 +15,7 @@ class UserController extends Controllers
     //     $this->conn = connectdb(); 
     // }
     public function profile() {
-        session_start();
+        // session_start();
 
         if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
             $_SESSION['error_message'] = "Please log in to access your profile.";
@@ -27,11 +27,11 @@ class UserController extends Controllers
         $user = $userModel->getUserById($_SESSION['userId']);
         $orders = $userModel->getOrdersByUserId($_SESSION['userId']);
 
-        // if (!$user) {
-        //     $_SESSION['error_message'] = "User not found.";
-        //     header("Location: /user/login");
-        //     exit;
-        // }
+        if (!$user) {
+            $_SESSION['error_message'] = "User not found.";
+            header("Location: /SneakerHome/User/login");
+            exit;
+        }
 
         $this->view('profileview', [
             'user' => $user,
@@ -81,6 +81,8 @@ class UserController extends Controllers
 
         }
     }
+
+
 
     public function login()
     {
@@ -186,15 +188,18 @@ class UserController extends Controllers
             }
         
     }
-
-
-    // public function profile()
-    // {
-    //     // Hiển thị view login
-    //     // session_start();
-    //     $this->view('profileview', [
-    //         'error_message' => $_SESSION['error_message'] ?? null,
-    //         'username_input' => $_SESSION['username_input'] ?? ''
-    //     ]);
-    // }
+    public function logout()
+    {
+        $logoutModel = new LogoutModel();
+        $result = $logoutModel->logoutUser();
+        if ($result) {
+            $_SESSION['success_message'] = "You have been logged out successfully.";
+            header("Location: /SneakerHome/home"); 
+            exit();
+        } else {
+            $_SESSION['error_message'] = "You are not logged in.";
+            header("Location: /SneakerHome/User/login"); 
+            exit();
+        }
+    }
 }

@@ -113,4 +113,21 @@ class RegisterModel {
         }
     }
 }
+class LogoutModel {
+
+    public function logoutUser() {
+        try {
+            if (isset($_SESSION['userId'])) {
+                session_unset();
+                session_destroy();
+                return true; 
+            }
+            return false; 
+        } catch (Exception $e) {
+            error_log("Error during logout: " . $e->getMessage());
+            return false;
+        }
+    }
+}
+
 ?>
