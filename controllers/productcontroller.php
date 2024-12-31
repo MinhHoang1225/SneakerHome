@@ -265,6 +265,7 @@ public function checkoutSuccessBuyNow() {
     $address = htmlspecialchars($_POST['address'] ?? $_SESSION['address'] ?? 'Unknown Address');
     $quantity = $_POST['quantity'] ?? $_SESSION['quantity'] ?? 0;
     $productId = $_POST['product_id'] ?? $_SESSION['product_id'] ?? 0;
+
     // Store POST data in session for future requests
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $_SESSION['username_input'] = $username_input;
@@ -354,7 +355,6 @@ public function saveOrder()
 
         // Tính toán tổng giá
         $totalPrice = $product['price'] * $quantity;
-        var_dump($product['price']);
         error_log("Total Price: $totalPrice");
 
         // Lưu đơn hàng
