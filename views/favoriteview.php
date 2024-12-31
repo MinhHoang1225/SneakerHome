@@ -10,8 +10,6 @@ include './assets/css/favorite.css.php';
         // Debugging: Kiểm tra xem có dữ liệu trong $favorites không
         if (isset($favorites) && !empty($favorites)):
             foreach ($favorites as $favorite):
-                var_dump($favorite);
-
         ?>
             <div class="col-md-4 col-lg-3 mb-4">
                 <div class="product-card">

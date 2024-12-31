@@ -145,50 +145,48 @@ class Product {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 }
+
 class FavoriteModel {
     private $db;
 
     public function __construct($db) {
-        $this->db = $db; 
+        $this->db = $db;
     }
 
-    public function toggleFavorite($userId, $productId) {
-        try {
+    // Hàm thêm/xóa sản phẩm yêu thích
+    public function favorite($userId, $productId) {
+        header('Content-Type: application/json');
 
+    $input = json_decode(file_get_contents('php://input'), true);
+        try {
+            // Kiểm tra xem sản phẩm đã có trong danh sách yêu thích chưa
             $stmt = $this->db->prepare("SELECT COUNT(*) FROM favorite WHERE user_id = ? AND product_id = ?");
             $stmt->execute([$userId, $productId]);
             $exists = $stmt->fetchColumn();
-            $response = ['success' => false, 'message' => 'Có lỗi xảy ra khi cập nhật danh sách yêu thích.'];
-    
+
             if ($exists) {
+                // Nếu đã yêu thích, xóa khỏi danh sách yêu thích
                 $stmt = $this->db->prepare("DELETE FROM favorite WHERE user_id = ? AND product_id = ?");
                 $result = $stmt->execute([$userId, $productId]);
-    
                 if ($result) {
-                    $response['success'] = true;
-                    $response['is_favorited'] = false; 
-                    $response['message'] = 'Sản phẩm đã bị xóa khỏi danh sách yêu thích'; 
+                    return ['success' => true, 'is_favorited' => false, 'message' => 'Sản phẩm đã bị xóa khỏi danh sách yêu thích'];
                 }
             } else {
+                // Nếu chưa yêu thích, thêm vào danh sách yêu thích
                 $stmt = $this->db->prepare("INSERT INTO favorite (user_id, product_id) VALUES (?, ?)");
                 $result = $stmt->execute([$userId, $productId]);
-    
                 if ($result) {
-                    $response['success'] = true;
-                    $response['is_favorited'] = true; 
-                    $response['message'] = 'Sản phẩm đã được thêm vào danh sách yêu thích'; 
+                    return ['success' => true, 'is_favorited' => true, 'message' => 'Sản phẩm đã được thêm vào danh sách yêu thích'];
                 }
             }
-    
-            return $response; 
-    
+
+            return ['success' => false, 'message' => 'Không thể cập nhật yêu thích'];
+
         } catch (PDOException $e) {
-            return ['success' => false, 'message' => 'Đã xảy ra lỗi khi xử lý yêu cầu.'];
+            error_log('Error in toggleFavorite method: ' . $e->getMessage());
+            return ['success' => false, 'message' => 'Có lỗi xảy ra khi xử lý yêu cầu.'];
         }
     }
-    
-    
-
     public function getFavorites($userId) {
         try {
             $stmt = $this->db->prepare("SELECT p.* FROM product p JOIN favorite f ON p.product_id = f.product_id WHERE f.user_id = ?");
@@ -212,5 +210,3 @@ class FavoriteModel {
         }
     }
 }
-
-?>

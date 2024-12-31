@@ -10,6 +10,24 @@ class ProductController extends Controllers {
         }
         $this->db = $db;
     }
+    public function favorite() {
+        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
+            $userId = $_SESSION['userId'];
+    
+            $favoriteModel = new FavoriteModel($this->db);
+            $favorites = $favoriteModel->getFavorites($userId);
+    
+    
+            $this->view('favoriteview', [
+                'favorites' => $favorites,  
+                'error_message' => $_SESSION['error_message'] ?? null,
+                'username_input' => $_SESSION['username_input'] ?? ''
+            ]);
+        } else {
+            header("Location: /SneakerHome/User/login");
+            exit();
+        }
+    }
 
     public function productsCategory() {
         //  category_id từ URL
@@ -68,26 +86,6 @@ class ProductController extends Controllers {
             ]);
         }
     }
-    public function favorite() {
-        if (isset($_SESSION['userId']) && !empty($_SESSION['userId'])) {
-            $userId = $_SESSION['userId'];
-    
-            $favoriteModel = new FavoriteModel($this->db);
-            $favorites = $favoriteModel->getFavorites($userId);
-    
-    
-            $this->view('favoriteview', [
-                'favorites' => $favorites,  
-                'error_message' => $_SESSION['error_message'] ?? null,
-                'username_input' => $_SESSION['username_input'] ?? ''
-            ]);
-        } else {
-            header("Location: /SneakerHome/User/login");
-            exit();
-        }
-    }
-    
-    
-    
+
 }
 ?>

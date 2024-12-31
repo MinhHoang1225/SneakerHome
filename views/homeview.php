@@ -54,7 +54,7 @@
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
                             </div>
-                            <a href="./Product/detailproduct?product_id=<?php echo $row['product_id']; ?>" >
+                            <a href="./Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $row['product_id']; ?>">
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                             </a>
                             <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
@@ -82,4 +82,57 @@
 
     <?php include './component/footer.php'; ?>  
     <?php include './component/btn_up.php'; ?>
+<script>
+function toggleHeart(button) {
+    const productId = button.getAttribute('data-product-id');
+    const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
+
+    if (!userId) {
+        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        return;
+    }
+
+    console.log('Product ID:', productId, 'User ID:', userId);
+
+    fetch('/SneakerHome/home/favorite', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            user_id: userId,
+            product_id: productId
+        })
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log('Server response:', data);
+
+        const icon = button.querySelector('i');
+
+        if (data.success) {
+            if (data.is_favorited) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+            }
+
+            alert(data.message);
+        } else {
+            alert(data.message);
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+    });
+}
+</script>
 
