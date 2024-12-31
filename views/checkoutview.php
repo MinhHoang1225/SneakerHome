@@ -75,9 +75,9 @@
                         type="button" 
                         data-product-id="<?php echo $item['product_id']; ?>" 
                         style=" border: none;">
-                        Payment
-                </button>
-                     </a>
+                        <a href="/SneakerHome/product/checkoutSuccessBuyNow">
+                        Payment</a>
+                     </button>
                     
 <?php var_dump($item['product_id']) ?>
 
@@ -114,8 +114,9 @@
         .then((data) => {
             console.log('Response data:', data);
             if (data.success) {
-                alert('Order saved successfully! Order ID: ' + data.order_id);
-                location.reload(); // Làm mới giao diện
+                // alert('Order saved successfully! Order ID: ' + data.order_id);
+                window.location.href = '/SneakerHome/product/checkoutSuccessBuyNow';
+                // location.reload(); // Làm mới giao diện
             } else {
                 alert('Error: ' + data.message);
             }

@@ -278,6 +278,7 @@ public function saveOrder()
 
         if ($orderId) {
             echo json_encode(['success' => true, 'message' => 'Order saved successfully.', 'order_id' => $orderId]);
+            
         } else {
             http_response_code(500);
             echo json_encode(['success' => false, 'message' => 'Failed to save order.']);
