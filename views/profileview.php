@@ -1,123 +1,84 @@
-<?php
-// session_start();
-// include '../component/header.php';
-
-
-// $controller = new ProfileController();
-// if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
-//     die('Error: User is not logged in.');
-// }
-
-// $user_id = $_SESSION['user_id'];
-// $user = $controller->showProfile($user_id);
-// $orders = $controller->getOrdersByUserId($user_id);
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//     $data = [
-//         'user_id' => $user_id,
-//         'name' => $_POST['name'],
-//         'email' => $_POST['email'],
-//         'password' => $_POST['password']
-//     ];
-
-//     try {
-//         if ($controller->updateProfile($data)) {
-//             header("Location: ../controllers/profile?success=1");
-//             exit;
-//         } else {
-//             $error_message = "Cập nhật thông tin thất bại!";
-//         }
-//     } catch (Exception $e) {
-//         $error_message = $e->getMessage();
-//     }
-// }
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sneaker Home</title>
-    <link rel="stylesheet" href="../assets/css/profile.css">
+    <title>User Profile</title>
+    <?php include_once './component/linkbootstrap5.php'; ?>
+    <link rel="stylesheet" href="./assets/css/profile.css">
 </head>
 <body>
-    
-    <div class="container">
-        <div class="welcome-banner">
-            <p>Welcome, <b><?php echo htmlspecialchars($user['name']); ?></b></p>
-        </div>
-        <div class="profile-section">
-            <div class="profile-info">
-            <div class="avatar" id="avatar" tabindex="0"></div>
-            <input type="file" id="fileInput" accept="image/*" style="display: none;">
-                <div class="user-details">
-                    <h3><?php echo htmlspecialchars($user['name']); ?></h3>
-                    <a href="mailto:<?php echo htmlspecialchars($user['email']); ?>">
-                        <?php echo htmlspecialchars($user['email']); ?>
-                    </a>
-                </div>
+    <div class="container mt-5">
+        <h1 class="text-center">User Profile</h1>
+
+        <!-- Success Message -->
+        <?php if (!empty($success_message)): ?>
+            <div class="alert alert-success">
+                <?= htmlspecialchars($success_message); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- Error Message -->
+        <?php if (!empty($_SESSION['error_message'])): ?>
+            <div class="alert alert-danger">
+                <?= htmlspecialchars($_SESSION['error_message']); ?>
+                <?php unset($_SESSION['error_message']); ?>
+            </div>
+        <?php endif; ?>
+
+        <!-- User Information -->
+        <div class="card mb-4">
+            <div class="card-header">Profile Information</div>
+            <div class="card-body">
+                <form action="/user/updateProfile" method="POST">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<?= htmlspecialchars($user['email']); ?>" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password (leave blank to keep unchanged)</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
+                </form>
             </div>
         </div>
-        <div class="details-section">
-            <form method="POST">
-                <div class="input-group">
-                    <label>Name</label>
-                    <input type="text" name="name" value="<?php echo htmlspecialchars($user['name']); ?>" placeholder="Your Name">
-                </div>
-                <div class="input-group">
-                    <label>Email</label>
-                    <input type="email" name="email" value="<?php echo htmlspecialchars($user['email']); ?>" placeholder="Your Email">
-                </div>
-                <div class="input-group">
-                    <label>Password (Leave blank if unchanged)</label>
-                    <input type="password" name="password" placeholder="*********">
-                </div>
-                <div class="button-group">
-                    <button type="submit" class="edit-btn">Update Profile</button>
-                </div>
-            </form>
-            <?php if (isset($_GET['success'])): ?>
-                <p style="color: green; text-align: center;">Profile updated successfully!</p>
-            <?php endif; ?>
-            <?php if (!empty($error_message)): ?>
-                <p style="color: red; text-align: center;"><?php echo $error_message; ?></p>
-            <?php endif; ?>
+
+        <!-- Order List -->
+        <div class="card">
+            <div class="card-header">Order History</div>
+            <div class="card-body">
+                <?php if (!empty($orders)): ?>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php foreach ($orders as $order): ?>
+                                <tr>
+                                    <td><?= htmlspecialchars($order['order_id']); ?></td>
+                                    <td><?= htmlspecialchars($order['date']); ?></td>
+                                    <td><?= htmlspecialchars($order['status']); ?></td>
+                                    <td>$<?= htmlspecialchars(number_format($order['total'], 2)); ?></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                <?php else: ?>
+                    <p>No orders found.</p>
+                <?php endif; ?>
+            </div>
         </div>
 
-        <div class="order-column">
-            <h4>Order History:</h4>
-            <?php if (!empty($orders)): ?>
-                <?php foreach ($orders as $order): ?>
-                    <div class="order-box">
-                        <p>Order ID: <?php echo htmlspecialchars($order['order_id']); ?></p>
-                        <p>Status: <?php echo htmlspecialchars($order['status']); ?></p>
-                        <p>Total Amount: <?php echo number_format($order['total_amount']); ?> VND</p>
-                        <p>Created At: <?php echo htmlspecialchars($order['order_date']); ?></p>
-                    </div>
-                <?php endforeach; ?>
-            <?php else: ?>
-                <p>No orders found.</p>
-            <?php endif; ?>
-        </div>
     </div>
 </body>
-<script>
-const avatarDiv = document.getElementById('avatar');
-const fileInput = document.getElementById('fileInput');
-avatarDiv.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter' || event.key === ' ') {
-        fileInput.click(); 
-    }
-});
-fileInput.addEventListener('change', (event) => {
-    const file = event.target.files[0]; 
-    if (file) {
-        const reader = new FileReader();
-        reader.onload = (e) => {
-            avatarDiv.style.backgroundImage = `url(${e.target.result})`;
-        };
-        reader.readAsDataURL(file); 
-    }
-});
-
-</script>
 </html>

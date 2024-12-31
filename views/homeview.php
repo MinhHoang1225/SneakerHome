@@ -7,11 +7,9 @@
     <?php include './component/linkbootstrap5.php'; ?>
 </head>
 <body>
-    <?php include './component/header.php'; ?>
+<?php var_dump($allProducts) ?>
 
-    <pre>
-<?php var_dump($products) ?>
-</pre>
+    <?php include './component/header.php'; ?>
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <!-- Indicators/Dots -->
         <div class="carousel-indicators">
@@ -45,7 +43,7 @@
         </div>
         <div class="row" id="product-container">
             <?php if (!empty($products)) { ?>
-                <?php foreach ($products as $row) { ?>
+                <?php foreach ($products as $row) {  ?>  
                     <div class="col-md-4 col-lg-3 mb-4">                       
                         <div class="product-card">
                             <div class="icons">
@@ -56,7 +54,7 @@
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
                             </div>
-                            <a href="/SneakerHome/controllers/detailproduct?product_id=<?php echo $row['product_id']; ?>" class="text-decoration-none text-dark">
+                            <a href="detailproduct?product_id=<?php echo $row['product_id']; ?>" >
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                             </a>
                             <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>

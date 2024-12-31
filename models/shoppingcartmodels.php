@@ -2,7 +2,7 @@
     // // header('Content-Type: application/json');
     require_once $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/database/connect.php";
     // $userId = $_SESSION['user_id'] ?? null;
-    session_start(); // Make sure to start the session if it's not already started
+    // session_start(); // Make sure to start the session if it's not already started
     
     class CartModel {
         private $db;

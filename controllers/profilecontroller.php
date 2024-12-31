@@ -1,6 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/database/connect.php';
-require_once $_SERVER['DOCUMENT_ROOT'] .'/SneakerHome/models/UserModels.php'; 
+ 
 
 class ProfileController {
     private $userModel;
