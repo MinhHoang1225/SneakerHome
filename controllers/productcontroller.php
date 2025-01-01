@@ -374,5 +374,42 @@ public function saveOrder()
     }
 }
 
+
+public function saveOrderCart()
+{
+    // Kiểm tra xem dữ liệu sản phẩm có được truyền vào hay không
+    $input = json_decode(file_get_contents('php://input'), true); // Lấy dữ liệu từ body của request
+    if (!isset($input['products']) || empty($input['products'])) {
+        echo json_encode(['success' => false, 'message' => 'No products found in the cart.']);
+        return;
+    }
+
+    $products = $input['products']; // Lấy danh sách sản phẩm từ request
+    $totalPrice = $input['totalPrice']; // Lấy tổng giá trị đơn hàng
+
+    // Kiểm tra nếu tổng giá trị hợp lệ
+    if ($totalPrice <= 0) {
+        echo json_encode(['success' => false, 'message' => 'Invalid total price.']);
+        return;
+    }
+
+    // Gọi model để lưu đơn hàng
+    $productModel = new ProductModel($this->db);
+    $orderId = $productModel->saveOrderCart($products, $totalPrice);
+
+    // Kiểm tra nếu lưu đơn hàng thành công
+    if ($orderId) {
+        // Sau khi lưu đơn hàng thành công, xóa giỏ hàng khỏi session
+        unset($_SESSION['cart']);
+
+        // Trả về thông tin đơn hàng vừa tạo
+        echo json_encode(['success' => true, 'orderId' => $orderId]);
+    } else {
+        // Nếu có lỗi khi lưu đơn hàng
+        echo json_encode(['success' => false, 'message' => 'There was an error processing your order.']);
+    }
+}
+
+
 }
 ?>

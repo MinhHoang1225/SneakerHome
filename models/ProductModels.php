@@ -89,6 +89,8 @@ public function getBestSellers($limit = 8) {
             die("Lỗi khi truy vấn cơ sở dữ liệu: " . $e->getMessage());
         }
     }
+
+
     public function getCheckoutCart($userId) {
         $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
                     FROM shoppingcart sc
@@ -100,7 +102,10 @@ public function getBestSellers($limit = 8) {
             $stmt->execute();
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+
     public function calculateCheckoutTotal($userId)
+
         {
             $sql = "SELECT SUM(ci.quantity * p.price) AS total
                     FROM cartitem ci
@@ -113,6 +118,8 @@ public function getBestSellers($limit = 8) {
             return $stmt->fetchColumn();
         }
     
+
+
     public function getCheckoutBuyNow($productId, $quantity) {
         try {
             $query = "SELECT * FROM product WHERE product_id = :product_id AND stock >= :quantity";
@@ -262,8 +269,57 @@ public function getBestSellers($limit = 8) {
     }
 }
 
-    
-    
+
+public function saveOrderCart($products, $totalPrice)
+{
+    try {
+        // Debug: Kiểm tra session user_id
+        error_log('Session User ID: ' . $_SESSION['user_id']);
+
+        // Bắt đầu giao dịch
+        $this->db->beginTransaction();
+
+        // Chèn vào bảng `order`
+        $query = "INSERT INTO `order` (user_id, order_date, status, total_amount) 
+                  VALUES (:user_id, NOW(), 'pending', :total_amount)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
+        $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Lấy ID đơn hàng vừa tạo
+        $orderId = $this->db->lastInsertId();
+        error_log("Order ID: $orderId");
+
+        // Chèn vào bảng `orderitem` cho từng sản phẩm trong giỏ hàng
+        $query = "INSERT INTO orderitem (order_id, product_id, quantity, price) 
+                  VALUES (:order_id, :product_id, :quantity, :price)";
+        $stmt = $this->db->prepare($query);
+
+        foreach ($products as $product) {
+            // Binding các tham số cho câu lệnh SQL
+            $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+            $stmt->bindParam(':product_id', $product['id'], PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $product['quantity'], PDO::PARAM_INT);
+            $stmt->bindParam(':price', $product['price'], PDO::PARAM_STR);
+            $stmt->execute();
+        }
+
+        // Commit giao dịch
+        $this->db->commit();
+
+        return $orderId;
+
+    } catch (PDOException $e) {
+        // Rollback giao dịch nếu có lỗi
+        $this->db->rollBack();
+        error_log("Error in saveOrder: " . $e->getMessage());
+        return null;
+    }
+}
+
+
+
 
 }
 class Product {
