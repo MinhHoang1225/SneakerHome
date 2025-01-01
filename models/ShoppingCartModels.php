@@ -11,14 +11,17 @@
             $this->db = connectdb();
         }
 
-    // Lấy sản phẩm trong giỏ hàng của người dùng
-    public function getCartItems($userId) {
-        $query = "SELECT * FROM cart WHERE user_id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->execute([$userId]);
-        return $stmt->fetchAll(PDO::FETCH_ASSOC);
-    }
-
+        public function getCartItems($userId) {
+            $sql = "SELECT ci.cart_id, ci.product_id, p.name, p.price, ci.quantity, p.image_url 
+                    FROM shoppingcart sc
+                    JOIN cartitem ci ON sc.cart_id = ci.cart_id
+                    JOIN product p ON p.product_id = ci.product_id
+                    WHERE sc.user_id = :user_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $stmt->execute();
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        } 
 
 
         // Tính tổng tiền của giỏ hàng
@@ -106,66 +109,42 @@
                 return false;
             }
         }
-        
 
-    
         
-                //Thêm sản phẩm vào giỏ hàng
-                public function addToCart($userId, $productId, $quantity) {
-                    try {
-                        // Kiểm tra cart tồn tại
-                        $checkCartSql = "SELECT cart_id FROM shoppingcart WHERE user_id = :user_id";
-                        $checkCartStmt = $this->db->prepare($checkCartSql);
-                        $checkCartStmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-                        $checkCartStmt->execute();
-                        $cartId = $checkCartStmt->fetchColumn();
+        // Thêm sản phẩm vào giỏ hàng
+        public function addToCart($userId, $productId, $quantity) {
+            // Kiểm tra xem người dùng đã có giỏ hàng chưa
+            $checkCartSql = "SELECT cart_id FROM shoppingcart WHERE user_id = :user_id";
+            $checkCartStmt = $this->db->prepare($checkCartSql);
+            $checkCartStmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+            $checkCartStmt->execute();
+            $cartId = $checkCartStmt->fetchColumn();
             
-                        if (!$cartId) {
-                            // Tạo cart mới nếu chưa tồn tại
-                            $createCartSql = "INSERT INTO shoppingcart (user_id) VALUES (:user_id)";
-                            $createCartStmt = $this->db->prepare($createCartSql);
-                            $createCartStmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
-                            $createCartStmt->execute();
-                            $cartId = $this->db->lastInsertId();
-                        }
-            
-                        // Thêm hoặc cập nhật sản phẩm trong cart
-                        $sql = "INSERT INTO cartitem (cart_id, product_id, quantity) 
-                                VALUES (:cart_id, :product_id, :quantity)
-                                ON DUPLICATE KEY UPDATE quantity = quantity + :quantity";
-                        $stmt = $this->db->prepare($sql);
-                        $stmt->bindParam(':cart_id', $cartId, PDO::PARAM_INT);
-                        $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
-                        $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-            
-                        return $stmt->execute();
-                    } catch (Exception $e) {
-                        error_log('Error adding to cart: ' . $e->getMessage());
-                        return false;
-                    }
-                }
+            if (!$cartId) {
+                // Nếu không có giỏ hàng, tạo mới giỏ hàng
+                $createCartSql = "INSERT INTO shoppingcart (user_id) VALUES (:user_id)";
+                $createCartStmt = $this->db->prepare($createCartSql);
+                $createCartStmt->bindParam(':user_id', $userId, PDO::PARAM_INT);
+                $createCartStmt->execute();
+                $cartId = $this->db->lastInsertId();
             }
-            
-            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                header('Content-Type: application/json'); // Đảm bảo trả về JSON
-                $data = json_decode(file_get_contents("php://input"), true);
-                $action = $data['action'] ?? '';
-            
-                $cartModel = new CartModel();
-            
-                if ($action === 'add_to_cart') {
-                    $productId = intval($data['product_id']);
-                    $quantity = intval($data['quantity']);
-                    $userId = $_SESSION['user_id'] ?? null;
-            
-                    if ($userId === null) {
-                        echo json_encode(['success' => false, 'message' => 'User is not logged in.']);
-                        exit;
-                    }
-            
-                    $success = $cartModel->addToCart($userId, $productId, $quantity);
-                    echo json_encode(['success' => $success]);
-                    exit;
-                }
+    
+            // Kiểm tra tồn kho trước khi thêm sản phẩm vào giỏ
+            $availableStock = $this->checkStock($productId);
+            if ($quantity > $availableStock) {
+                return false; // Không đủ hàng tồn kho
+            }
+    
+            // Thêm hoặc cập nhật sản phẩm trong giỏ hàng
+            $sql = "INSERT INTO cartitem (cart_id, product_id, quantity)
+                    VALUES (:cart_id, :product_id, :quantity)
+                    ON DUPLICATE KEY UPDATE quantity = quantity + :quantity";
+            $stmt = $this->db->prepare($sql);
+            $stmt->bindParam(':cart_id', $cartId, PDO::PARAM_INT);
+            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+    
+            return $stmt->execute();
+        }
             }
 ?>

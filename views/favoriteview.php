@@ -21,6 +21,7 @@
                         <button class="add-to-cart" data-product-id="<?php echo $favorite['product_id']; ?>" style="background-color: transparent; border: none;">
                             <i class="fas fa-cart-plus"></i>
                         </button>
+                        
                     </div>
                     <a href="./detailproduct?product_id=<?php echo $favorite['product_id']; ?>" >
                         <img src="<?php echo htmlspecialchars($favorite['image_url']); ?>" alt="<?php echo htmlspecialchars($favorite['name']); ?>" height="200" width="300">
@@ -98,20 +99,49 @@ function toggleHeart(button) {
 document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-product-id');
-        fetch('../models/shoppingcartmodels.php', {
+        const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>; // Lấy userId từ session PHP
+        // const quantity = document.getElementById('quantity').value;
+
+        if (!userId) {
+            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            return;
+        }
+        console.log('Product ID:', productId, 'User ID:', userId);
+        this.disabled = true; // Disable the button to avoid multiple clicks
+        // this.textContent = "Adding..."; // Update the button text
+
+        fetch('/SneakerHome/home/addToCart', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'add_to_cart', product_id: productId, quantity: 1 }) 
+            body: JSON.stringify({
+                action: 'add_to_cart',
+                product_id: productId,
+                quantity: 1,
+                user_id: userId // Gửi userId để backend nhận diện người dùng
+            })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+            return response.json(); // Chuyển phản hồi thành JSON
+        })
         .then(data => {
+            this.disabled = false; // Re-enable button after response
+            // this.textContent = "Add to Cart"; // Reset the text
+
             if (data.success) {
                 alert('Thêm vào giỏ hàng thành công!');
             } else {
-                alert('Có lỗi xảy ra!');
+                alert(data.message || 'Có lỗi xảy ra!');
             }
         })
-        .catch(error => console.error('Error:', error));
+        .catch(error => {
+            this.disabled = false; // Re-enable button if there's an error
+            // this.textContent = "Add to Cart";
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
+        });
     });
 });
 </script>
