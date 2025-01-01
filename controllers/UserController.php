@@ -36,31 +36,18 @@ class UserController extends Controllers
         $this->view('profileview', [
             'user' => $user,
             'orders' => $orders,
-            'success_message' => $_SESSION['success_message'] ?? null
+            // 'success_message' => $_SESSION['success_message'] ?? null
         ]);
 
         unset($_SESSION['success_message']);
     }
 
     public function updateProfile() {
-        session_start();
-
-        // if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
-        //     $_SESSION['error_message'] = "Please log in to update your profile.";
-        //     header("Location: /user/login");
-        //     exit;
-        // }
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $name = $_POST['name'] ?? '';
             $email = $_POST['email'] ?? '';
             $password = $_POST['password'] ?? '';
-
-            // if (empty($name) || empty($email)) {
-            //     $_SESSION['error_message'] = "Name and email are required.";
-            //     header("Location: /SneakerHome/User/profile");
-            //     exit;
-            // }
 
             $userModel = new UserModel();
             $userModel->user_id = $_SESSION['userId'];
@@ -75,6 +62,7 @@ class UserController extends Controllers
 
             if ($updated) {
                 $_SESSION['success_message'] = "Profile updated successfully.";
+                header("Location: /SneakerHome/User/profile");
             } else {
                 $_SESSION['error_message'] = "Failed to update profile.";
             }
@@ -127,7 +115,7 @@ class UserController extends Controllers
             if ($user['role'] === 'user') {
                 header("Location: /SneakerHome/home");
             } elseif ($user['role'] === 'admin') {
-                header("Location: /Admin/admin");
+                header("Location: /SneakerHome/Admin/adminview");
             } else {
                 $_SESSION['error_message'] = "Unknown role detected.";
                 header("Location: /user/login");

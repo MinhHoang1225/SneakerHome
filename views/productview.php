@@ -29,7 +29,7 @@
                     </div>
                     <div class="card h-300"href="detailproduct?product_id=<?php echo $product['product_id']; ?>" >
     <!-- Hình ảnh sản phẩm -->
-    <a href="detailproduct?product_id=<?php echo $product['product_id']; ?>" >
+    <a href="./Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $product['product_id']; ?>">
         <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
         alt="<?php echo htmlspecialchars($product['name']); ?>" 
         class="card-img-top">
@@ -70,9 +70,9 @@
     <?php include "./controllers/footercontroller.php"; ?>
     <?php include $_SERVER['DOCUMENT_ROOT'] . '\SneakerHome\component\btn_up.php'; ?>
     <script>
-       function toggleHeart(button) {
+function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
-    const userId = <?php echo $_SESSION['user_id'] ?? 'null'; ?>;
+    const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 
     if (!userId) {
         alert('Bạn phải đăng nhập để thực hiện thao tác này!');
@@ -81,33 +81,39 @@
 
     console.log('Product ID:', productId, 'User ID:', userId);
 
-    fetch('../controllers/favoritecontroller.php', {
+    fetch('/SneakerHome/product/favorites', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body: JSON.stringify({
-            action: 'toggle_favorite',
             user_id: userId,
             product_id: productId
         })
     })
-    .then(response => response.json()) 
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+    })
     .then(data => {
-        console.log('Server response:', data); 
+        console.log('Server response:', data);
 
         const icon = button.querySelector('i');
 
         if (data.success) {
             if (data.is_favorited) {
-                icon.classList.remove('far'); 
-                icon.classList.add('fas');    
+                icon.classList.remove('far');
+                icon.classList.add('fas');
             } else {
-                icon.classList.remove('fas'); 
-                icon.classList.add('far');    
+                icon.classList.remove('fas');
+                icon.classList.add('far');
             }
 
             alert(data.message);
         } else {
-            alert('Có lỗi xảy ra khi xử lý yêu cầu.');
+            alert(data.message);
         }
     })
     .catch(error => {
@@ -115,7 +121,6 @@
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
-
         document.querySelectorAll('.add-to-cart').forEach(button => {
     button.addEventListener('click', function () {
         const productId = this.getAttribute('data-product-id');

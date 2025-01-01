@@ -243,8 +243,8 @@
 
         <div id="editModal" class="modal">
             <div class="modal-content">
-                <span class="close" id="closeEditModal">&times;</span>
-                <form action = "/SneakerHome/Admin/updateProduct" id ="editForm" method="POST" enctype="multipart/form-data">
+            <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
+            <form action = "/SneakerHome/Admin/updateProduct" method="POST" enctype="multipart/form-data">
                     <h3>Sửa Sản Phẩm</h3>
                     <input type="hidden" id="product_id" name="product_id">
 
@@ -269,5 +269,26 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/admin.js"></script>
+    <script>
+        // Modal sửa sản phẩm
+const editModalBtn = document.getElementById('editModalBtn');
+const closeEditModal = document.getElementById('close');
+const editModal = document.getElementById('editModal');
+
+editModalBtn.addEventListener('click', () => {
+    editModal.style.display = 'block';
+});
+
+closeEditModal.addEventListener('click', () => {
+    editModal.style.display = 'none';
+});
+
+window.addEventListener('click', (event) => {
+    if (event.target === editModal) {
+        editModal.style.display = 'none';
+    }
+});
+
+    </script>
 </body>
 </html>
