@@ -242,7 +242,7 @@ public function getBestSellers($limit = 8) {
 
         // Chèn vào bảng order
         $query = "INSERT INTO `order` (user_id, order_date, status, total_amount) 
-                  VALUES (:user_id, NOW(), 'pending', :total_amount)";
+                  VALUES (:user_id, NOW(), 'In progress', :total_amount)";
         $stmt = $this->db->prepare($query);
         $stmt->bindParam(':user_id', $_SESSION['userId'], PDO::PARAM_INT);
         $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);

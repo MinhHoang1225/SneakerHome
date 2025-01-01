@@ -5,7 +5,6 @@ require_once './models/adminmodels.php';
 class AdminController extends Controllers
 {
     private $conn;
-
     public function __construct() {
         $this->conn = connectdb();
     }
