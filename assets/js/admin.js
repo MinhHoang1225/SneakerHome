@@ -19,47 +19,24 @@ document.addEventListener("DOMContentLoaded", () => {
   sections.forEach((section) => (section.style.display = "none"));
   document.getElementById("dashboard").style.display = "block";
 });
-// Modal thêm sản phẩm
-const openModalBtn = document.getElementById('openModalBtn');
-const closeModalBtn = document.getElementById('closeModalBtn');
-const addProductModal = document.getElementById('addProductModal');
+// // Modal thêm sản phẩm
+// const openModalBtn = document.getElementById('openModalBtn');
+// const closeModalBtn = document.getElementById('closeModalBtn');
+// const addProductModal = document.getElementById('addProductModal');
 
-openModalBtn.addEventListener('click', () => {
-  addProductModal.style.display = 'block';
-});
+// openModalBtn.addEventListener('click', () => {
+//   addProductModal.style.display = 'block';
+// });
 
-closeModalBtn.addEventListener('click', () => {
-  addProductModal.style.display = 'none';
-});
+// closeModalBtn.addEventListener('click', () => {
+//   addProductModal.style.display = 'none';
+// });
 
-window.addEventListener('click', (event) => {
-  if (event.target === addProductModal) {
-      addProductModal.style.display = 'none';
-  }
-});
-
-// Modal sửa sản phẩm
-const editModal = document.getElementById('editModal');
-const editModalBtn = document.getElementById('editModalBtn');
-const closeEditModal = document.querySelector('#editModal .close');
-
-// Mở modal khi nhấn nút "Sửa"
-editModalBtn.addEventListener('click', () => {
-    editModal.style.display = 'block'; // Hiển thị modal
-});
-
-// Đóng modal khi nhấn nút 'X'
-closeEditModal.addEventListener('click', () => {
-    editModal.style.display = 'none'; // Ẩn modal
-});
-
-// Đóng modal khi click bên ngoài modal
-window.addEventListener('click', (event) => {
-    if (event.target === editModal) {
-        editModal.style.display = 'none'; // Ẩn modal
-    }
-});
-
+// window.addEventListener('click', (event) => {
+//   if (event.target === addProductModal) {
+//       addProductModal.style.display = 'none';
+//   }
+// });
 
 // const editModal = document.getElementById('editModal');
 // const closeEditModal = document.getElementById('closeEditModal');
