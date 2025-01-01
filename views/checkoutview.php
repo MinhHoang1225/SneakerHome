@@ -70,15 +70,63 @@
                     </div>
 
                     <!-- Nút Payment trong form -->
-                    <button class="btn btn-payment" type="submit">
-                        Payment
-                    </button>
+                     <a href="/SneakerHome/product/checkoutSuccessBuyNow">
+                        <button onclick="toggleHeart(this)" class="btn btn-payment" 
+                        type="button" 
+                        data-product-id="<?php echo $item['product_id']; ?>" 
+                        style=" border: none;">
+                        <a href="/SneakerHome/product/checkoutSuccessBuyNow">
+                        Payment</a>
+                     </button>
+                    
+<?php var_dump($item['product_id']) ?>
+
                 </div>
             </div>
         </div>
         </form> <!-- Đóng form tại đây -->
     </div>
 </div>
-                    
+       <script>
+        function toggleHeart(button) {
+    const productId = button.getAttribute('data-product-id');
+    const quantity = 1;
+
+    // Debug: Kiểm tra productId
+    console.log('Product ID:', productId);
+
+    if (!productId) {
+        alert('Product ID is missing.');
+        return;
+    }
+
+    fetch('/SneakerHome/product/saveOrder', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ product_id: productId, quantity: quantity }),
+    })
+        .then((response) => {
+            console.log('Response status:', response.status);
+            return response.json();
+        })
+        .then((data) => {
+            console.log('Response data:', data);
+            if (data.success) {
+                // alert('Order saved successfully! Order ID: ' + data.order_id);
+                window.location.href = '/SneakerHome/product/checkoutSuccessBuyNow';
+                // location.reload(); // Làm mới giao diện
+            } else {
+                alert('Error: ' + data.message);
+            }
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert('An unexpected error occurred.');
+        });
+}
+
+       </script>             
 </body>
 </html>

@@ -154,6 +154,8 @@
                         <th>Tài khoản người dùng</th>
                         <th>Thời gian đặt hàng</th>
                         <th>Trạng thái</th>
+                        <th></th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -164,6 +166,16 @@
                             <td><?= $order['name'] ?></td>
                             <td><?= $order['order_date'] ?></td>
                             <td><?= $order['status'] ?></td>
+                            <td> 
+                                <form method="POST" action="/SneakerHome/admin/t">
+                                    <button type="submit" class="btn deleteOrder">Hủy đơn</button>
+                                </form>
+                            </td>
+                            <td> 
+                                <form method="POST" action="/SneakerHome/admin/">
+                                    <button type="submit" class="btn completeOrder">Hoàn thành</button>
+                                </form>
+                            </td>
                         </tr>
                     <?php endforeach; ?>
                     <?php else: ?>
