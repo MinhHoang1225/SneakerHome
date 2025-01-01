@@ -45,6 +45,7 @@ class AdminModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    
     // Lấy danh sách đơn hàng
     public function getOrders() {
         $stmt = $this->db->prepare("SELECT * FROM `order`");
