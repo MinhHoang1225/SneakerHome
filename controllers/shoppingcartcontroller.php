@@ -46,6 +46,84 @@ class ShoppingCartController extends Controllers{
     {
         $this->db = $db;
     }
+    
+    public function detailProduct() {
+        try {
+            // Lấy product_id từ GET
+            $productId = $_GET['product_id'] ?? null;
+            if (!$productId) {
+                throw new Exception('Sản phẩm không tồn tại.');
+            }
+
+            // Tạo instance của ProductModel để lấy thông tin sản phẩm
+            $productModel = new ProductModel($this->db);
+            $product = $productModel->getProductById($productId);
+            $relatedProducts = $productModel->getRelatedProducts($productId);
+
+            if (!$product) {
+                throw new Exception('Không tìm thấy sản phẩm.');
+            }
+
+            // Gửi thông tin sản phẩm và sản phẩm liên quan vào view
+            $this->view('detailproductview', [
+                'product' => $product,
+                'related_products' => $relatedProducts
+            ]);
+
+        } catch (Exception $e) {
+            // Xử lý lỗi, có thể hiển thị thông báo lỗi
+            echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+    public function addToCart($product_id, $quantity) {
+        echo json_encode($response); // $response là mảng chứa dữ liệu trả về
+        header('Content-Type: application/json');
+        try {
+            if (empty($product_id) || empty($quantity)) {
+                echo json_encode(["success" => false, "message" => "Thiếu thông tin sản phẩm hoặc số lượng"]);
+                return;
+            }
+
+            $result = $this->model->addProductToCart($product_id, $quantity);
+
+            if ($result) {
+                echo json_encode(["success" => true, "message" => "Thêm vào giỏ hàng thành công"]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Không thể thêm vào giỏ hàng"]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi: " . $e->getMessage()]);
+        }
+    }
+
+    public function removeFromCart($product_id) {
+        try {
+            if (empty($product_id)) {
+                echo json_encode(["success" => false, "message" => "Thiếu thông tin sản phẩm"]);
+                return;
+            }
+
+            $result = $this->model->removeProductFromCart($product_id);
+
+            if ($result) {
+                echo json_encode(["success" => true, "message" => "Xóa sản phẩm khỏi giỏ hàng thành công"]);
+            } else {
+                echo json_encode(["success" => false, "message" => "Không thể xóa sản phẩm khỏi giỏ hàng"]);
+            }
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi: " . $e->getMessage()]);
+        }
+    }
+
+    public function getCartItems() {
+        try {
+            $cartItems = $this->model->getCartItems();
+
+            echo json_encode(["success" => true, "data" => $cartItems]);
+        } catch (Exception $e) {
+            echo json_encode(["success" => false, "message" => "Đã xảy ra lỗi: " . $e->getMessage()]);
+        }
+    }
 
     // Method to display products
     public function shoppingCart(){

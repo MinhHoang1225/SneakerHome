@@ -29,7 +29,7 @@
                     </div>
                     <div class="card h-300"href="detailproduct?product_id=<?php echo $product['product_id']; ?>" >
     <!-- Hình ảnh sản phẩm -->
-    <a href="./Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $product['product_id']; ?>">
+    <a href="./detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $product['product_id']; ?>">
         <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
         alt="<?php echo htmlspecialchars($product['name']); ?>" 
         class="card-img-top">
