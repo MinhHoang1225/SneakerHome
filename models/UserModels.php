@@ -1,54 +1,55 @@
 <?php
 require_once './database/connect.php';
 $db = connectdb();
-class User {
-    private $conn;
-    private $table_name = "user";
-
+class UserModel {
+    private $db;
+    
     public $user_id;
     public $name;
     public $email;
     public $password;
-
-    // Constructor to initialize database connection
     public function __construct() {
-        $this->conn = connectdb(); 
+        $this->db = connectdb(); 
     }
 
-    // Get orders by user ID
-    public function getOrdersByUserId($user_id) {
-        $query = "SELECT * FROM `order` WHERE user_id = :user_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
-        $stmt->execute();
-        return $stmt->fetchAll(PDO::FETCH_ASSOC); 
-    }
-
-    // Get user by ID
     public function getUserById($user_id) {
-        $query = "SELECT * FROM " . $this->table_name . " WHERE user_id = :user_id";
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT); 
+        $query = "SELECT * FROM user WHERE user_id = :user_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);
     }
 
-    // Update user information
-    public function updateUser() {
-        $query = "UPDATE " . $this->table_name . " 
-                  SET name = :name, email = :email, password = :password
-                  WHERE user_id = :user_id";
+    public function getOrdersByUserId($user_id) {
+        $query = "SELECT * FROM `order` WHERE user_id = :user_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 
-        $stmt = $this->conn->prepare($query);
-        $stmt->bindParam(":name", $this->name, PDO::PARAM_STR);
-        $stmt->bindParam(":password", $this->password, PDO::PARAM_STR);
-        $stmt->bindParam(":email", $this->email, PDO::PARAM_STR);
-        $stmt->bindParam(":user_id", $this->user_id, PDO::PARAM_INT);
+    public function updateUser($user_id, $name, $email, $password = null) {
+        $query = "UPDATE user SET name = :name, email = :email";
+
+        if ($password) {
+            $query .= ", password = :password";
+        }
+
+        $query .= " WHERE user_id = :user_id";
+
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(":name", $name, PDO::PARAM_STR);
+        $stmt->bindParam(":email", $email, PDO::PARAM_STR);
+        $stmt->bindParam(":user_id", $user_id, PDO::PARAM_INT);
+
+        if ($password) {
+            $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+            $stmt->bindParam(":password", $hashedPassword, PDO::PARAM_STR);
+        }
 
         return $stmt->execute();
     }
 }
-
 class LoginModel {
     private $db;
 
@@ -112,4 +113,21 @@ class RegisterModel {
         }
     }
 }
+class LogoutModel {
+
+    public function logoutUser() {
+        try {
+            if (isset($_SESSION['userId'])) {
+                session_unset();
+                session_destroy();
+                return true; 
+            }
+            return false; 
+        } catch (Exception $e) {
+            error_log("Error during logout: " . $e->getMessage());
+            return false;
+        }
+    }
+}
+
 ?>

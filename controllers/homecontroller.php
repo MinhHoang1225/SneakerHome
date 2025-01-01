@@ -38,6 +38,7 @@ class HomeController extends Controllers{
             'productId' => $productId,
         ],$data);
     }
+    
     public function favorite() {
         header('Content-Type: application/json');
         try {

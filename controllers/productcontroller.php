@@ -3,6 +3,7 @@ require_once './core/Controllers.php';
 require_once './models/ProductModels.php';
 class ProductController extends Controllers {
     private $db;
+    
     public function __construct($db)
     {
         if (!$db) {
@@ -278,18 +279,18 @@ public function checkoutSuccessBuyNow() {
     $productModel = new ProductModel($this->db);
     try {
         $products = $productModel->getCheckoutSuccessBuyNow($productId, $quantity);
-        // $totalPrice = $products['price'] * $quantity;
-        $totalPrice = 5;
+        $totalPrice = $products['price'] * $quantity;
+        // $totalPrice = 5;
 
         // $totalPrice = 88 * $quantity;
 
 
         // Save the order and return the order ID
-        $saveorder = $productModel->saveOrder($productId, $quantity, $totalPrice);  
+        // $saveorder = $productModel->saveOrder($productId, $quantity, $totalPrice);  
 
         // Display the success view
         $this->view('checkoutSuccessBuyNow', [
-            'saveorder' => $saveorder,
+            // 'saveorder' => $saveorder,
             'products' => $products,
             'username_input' => $username_input,
             'address' => $address,
@@ -303,52 +304,73 @@ public function checkoutSuccessBuyNow() {
     }
 }
 
-public function saveOrderBuyNow() {
-    // Kiểm tra phương thức HTTP
+
+
+
+public function saveOrder()
+{
+    // Debug: Kiểm tra phương thức yêu cầu
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-        http_response_code(405); // Method Not Allowed
+        http_response_code(405);
         echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
         return;
     }
 
-    // Lấy dữ liệu từ POST
-    $quantity = isset($_POST['quantity']) ? (int)$_POST['quantity'] : 0;
-    $productId = isset($_POST['product_id']) ? (int)$_POST['product_id'] : 0;
+    // Debug: Kiểm tra dữ liệu JSON
+    $input = json_decode(file_get_contents('php://input'), true);
+    error_log('Input Data: ' . json_encode($input));
 
-    // Kiểm tra dữ liệu đầu vào
+    $quantity = isset($input['quantity']) ? (int)$input['quantity'] : 0;
+    $productId = isset($input['product_id']) ? (int)$input['product_id'] : 0;
+
+    // Debug: Kiểm tra giá trị đầu vào
+    error_log("Product ID: $productId, Quantity: $quantity");
+
     if ($quantity <= 0 || $productId <= 0) {
-        http_response_code(400); // Bad Request
+        http_response_code(400);
         echo json_encode(['success' => false, 'message' => 'Invalid product ID or quantity.']);
         return;
     }
 
-    try {
-        // Tạo model và lưu đơn hàng
-        $productModel = new ProductModel($this->db);
+    // Debug: Kiểm tra session
+    if (!isset($_SESSION['userId'])) {
+        error_log('Session User ID not found.');
+        http_response_code(401); // Unauthorized
+        echo json_encode(['success' => false, 'message' => 'User not logged in.']);
+        return;
+    }
 
-        // Tính tổng giá trị đơn hàng (nếu cần)
-        $product = $productModel->getProductById($productId); // Giả sử bạn có phương thức này
+    try {
+        // Lấy thông tin sản phẩm
+        $productModel = new ProductModel($this->db);
+        $product = $productModel->getProductById($productId);
+
+        // Debug: Kiểm tra sản phẩm
+        error_log('Product Data: ' . json_encode($product));
+
         if (!$product) {
-            http_response_code(404); // Not Found
+            http_response_code(404);
             echo json_encode(['success' => false, 'message' => 'Product not found.']);
             return;
         }
 
+        // Tính toán tổng giá
         $totalPrice = $product['price'] * $quantity;
+        error_log("Total Price: $totalPrice");
 
         // Lưu đơn hàng
         $orderId = $productModel->saveOrder($productId, $quantity, $totalPrice);
 
-        // Trả về phản hồi JSON
         if ($orderId) {
             echo json_encode(['success' => true, 'message' => 'Order saved successfully.', 'order_id' => $orderId]);
+            
         } else {
-            http_response_code(500); // Internal Server Error
+            http_response_code(500);
             echo json_encode(['success' => false, 'message' => 'Failed to save order.']);
         }
     } catch (Exception $e) {
-        error_log("Error in saveOrderBuyNow: " . $e->getMessage());
-        http_response_code(500); // Internal Server Error
+        error_log("Error in saveOrder: " . $e->getMessage());
+        http_response_code(500);
         echo json_encode(['success' => false, 'message' => 'An error occurred while processing your order.']);
     }
 }

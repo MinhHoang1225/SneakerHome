@@ -227,33 +227,41 @@ public function getBestSellers($limit = 8) {
 
 
 
-    public function saveOrder($productId, $quantity, $totalPrice) {
-        try {
-            // Insert order into order table
-            $query = "INSERT INTO order (user_id, order_date, status, total_amount) VALUES (:user_id, NOW(), 'pending', :total_amount)";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':user_id', $_SESSION['user_id'], PDO::PARAM_INT);
-            $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
-            $stmt->execute();
-    
-            // Get the last inserted order ID
-            $orderId = $this->db->lastInsertId();
-    
-            // Insert order items into orderitem table
-            $query = "INSERT INTO orderitem (order_id, product_id, quantity, price) VALUES (:order_id, :product_id, :quantity, :price)";
-            $stmt = $this->db->prepare($query);
-            $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
-            $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
-            $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
-            $stmt->bindParam(':price', $totalPrice, PDO::PARAM_STR); // You may want to store the unit price, not total price
-            $stmt->execute();
-    
-            return $orderId;
-        } catch (PDOException $e) {
-            error_log("Error in saveOrder: " . $e->getMessage());
-            return null;
-        }
+    public function saveOrder($productId, $quantity, $totalPrice)
+{
+    try {
+        // Debug: Kiểm tra session user_id
+        error_log('Session User ID: ' . $_SESSION['user_id']);
+
+        // Chèn vào bảng order
+        $query = "INSERT INTO `order` (user_id, order_date, status, total_amount) 
+                  VALUES (:user_id, NOW(), 'In progress', :total_amount)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':user_id', $_SESSION['userId'], PDO::PARAM_INT);
+        $stmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
+        $stmt->execute();
+
+        // Lấy ID đơn hàng vừa tạo
+        $orderId = $this->db->lastInsertId();
+        error_log("Order ID: $orderId");
+
+        // Chèn vào bảng orderitem
+        $query = "INSERT INTO orderitem (order_id, product_id, quantity, price) 
+                  VALUES (:order_id, :product_id, :quantity, :price)";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+        $stmt->bindParam(':product_id', $productId, PDO::PARAM_INT);
+        $stmt->bindParam(':quantity', $quantity, PDO::PARAM_INT);
+        $stmt->bindParam(':price', $totalPrice, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $orderId;
+    } catch (PDOException $e) {
+        error_log("Error in saveOrder: " . $e->getMessage());
+        return null;
     }
+}
+
     
     
 
