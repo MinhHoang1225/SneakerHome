@@ -3,34 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Profile</title>
+    <title>Profile</title>
     <?php include_once './component/linkbootstrap5.php'; ?>
     <link rel="stylesheet" href="./assets/css/profile.css">
 </head>
 <body>
     <div class="container mt-5">
-        <h1 class="text-center">User Profile</h1>
-
-        <!-- Success Message -->
-        <?php if (!empty($success_message)): ?>
-            <div class="alert alert-success">
-                <?= htmlspecialchars($success_message); ?>
-            </div>
-        <?php endif; ?>
-
-        <!-- Error Message -->
-        <?php if (!empty($_SESSION['error_message'])): ?>
-            <div class="alert alert-danger">
-                <?= htmlspecialchars($_SESSION['error_message']); ?>
-                <?php unset($_SESSION['error_message']); ?>
-            </div>
-        <?php endif; ?>
+        <h1 class="text-center">My Profile</h1>
 
         <!-- User Information -->
         <div class="card mb-4">
             <div class="card-header">Profile Information</div>
             <div class="card-body">
-                <form action="?SneakerHome/User/updateProfile" method="POST">
+                <form action="/SneakerHome/User/updateProfile" method="POST">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<?= htmlspecialchars($user['name']); ?>" required>
