@@ -1,6 +1,8 @@
 <?php
 require_once './models/ProductModels.php';
+require_once './models/ShoppingCartModels.php';
 require_once './core/Controllers.php';
+
 class HomeController extends Controllers{
     private $db;
     
@@ -14,19 +16,25 @@ class HomeController extends Controllers{
 
 
     public function home() {
+        // $input = json_decode(file_get_contents('php://input'), true);
+
         $data = ['default'];
-    
+        $quantity = 1;
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
         $limit = 24;
         $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : null;
         $userId = $_SESSION['user_id'] ?? null;
         $productModel = new ProductModel($this->db);
+        $cartModel = new CartModel($this->db);
+
         $allProduct = $productModel->getBestSellers();
         $products = $productModel->getBestSellersByCategory($categoryId, $limit);
         $totalProducts = $productModel->getAllBestSellersCount($categoryId);   
         $favorite = $productId ? $productModel->favorite($userId, $productId) : null;
+        $cart = $cartModel -> addToCart($userId, $productId, $quantity);
     
         $this->view('homeview', [
+            'cart' => $cart,
             'allProduct' => $allProduct,
             'products' => $products,
             'totalProducts' => $totalProducts,
@@ -38,7 +46,10 @@ class HomeController extends Controllers{
             'productId' => $productId,
         ],$data);
     }
+<<<<<<< HEAD
+=======
     
+>>>>>>> 9b5d32dc220c9e80c8becdf4cf0e3e0f0ce28760
     public function favorite() {
         header('Content-Type: application/json');
         try {
@@ -65,5 +76,54 @@ class HomeController extends Controllers{
             'username_input' => $_SESSION['username_input'] ?? ''
         ]); 
     }
+
+
+    public function addToCart($data)
+        {
+            // Kiểm tra dữ liệu từ JSON
+            if (isset($data['product_id']) && isset($data['quantity']) && isset($data['user_id'])) {
+                $productId = $data['product_id'];
+                $quantity = $data['quantity'];
+                $userId = $data['user_id'];
+        
+                // Kiểm tra xem người dùng đã có giỏ hàng chưa
+                $stmt = $this->db->prepare("SELECT * FROM shoppingcart WHERE user_id = ?");
+                $stmt->execute([$userId]);
+                $cart = $stmt->fetch();
+        
+                if (!$cart) {
+                    // Nếu người dùng chưa có giỏ hàng, tạo giỏ hàng mới
+                    $stmt = $this->db->prepare("INSERT INTO shoppingcart (user_id, cart_id) VALUES (?,?)");
+                    $stmt->execute([$userId]);
+                    $cartId = $this->db->lastInsertId(); // Lấy cart_id của giỏ hàng mới tạo
+                } else {
+                    // Nếu người dùng đã có giỏ hàng, lấy cart_id
+                    $cartId = $cart['cart_id'];
+                }
+        
+                // Kiểm tra sản phẩm có tồn tại trong cơ sở dữ liệu
+                $stmt = $this->db->prepare("SELECT * FROM product WHERE product_id = ?");
+                $stmt->execute([$productId]);
+                $product = $stmt->fetch();
+        
+                if ($product) {
+                    // Kiểm tra số lượng sản phẩm còn trong kho
+                    if ($product['stock'] >= $quantity) {
+                        // Thêm sản phẩm vào bảng cartitem
+                        $stmt = $this->db->prepare("INSERT INTO cartitem (cart_id, product_id, quantity) VALUES (?, ?, ?)");
+                        $stmt->execute([$cartId, $productId, $quantity]);
+        
+                        echo json_encode(["success" => true, "message" => "Sản phẩm đã được thêm vào giỏ hàng"]);
+                    } else {
+                        echo json_encode(["success" => false, "message" => "Không đủ số lượng"]);
+                    }
+                } else {
+                    echo json_encode(["success" => false, "message" => "Sản phẩm không tồn tại"]);
+                }
+            } else {
+                echo json_encode(["success" => false, "message" => "Thiếu dữ liệu"]);
+            }
+        }
+        
 }
 ?> 

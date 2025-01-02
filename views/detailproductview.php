@@ -9,15 +9,17 @@
 </head>
 <body>
 <?php include  './component/header.php'; ?>
+<?php var_dump($_SESSION) ?>
+
 <?php if ($product): ?>
     <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <!-- Hình ảnh sản phẩm -->
+            
             <img src="<?= htmlspecialchars($product['image_url']); ?>" alt="<?= htmlspecialchars($product['name']); ?>" class="img-fluid">
         </div>
         <div class="col-md-6">
-            <!-- Thông tin sản phẩm -->
+            
             <h2><?= htmlspecialchars($product['name']); ?></h2>
             <p class="price">
                 <span class="new-price"><?= number_format($product['price']); ?> VNĐ</span>
@@ -40,11 +42,9 @@
                 <input type="hidden" name="quantity" id="hidden-quantity" value="1">
                 
                 <div class="d-flex align-items-center mt-3">
-                    <button type="button" class="add-to-cart btn btn-sm btn-primary me-2" data-product-id="<?= $product['product_id']; ?>" style="border: none;">
-                        <i class="fas fa-cart-plus"></i>
-                        Add to Cart
-                    </button>
-
+                    <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
 
                     <a href="/SneakerHome/Product/checkoutBuyNow?product_id=<?php echo $product['product_id']; ?>&quantity=" 
                         onclick="return updateQuantity('<?php echo $product['product_id']; ?>');">
@@ -77,15 +77,15 @@
                         </button>
                     </div>
                     <div class="card h-300">
-                        <!-- Hình ảnh sản phẩm -->
+                        
                         <a href="detailproduct?product_id=<?php echo $related_product['product_id']; ?>" data-product-id=<?php echo $related_product['product_id']; ?>>
                             <img src="<?php echo htmlspecialchars($related_product['image_url']); ?>" alt="<?php echo htmlspecialchars($related_product['name']); ?>" class="card-img-top">
                         </a>
                         <div class="card-body text-center">
-                            <!-- Tên sản phẩm -->
+                            
                             <h5 class="card-title"><?php echo htmlspecialchars($related_product['name']); ?></h5>
 
-                            <!-- Hiển thị giá -->
+                            
                             <?php if (!empty($related_product['old_price']) && $related_product['old_price'] > $related_product['price']) { ?>
                                 <p class="price">
                                     <span class="new-price fw-bold"><?php echo number_format($related_product['price']); ?> VNĐ</span>
@@ -123,7 +123,7 @@ function toggleHeart(button) {
 
     console.log('Product ID:', productId, 'User ID:', userId);
 
-    fetch('/SneakerHome/product/favorite', {
+    fetch('/SneakerHome/home/favorite', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -163,34 +163,62 @@ function toggleHeart(button) {
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
+
+
 function updateQuantity(productId) {
     const quantityInput = document.getElementById('quantity');
-    const quantity = quantityInput ? quantityInput.value : 1; // Lấy giá trị quantity từ input
+    const quantity = quantityInput ? quantityInput.value : 1; 
     window.location.href = `/SneakerHome/product/checkoutBuyNow?product_id=${productId}&quantity=${quantity}`;
-    return false; // Ngăn chặn hành động mặc định
+    return false; 
 }
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>; // Lấy userId từ session PHP
+        const quantity = document.getElementById('quantity').value;
 
-    document.querySelectorAll('.add-to-cart').forEach(button => {
-        button.addEventListener('click', function () {
-            const productId = this.getAttribute('data-product-id');
-            const quantity = document.getElementById('quantity').value;
+        if (!userId) {
+            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            return;
+        }
+        console.log('Product ID:', productId, 'User ID:', userId);
+        this.disabled = true; // Disable the button to avoid multiple clicks
+        // this.textContent = "Adding..."; // Update the button text
 
-            fetch('../models/shoppingcartmodels.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ action: 'add_to_cart', product_id: productId,quantity: quantity }) 
+        fetch('/SneakerHome/home/addToCart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'add_to_cart',
+                product_id: productId,
+                quantity: quantity ?? 1,
+                user_id: userId // Gửi userId để backend nhận diện người dùng
             })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Thêm vào giỏ hàng thành công!');
-                } else {
-                    alert('Có lỗi xảy ra!');
-                }
-            })
-            .catch(error => console.error('Error:', error));
+        })
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+            return response.json(); // Chuyển phản hồi thành JSON
+        })
+        .then(data => {
+            this.disabled = false; // Re-enable button after response
+            // this.textContent = "Add to Cart"; // Reset the text
+
+            if (data.success) {
+                alert('Thêm vào giỏ hàng thành công!');
+            } else {
+                alert(data.message || 'Có lỗi xảy ra!');
+            }
+        })
+        .catch(error => {
+            this.disabled = false; // Re-enable button if there's an error
+            // this.textContent = "Add to Cart";
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
         });
     });
+});
 </script>
 
 </body>
