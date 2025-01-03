@@ -108,6 +108,7 @@
         </style>
     </head>
     <body>
+        <?php var_dump($_SESSION) ?>
     <div class="confirmation-box">
     <!-- Success message -->
     <i class="fas fa-check-circle fa-5x text-success"></i>
@@ -158,7 +159,9 @@
     </div>
 
     <!-- Return to Home Button -->
-    <a href="/SneakerHome/home" class="btn btn-primary mt-4">Return to Home</a>
+    <form action="/SneakerHome/Product/clearCart" method="POST">
+            <button type="submit" class="btn btn-primary mt-4">Return to Home</button>
+        </form>
 </div>
 
     <!-- Bootstrap 5 JS and dependencies -->

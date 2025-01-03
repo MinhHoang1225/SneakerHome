@@ -279,7 +279,7 @@ public function checkoutSuccessBuyNow() {
     $productModel = new ProductModel($this->db);
     try {
         $products = $productModel->getCheckoutSuccessBuyNow($productId, $quantity);
-        $totalPrice = $products['price'] * $quantity;
+        // $totalPrice = $products['price'] * $quantity;
         // $totalPrice = 5;
 
         // $totalPrice = 88 * $quantity;
@@ -374,6 +374,76 @@ public function saveOrder()
         echo json_encode(['success' => false, 'message' => 'An error occurred while processing your order.']);
     }
 }
+
+public function saveOrderCart() 
+{
+    // Decode JSON input from the request body
+    $input = json_decode(file_get_contents('php://input'), true);
+
+    // Validate the input data
+    if (!isset($input['products']) || empty($input['products'])) {
+        $this->sendResponse(false, 'No products found in the cart.');
+        return;
+    }
+
+    if (!isset($input['totalPrice']) || $input['totalPrice'] <= 0) {
+        $this->sendResponse(false, 'Invalid total price.');
+        return;
+    }
+
+    $products = $input['products'];    // Extract product data
+    $totalPrice = $input['totalPrice']; // Extract total price
+
+    // Instantiate the product model
+    $productModel = new ProductModel($this->db);
+
+    // Save the order and get the generated order ID
+    $orderId = $productModel->saveOrderCart($products, $totalPrice);
+
+    if ($orderId) {
+        // Clear the cart from the session
+        unset($_SESSION['cart']);
+
+        // Respond with success and the created order ID
+        $this->sendResponse(true, 'Order processed successfully.', ['orderId' => $orderId]);
+    } else {
+        // Handle case where the order could not be saved
+        $this->sendResponse(false, 'There was an error processing your order.');
+    }
+}
+
+/**
+ * Helper function to send JSON responses
+ *
+ * @param bool $success Success status
+ * @param string $message Response message
+ * @param array|null $data Additional data to include in the response
+ */
+private function sendResponse(bool $success, string $message, array $data = null)
+{
+    $response = ['success' => $success, 'message' => $message];
+    if ($data) {
+        $response = array_merge($response, $data);
+    }
+    echo json_encode($response);
+}
+
+
+public function clearCart() {
+    // Lấy user_id từ session
+    $user_id = $_SESSION['userId'];
+
+    // Khởi tạo đối tượng CartModel
+    $cartModel = new ProductModel($this->db);
+
+    // Gọi phương thức clearCart() trong CartModel để xóa giỏ hàng của người dùng
+    $cartModel->clearCart($user_id);
+
+    // Chuyển hướng người dùng về trang chủ
+    header("Location: /SneakerHome/home");
+    exit();
+}
+
 
 }
 ?>

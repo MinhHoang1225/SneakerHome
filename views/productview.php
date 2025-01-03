@@ -68,7 +68,6 @@
             <?php endforeach; ?>
         </div>
     </div>
-    <?php include "./controllers/footer"; ?>
     <?php include  './component/footer.php'; ?>
     <script>
         const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
