@@ -1,6 +1,8 @@
+
 <?php
 require_once './core/Controllers.php';
 require_once './models/ProductModels.php';
+
 class ProductController extends Controllers {
     private $db;
     

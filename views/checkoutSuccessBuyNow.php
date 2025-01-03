@@ -108,7 +108,7 @@
         </style>
     </head>
     <body>
-    <?php var_dump($_SESSION) ?>
+    
 
     <div class="confirmation-box">
         <!-- Success message -->

@@ -8,9 +8,7 @@
     <?php include "./assets/css/product.css.php"; ?>
 </head>
 <body>
-    <?php var_dump($_SESSION['userId']) ?>
-    <?php var_dump($_SESSION) ?>
-
+ 
     <!-- Include Header -->
     <?php include "./component/header.php"; ?>
 
