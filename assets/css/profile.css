@@ -1,0 +1,161 @@
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/* 
+body {
+    background-color: #f9f9f9;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+} */
+
+.container {
+    max-width: 100%;
+    margin: auto;
+    background: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.welcome-banner {
+    background: linear-gradient(to right, #66B2FF, #2575fc);
+    color: #fff;
+    padding: 15px 20px;
+    text-align: center;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+.profile-section {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+}
+
+.profile-info {
+    display: flex;
+    align-items: center;
+}
+
+/* .avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: url('https://i.pravatar.cc/300') no-repeat center/cover;
+    margin-right: 20px;
+    border: 3px solid  #66B2FF;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+} */
+.avatar {
+    width: 100px;
+    height: 100px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #f0f0f0;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+}
+
+.avatar:focus {
+    outline: 2px solid #0078ff;
+}
+
+.user-details h3 {
+    font-size: 1.5rem;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.user-details a {
+    color:  #66B2FF;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.details-section {
+    padding: 20px;
+}
+
+.input-group {
+    margin-bottom: 15px;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1rem;
+    transition: border 0.3s ease;
+}
+
+.input-group input:focus {
+    border-color:  #66B2FF;
+    outline: none;
+}
+
+.button-group {
+    text-align: right;
+}
+
+.edit-btn {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.edit-btn:hover {
+    background: linear-gradient(to right, #2575fc, #6a11cb);
+}
+
+.order-column {
+    background: #f4f4f4;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.order-column h4 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.order-box {
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.order-box p {
+    margin: 5px 0;
+    font-size: 0.95rem;
+}
+
+.order-box p:first-child {
+    font-weight: bold;
+}
+
