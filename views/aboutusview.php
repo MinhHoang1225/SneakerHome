@@ -27,23 +27,20 @@
         <!-- Team Member 1 -->
         <div class="col-md-4 team-member">
           <img src="https://via.placeholder.com/150" alt="Team Member 1">
-          <h5>John Doe</h5>
-          <p>Founder & CEO</p>
-          <p>John has a deep passion for shoes and fashion, and he started this company to bring high-quality footwear to the masses.</p>
+          <h5>Minh Hoang</h5>
+          <p>Leader</p>
         </div>
         <!-- Team Member 2 -->
         <div class="col-md-4 team-member">
           <img src="https://via.placeholder.com/150" alt="Team Member 2">
-          <h5>Jane Smith</h5>
-          <p>Marketing Director</p>
-          <p>Jane is the creative mind behind our brand’s marketing strategies. She ensures that we connect with our customers on a personal level.</p>
+          <h5>Vinh Tran</h5>
+          <p>Member</p>
         </div>
         <!-- Team Member 3 -->
         <div class="col-md-4 team-member">
           <img src="https://via.placeholder.com/150" alt="Team Member 3">
-          <h5>Mark Lee</h5>
-          <p>Operations Manager</p>
-          <p>Mark oversees the daily operations and ensures everything runs smoothly, from inventory management to customer satisfaction.</p>
+          <h5>Thuy Trang</h5>
+          <p>Member</p>
         </div>
       </div>
     </div>

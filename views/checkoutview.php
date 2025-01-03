@@ -8,7 +8,6 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/checkout.css.php"; ?>
 </head>
 <body>
-    <?php var_dump($_SESSION) ?>
 <div class="container">
     <div class="row">
         <!-- User Information Form -->

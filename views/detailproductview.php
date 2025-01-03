@@ -9,7 +9,6 @@
 </head>
 <body>
 <?php include  './component/header.php'; ?>
-<?php var_dump($_SESSION) ?>
 
 <?php if ($product): ?>
     <div class="container mt-5">

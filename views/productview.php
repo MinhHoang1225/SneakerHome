@@ -8,8 +8,6 @@
     <?php include "./assets/css/product.css.php"; ?>
 </head>
 <body>
-    <?php var_dump($_SESSION['userId']) ?>
-    <?php var_dump($_SESSION) ?>
 
     <!-- Include Header -->
     <?php include "./component/header.php"; ?>
@@ -70,7 +68,6 @@
             <?php endforeach; ?>
         </div>
     </div>
-    <?php include "./controllers/footer"; ?>
     <?php include  './component/footer.php'; ?>
     <script>
         const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;

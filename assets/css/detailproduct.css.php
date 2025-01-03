@@ -99,10 +99,7 @@ h2 {
     color: #0056b3;
 }
 
-button[type="submit"], button[type="button"] {
-    margin-top: 10px;
-    padding: 8px 15px;
-}
+
 
 /* Định dạng cho phần quantity */
 #quantity {
