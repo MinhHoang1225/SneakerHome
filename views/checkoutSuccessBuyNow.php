@@ -108,7 +108,6 @@
         </style>
     </head>
     <body>
-    
 
     <div class="confirmation-box">
         <!-- Success message -->

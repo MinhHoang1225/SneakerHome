@@ -9,7 +9,6 @@
 </head>
 <body>
     <?php include './component/header.php'; ?>
-    
     <div id="productCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
         <!-- Indicators/Dots -->
         <div class="carousel-indicators">

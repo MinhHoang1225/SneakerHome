@@ -10,7 +10,6 @@
 <body>
 <?php include  './component/header.php'; ?>
 
-
 <?php if ($product): ?>
     <div class="container mt-5">
     <div class="row">
