@@ -28,7 +28,7 @@ class ProductController extends Controllers {
             $favoriteModel = new FavoriteModel($this->db);
             $favorites = $favoriteModel->getFavorites($userId);
             $result = $favoriteModel->favorite($userId, $productId);
-            $this->view('favoriteview', [
+            $this->view('ProductView','favoriteview', [
                 'productId' => $productId,             
                 'userId' => $userId, 
                 'favorites'=> $favorites, 
@@ -36,7 +36,7 @@ class ProductController extends Controllers {
                 'error_message' => $_SESSION['error_message'] ?? null,
                 'username_input' => $_SESSION['username_input'] ?? ''
             ]);
-            $this->view('productview', [
+            $this->view('ProductView','productview', [
                 'productId' => $productId,             
                 'userId' => $userId, 
                 'favorites'=> $favorites, 
@@ -117,7 +117,7 @@ class ProductController extends Controllers {
         try {
             $products = $productModel->getProductsByCategory($categoryId);
             error_log(print_r($products, true));
-            $this->view('productview', [
+            $this->view('ProductView','productview', [
                 'products' => $products,             
                 'categoryId' => $categoryId,        
                 'error_message' => $_SESSION['error_message'] ?? null,
@@ -125,7 +125,7 @@ class ProductController extends Controllers {
             ]);
         } catch (Exception $e) {
             error_log("Error in productsCategory: " . $e->getMessage());
-            $this->view('productview', [
+            $this->view('ProductView','productview', [
                 'products' => [],         
                 'error_message' => 'Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.',
                 'username_input' => $_SESSION['username_input'] ?? ''
@@ -144,7 +144,7 @@ class ProductController extends Controllers {
                 if ($product) {
                     $categoryId = $product['category_id'];
                     $related_products = $productModel->getRelatedProducts($productId, $categoryId);
-                    $this->view('detailproductview', [
+                    $this->view('ProductView','detailproductview', [
                         'product' => $product,
                         'related_products' => $related_products,
                         'error_message' => $_SESSION['error_message'] ?? null,
@@ -193,7 +193,7 @@ class ProductController extends Controllers {
                 $cartItems = [$product];
                 $cartTotalCheckOut = $product['total_price'];
     
-                $this->view('checkoutview', [
+                $this->view('UserView','checkoutview', [
                     'cartItems' => $cartItems,
                     'cartTotalCheckOut' => $cartTotalCheckOut,
                     'product' => $product,
@@ -223,7 +223,7 @@ class ProductController extends Controllers {
             $products = $productModel -> getCheckoutCart($userId);
             $cartTotal = $productModel -> calculateCheckoutTotal($userId);
     
-            $this->view('checkoutCartviews', [
+            $this->view('UserView','checkoutCartviews', [
                 'products' => $products,  
                 'cartTotal' => $cartTotal,
                 'error_message' => $_SESSION['error_message'] ?? null,
@@ -249,7 +249,7 @@ class ProductController extends Controllers {
             $productModel = new ProductModel($this->db);
             $products = $productModel -> getCheckoutSuccess($userId);
             $priceTotal = $productModel -> calculateCheckoutSuccessTotal($userId);
-        $this->view('checkoutSuccessCart', [
+        $this->view('UserView','checkoutSuccessCart', [
             'products' => $products,  
             'priceTotal' => $priceTotal,
             'username_input' => $username_input,
@@ -289,7 +289,7 @@ public function checkoutSuccessBuyNow() {
         // $saveorder = $productModel->saveOrder($productId, $quantity, $totalPrice);  
 
         // Display the success view
-        $this->view('checkoutSuccessBuyNow', [
+        $this->view('UserView','checkoutSuccessBuyNow', [
             // 'saveorder' => $saveorder,
             'products' => $products,
             'username_input' => $username_input,
