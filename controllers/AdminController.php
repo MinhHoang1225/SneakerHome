@@ -20,7 +20,7 @@ class AdminController extends Controllers
         $ordersByStatusInprogress = $adminModel->getOrdersByStatus('In progress');
         $dashboardData = $adminModel->getDashboardData();
 
-        $this->view('adminview', [
+        $this->view('AdminView','adminview', [
             'customers' => $customers,
             'products' => $products,
             'orders' => $orders,
