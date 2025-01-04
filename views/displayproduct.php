@@ -49,7 +49,7 @@ $totalProducts = ($categoryId == 0)
                             <div class="product-card">
                                 <div class="icons">
                                     <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
-                                        <i class="far fa-heart"></i>
+                                    <i   i class="fa-solid fa-heart-circle-plus"></i>
                                     </button>
                                     <button class="add-to-cart" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
                                         <i class="fas fa-cart-plus"></i>

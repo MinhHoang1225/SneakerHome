@@ -32,8 +32,8 @@ class App
         // Phân tách URL thành các phần
         $urlParts = explode('/', $url);
         $controllerName = ucfirst($urlParts[0]) . 'Controller'; // Ví dụ: home -> HomeController
-        $action = isset($urlParts[1]) ? $urlParts[1] : 'home'; // Mặc định action là index
-        $params = array_slice($urlParts, 2); // Các tham số còn lại
+        $action = isset($urlParts[1]) ? $urlParts[1] : 'home'; // Mặc định action là home
+        $params = array_slice($urlParts, 2); // Các tham số còn lại từ URL
 
         // Kiểm tra file controller
         if (file_exists('./controllers/' . $controllerName . '.php')) {
@@ -45,8 +45,22 @@ class App
 
                 // Kiểm tra phương thức (action) có tồn tại
                 if (method_exists($controller, $action)) {
-                    // Gọi action, truyền tham số
-                    call_user_func_array([$controller, $action], $params);
+                    // Nếu action là addToCart và phương thức này không yêu cầu tham số từ URL
+                    if ($action == 'addToCart') {
+                        // Kiểm tra phương thức yêu cầu POST
+                        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                            // Lấy dữ liệu từ body JSON
+                            $data = json_decode(file_get_contents('php://input'), true);
+                            // Gọi action mà không truyền tham số từ URL mà truyền tham số từ JSON
+                            call_user_func_array([$controller, $action], [$data]);
+                        } else {
+                            // Gọi action với tham số từ URL
+                            call_user_func_array([$controller, $action], $params);
+                        }
+                    } else {
+                        // Gọi action bình thường với tham số từ URL
+                        call_user_func_array([$controller, $action], $params);
+                    }
                 } else {
                     echo "404 - Action not found: $action";
                 }

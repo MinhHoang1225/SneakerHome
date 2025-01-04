@@ -1,161 +1,112 @@
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, Helvetica, sans-serif;
-}
-/* 
 body {
+    font-family: Arial, sans-serif;
     background-color: #f9f9f9;
     color: #333;
-    line-height: 1.6;
-    padding: 20px;
-} */
+}
 
 .container {
-    max-width: 100%;
+    max-width: 900px;
     margin: auto;
-    background: #fff;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+}
+
+h1.text-center {
+    margin-bottom: 40px;
+    font-size: 2.5rem;
+    color: #555;
+}
+
+.card {
+    border: none;
     border-radius: 10px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background: #fff;
 }
 
-.welcome-banner {
-    background: linear-gradient(to right, #66B2FF, #2575fc);
+.card-header {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
     color: #fff;
-    padding: 15px 20px;
-    text-align: center;
-    font-size: 1.2rem;
+    padding: 15px;
+    font-size: 1.25rem;
     font-weight: bold;
+    border-radius: 10px 10px 0 0;
 }
 
-.profile-section {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px;
-    border-bottom: 1px solid #eee;
-}
-
-.profile-info {
-    display: flex;
-    align-items: center;
-}
-
-/* .avatar {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: url('https://i.pravatar.cc/300') no-repeat center/cover;
-    margin-right: 20px;
-    border: 3px solid  #66B2FF;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-} */
-.avatar {
-    width: 100px;
-    height: 100px;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    background-color: #f0f0f0;
-    background-size: cover;
-    background-position: center;
-    cursor: pointer;
-}
-
-.avatar:focus {
-    outline: 2px solid #0078ff;
-}
-
-.user-details h3 {
-    font-size: 1.5rem;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.user-details a {
-    color:  #66B2FF;
-    text-decoration: none;
-    font-size: 0.9rem;
-}
-
-.details-section {
+.card-body {
     padding: 20px;
 }
 
-.input-group {
-    margin-bottom: 15px;
-}
-
-.input-group label {
-    display: block;
-    margin-bottom: 5px;
+.form-label {
     font-weight: bold;
 }
 
-.input-group input {
-    width: 100%;
-    padding: 10px;
+.form-control {
+    border-radius: 20px;
     border: 1px solid #ddd;
-    border-radius: 5px;
-    font-size: 1rem;
-    transition: border 0.3s ease;
 }
 
-.input-group input:focus {
-    border-color:  #66B2FF;
-    outline: none;
-}
-
-.button-group {
-    text-align: right;
-}
-
-.edit-btn {
-    background: linear-gradient(to right, #6a11cb, #2575fc);
-    color: #fff;
+.btn-primary {
+    border-radius: 20px;
+    background-color: #6c63ff;
     border: none;
     padding: 10px 20px;
     font-size: 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background-color 0.3s;
 }
 
-.edit-btn:hover {
-    background: linear-gradient(to right, #2575fc, #6a11cb);
+.btn-primary:hover {
+    background-color: #5148c9;
 }
 
-.order-column {
-    background: #f4f4f4;
-    padding: 20px;
-    border-top: 1px solid #eee;
+.table {
+    margin-top: 20px;
+    border-collapse: collapse;
+    width: 100%;
 }
 
-.order-column h4 {
-    margin-bottom: 15px;
-    font-size: 1.2rem;
-    color: #333;
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #f2f2f2;
 }
 
-.order-box {
-    background: #fff;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 15px;
-    margin-bottom: 10px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.order-box p {
-    margin: 5px 0;
-    font-size: 0.95rem;
-}
-
-.order-box p:first-child {
+.table thead th {
+    background-color: #6c63ff;
+    color: #fff;
     font-weight: bold;
+    padding: 10px;
 }
 
+.table td, .table th {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Custom Profile Section */
+.profile-info {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.profile-info img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid #ddd;
+}
+
+.profile-info .user-details {
+    flex-grow: 1;
+}
+
+.profile-info .user-details h3 {
+    margin: 0;
+    font-size: 1.5rem;
+}
+
+.profile-info .user-details p {
+    margin: 0;
+    color: #777;
+}

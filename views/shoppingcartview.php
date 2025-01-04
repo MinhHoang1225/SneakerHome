@@ -1,4 +1,3 @@
-<?php var_dump($_SESSION); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -49,7 +48,7 @@
     </div>
 
     <div class="container">
-        <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ</span></h4>
+        <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo ($cartTotal); ?> đ</span></h4>
         <div class="checkout-btn gap-3 pt-3">
             <a href="../product/productsCategory"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buying</button></a>
 

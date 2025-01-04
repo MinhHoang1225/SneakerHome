@@ -76,7 +76,6 @@ class ShoppingCartController extends Controllers{
         }
     }
 
-    
     // public function cart() {
     //     header('Content-Type: application/json');
     
@@ -114,4 +113,4 @@ class ShoppingCartController extends Controllers{
     
 } 
 
-?>
+?>  

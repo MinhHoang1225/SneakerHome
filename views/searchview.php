@@ -45,7 +45,8 @@
 
     <?php include './component/footer.php'; ?>  
     <?php include './component/btn_up.php'; ?>
-<script>
+    <script>
+        const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');
     const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
@@ -57,7 +58,7 @@ function toggleHeart(button) {
 
     console.log('Product ID:', productId, 'User ID:', userId);
 
-    fetch('/SneakerHome/home/favorite', {
+    fetch('/SneakerHome/product/favorites', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -97,5 +98,52 @@ function toggleHeart(button) {
         alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
     });
 }
-</script>
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>; // Lấy userId từ session PHP
+
+        if (!userId) {
+            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            return;
+        }
+        console.log('Product ID:', productId, 'User ID:', userId);
+        this.disabled = true; // Disable the button to avoid multiple clicks
+        // this.textContent = "Adding..."; // Update the button text
+
+        fetch('/SneakerHome/home/addToCart', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                action: 'add_to_cart',
+                product_id: productId,
+                quantity: 1,
+                user_id: userId // Gửi userId để backend nhận diện người dùng
+            })
+        })
+        .then(response => {
+            if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+        }
+            return response.json(); // Chuyển phản hồi thành JSON
+        })
+        .then(data => {
+            this.disabled = false; // Re-enable button after response
+            // this.textContent = "Add to Cart"; // Reset the text
+
+            if (data.success) {
+                alert('Thêm vào giỏ hàng thành công!');
+            } else {
+                alert(data.message || 'Có lỗi xảy ra!');
+            }
+        })
+        .catch(error => {
+            this.disabled = false; // Re-enable button if there's an error
+            // this.textContent = "Add to Cart";
+            console.error('Error:', error);
+            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
+        });
+    });
+});
+    </script>
 

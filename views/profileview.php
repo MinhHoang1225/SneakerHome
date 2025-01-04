@@ -7,6 +7,16 @@
     <?php include_once './component/linkbootstrap5.php'; ?>
     <link rel="stylesheet" href="./assets/css/profile.css">
 </head>
+<style>
+    .card-header {
+    background: linear-gradient(to right, #a1c4fd, #c2e9fb);
+    color: #fff;
+    padding: 15px;
+    font-size: 1.25rem;
+    font-weight: bold;
+    border-radius: 10px 10px 0 0;
+}
+</style>
 <body>
     <div class="container mt-5">
         <h1 class="text-center">My Profile</h1>
@@ -51,9 +61,9 @@
                             <?php foreach ($orders as $order): ?>
                                 <tr>
                                     <td><?= htmlspecialchars($order['order_id']); ?></td>
-                                    <td><?= htmlspecialchars($order['date']); ?></td>
+                                    <td><?= htmlspecialchars($order['order_date']); ?></td>
                                     <td><?= htmlspecialchars($order['status']); ?></td>
-                                    <td>$<?= htmlspecialchars(number_format($order['total'], 2)); ?></td>
+                                    <td>$<?= htmlspecialchars(number_format($order['total_amount'], 2)); ?></td>
                                 </tr>
                             <?php endforeach; ?>
                         </tbody>
