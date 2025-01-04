@@ -23,7 +23,7 @@
                                     <i class="fas fa-cart-plus"></i>
                                 </button>
                             </div>
-                            <a href="/SneakerHome/Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $row['product_id']; ?>">
+                            <a href="./Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $row['product_id']; ?>">
                                 <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
                             </a>
                             <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>

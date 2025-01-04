@@ -374,6 +374,47 @@ public function saveOrder()
         echo json_encode(['success' => false, 'message' => 'An error occurred while processing your order.']);
     }
 }
+public function search() {
+    try {
+        // Kiểm tra trạng thái đăng nhập
+        if (!isset($_SESSION['userId'])) {
+            echo "Bạn cần đăng nhập để thực hiện tìm kiếm.";
+            return;
+        }
+
+        $userId = $_SESSION['userId'];
+
+        // Nhận dữ liệu từ form gửi bằng phương thức POST
+        $keyword = trim($_POST['keyword'] ?? '');
+
+        // Kiểm tra từ khóa tìm kiếm
+        if (empty($keyword)) {
+            echo "Vui lòng nhập từ khóa tìm kiếm.";
+            return;
+        }
+        $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
+        $productModel = new ProductModel($this->db);   
+        $products = $productModel->getProductsByCategory($categoryId);
+        // Thực hiện tìm kiếm
+        $searchModel = new SearchModel($this->db);
+        $searchResults = $searchModel->search($keyword);
+        // Truyền dữ liệu vào view
+        $this->view('Productview','searchview', [
+            'products' => $products,
+            'categoryId' => $categoryId,
+            'userId' => $userId,
+            'keyword' => $keyword,
+            'searchResults' => $searchResults,
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? ''
+        ]);
+        
+
+    } catch (Exception $e) {
+        echo json_encode(['success' => false, 'message' => $e->getMessage()]);
+    }
+    exit;
+} 
 
 public function saveOrderCart() 
 {
@@ -445,5 +486,5 @@ public function clearCart() {
 }
 
 
-}
+} 
 ?>
