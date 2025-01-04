@@ -4,15 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sneaker Home</title>
-  <?php include './assets/css/aboutus.css.php' ?>
-  <?php include './component/linkbootstrap5.php' ?>
+  <?php include './assets/css/aboutus.css.php'; ?>
+  <?php include './component/linkbootstrap5.php'; ?>
+  
 </head>
 <body>
-<?php include_once './component/header.php' ?>
+  <?php include_once './component/header.php'; ?>
 
-  <div class="about-section text-center">
+  <!-- Banner Section -->
+  <div class="banner">
+    <div class="banner-text">
+      <h1>Welcome to Sneaker Home</h1>
+      <p>Your one-stop shop for stylish and comfortable footwear</p>
+    </div>
+  </div>
+
+  <!-- About Section -->
+  <div class="about-section">
     <div class="container">
-      <h1 class="display-4">About Us</h1>
+      <h1>About Us</h1>
       <p class="lead">We are passionate about providing the best footwear to our customers. Our mission is to offer stylish, comfortable, and affordable shoes for everyone.</p>
       <hr>
       <p>Founded by a group of shoe lovers, we are committed to delivering quality products and excellent customer service.</p>
@@ -20,9 +30,9 @@
   </div>
 
   <!-- Team Section -->
-  <div class="team-section text-center">
+  <div class="team-section">
     <div class="container">
-      <h2 class="display-4">Meet Our Team</h2>
+      <h2>Meet Our Team</h2>
       <div class="row">
         <!-- Team Member 1 -->
         <div class="col-md-4 team-member">
@@ -45,6 +55,7 @@
       </div>
     </div>
   </div>
+
+  <?php include './component/footer.php'; ?>
 </body>
-<?php include './component/footer.php' ?>
 </html>
