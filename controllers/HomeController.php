@@ -33,7 +33,7 @@ class HomeController extends Controllers{
         $favorite = $productId ? $productModel->favorite($userId, $productId) : null;
         $cart = $cartModel -> addToCart($userId, $productId, $quantity);
     
-        $this->view('homeview', [
+        $this->view('HomeView','homeview', [
             'cart' => $cart,
             'allProduct' => $allProduct,
             'products' => $products,
@@ -68,7 +68,7 @@ class HomeController extends Controllers{
         exit;
     }
     public function aboutus(){
-        $this->view('aboutusview', [
+        $this->view('UserView','aboutusview', [
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
         ]); 

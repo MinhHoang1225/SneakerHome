@@ -49,7 +49,7 @@ class ShoppingCartController extends Controllers{
 
     // Method to display products
     public function shoppingCart(){
-        $this->view('shoppingcartview', [
+        $this->view('ShoppingCartView','shoppingcartview', [
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
         ]);
@@ -64,7 +64,7 @@ class ShoppingCartController extends Controllers{
             $cart = $cartModel->getCartItems($userId);
     
     
-            $this->view('shoppingcartview', [
+            $this->view('ShoppingCartView','shoppingcartview', [
                 'cart' => $cart,  
                 'cartTotal' => $cartTotal,
                 'error_message' => $_SESSION['error_message'] ?? null,
