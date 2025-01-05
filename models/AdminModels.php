@@ -83,4 +83,60 @@ class AdminModel {
         $stmt->execute([$status]);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    // Lấy thông tin sản phẩm theo id 
+    public function getProductById($productId) {
+        $stmt = $this->db->prepare("
+            SELECT *
+            FROM 
+                product p 
+            WHERE 
+                p.product_id = :productId
+        ");
+        $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC);
+    }
+    public function cancelOrder($orderId) {
+        $query = "SELECT * FROM `order` WHERE order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() === 0) {
+            return false;  
+        }
+
+        $query = "UPDATE `order` SET status = 'cancelled' WHERE order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+
+        return $stmt->execute();  
+    }
+
+    public function completeOrder($orderId) {
+        $query = "SELECT * FROM `order` WHERE order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+        $stmt->execute();
+
+        if ($stmt->rowCount() === 0) {
+            return false;  
+        }
+        $query = "UPDATE `order` SET status = 'completed' WHERE order_id = :order_id";
+        $stmt = $this->db->prepare($query);
+        $stmt->bindParam(':order_id', $orderId, PDO::PARAM_INT);
+
+        return $stmt->execute();  
+    }
+       // Hàm tìm kiếm tên người dùng
+       public function searchByName($keyword) {
+        $query = "SELECT * FROM user WHERE name LIKE :keyword";
+        $stmt = $this->db->prepare($query);
+        $keyword = "%".$keyword."%";  
+        $stmt->bindParam(':keyword', $keyword, PDO::PARAM_STR);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);  
+    }
+    
 }

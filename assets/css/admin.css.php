@@ -308,4 +308,15 @@ a:hover {
     color: #333;
     font-size: 14px;
 }
+.search-bar {
+        display: flex;
+        margin: 20px 0;
+    }
+#search_input {
+        width: 300px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
     </style>

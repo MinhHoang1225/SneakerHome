@@ -33,7 +33,7 @@ class UserController extends Controllers
             exit;
         }
 
-        $this->view('profileview', [
+        $this->view('UserView','profileview', [
             'user' => $user,
             'orders' => $orders,
             // 'success_message' => $_SESSION['success_message'] ?? null
@@ -76,7 +76,7 @@ class UserController extends Controllers
     {
         // Hiển thị view login
         // session_start();
-        $this->view('loginview', [
+        $this->view('UserView','loginview', [
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
         ]);
@@ -128,7 +128,7 @@ class UserController extends Controllers
     {
         // Hiển thị view login
         // session_start();
-        $this->view('registerview', [
+        $this->view('UserView','registerview', [
             'error_message' => $_SESSION['error_message'] ?? null,
             'username_input' => $_SESSION['username_input'] ?? ''
         ]);

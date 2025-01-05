@@ -58,12 +58,10 @@
                     ?>             
                 <a href="/SneakerHome/ShoppingCart/Cart"><i class="fa-solid fa-cart-shopping cart"></i></a>
                 <div class="search-container">
-                    <!-- Icon tìm kiếm -->
                     <i class="fa-solid fa-magnifying-glass search-icon" onclick="toggleSearchBox()"></i>
 
-                    <!-- Ô nhập từ khóa -->
                     <div id="search-box-wrapper" class="search-box-wrapper" style="display: none;">
-                        <form action="../controllers/search" method="GET">
+                        <form action="/SneakerHome/Product/search" method="POST">
                             <input type="text" id="search-box" name="keyword" class="search-box" placeholder="Enter keyword..." required />
                         </form>
                     </div>

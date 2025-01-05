@@ -29,6 +29,9 @@
             <a href="#" data-section="orders">
                 <i class="fa-solid fa-cart-shopping"></i> QLĐH theo trạng thái
             </a>
+            <form method="POST" action="/SneakerHome/User/logout">
+                  <button type="submit"><i class="fa-solid fa-right-from-bracket"></i> Đăng xuất</button>
+            </form>
         </nav>
     </aside>
 
@@ -63,7 +66,19 @@
         <!-- Section: Khách hàng -->
         <section id="users" class="section">
             <h2>Khách hàng</h2>
-            <table class="table">
+            <div class="search-bar">
+                <form action="/SneakerHome/Admin/searchName" method="POST">
+                    <input 
+                        type="text" 
+                        id="search_input" 
+                        name="keyword" 
+                        placeholder="Nhập tên để tìm kiếm..." 
+                        required
+                    >
+                    <button type="submit">Tìm kiếm</button>
+                </form>
+            </div>
+                <table class="table">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -108,7 +123,10 @@
                             <td><?php echo $product['price']; ?></td>
                             <td><?php echo $product['stock']; ?></td>
                             <td>
-                            <button class="btn edit" id="editModalBtn">Sửa</button>                        
+                                <form action = "/SneakerHome/Admin/getProduct" method="POST" >
+                                    <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
+                                    <button type="submit"  id="editModalBtn">Sửa</button>                                
+                                </form>                    
                             </td>
                             <td>
                                 <form method="POST" action="/SneakerHome/admin/deleteProduct">
@@ -167,12 +185,14 @@
                             <td><?= $order['order_date'] ?></td>
                             <td><?= $order['status'] ?></td>
                             <td> 
-                                <form method="POST" action="/SneakerHome/admin/t">
+                                <form method="POST" action="/SneakerHome/admin/cancelOrder">
+                                    <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                                     <button type="submit" class="btn deleteOrder">Hủy đơn</button>
                                 </form>
                             </td>
                             <td> 
-                                <form method="POST" action="/SneakerHome/admin/">
+                                <form method="POST" action="/SneakerHome/admin/completedOrder">
+                                    <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                                     <button type="submit" class="btn completeOrder">Hoàn thành</button>
                                 </form>
                             </td>
@@ -256,9 +276,9 @@
         <div id="editModal" class="modal">
             <div class="modal-content">
             <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
-            <form action = "/SneakerHome/Admin/updateProduct" method="POST" enctype="multipart/form-data">
+            <form action = "/SneakerHome/admin/editProduct" method="POST" enctype="multipart/form-data">
                     <h3>Sửa Sản Phẩm</h3>
-                    <input type="hidden" id="product_id" name="product_id">
+                    <input type="hidden" id="product_id" name="product_id" value="<?= htmlspecialchars($getproduct ['product_name']) ?>">
 
                     <label for="name">Tên sản phẩm</label>
                     <input type="text" id="edit_name" name="name" required>
