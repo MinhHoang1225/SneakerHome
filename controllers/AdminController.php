@@ -71,40 +71,68 @@ class AdminController extends Controllers
                 header("Location: /SneakerHome/admin/adminview");
                 exit;
             }
-                $this->view('adminview', ['getproduct' => $getproduct]);
+                $this->view('AdminView','editProduct', ['getproduct' => $getproduct]);
             exit;
         }
-    
-        // if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        //     $id = $_POST['product_id'] ?? '';
-        //     $name = $_POST['name'] ?? '';
-        //     $price = $_POST['price'] ?? '';
-        //     $stock = $_POST['stock'] ?? '';
-        //     $imagePath = $_FILES['image']['name'] ?? '';
-    
-        //     if (empty($id) || empty($name) || empty($price) || empty($stock)) {
-        //         $_SESSION['error_message'] = "All fields are required.";
-        //         // header("Location: /SneakerHome/admin/adminview");
-        //         exit;
-        //     }
-    
-        //     $targetFile = '';
-        //     if (!empty($imagePath)) {
-        //         $imageTemp = $_FILES['image']['tmp_name'];
-        //         $targetDir = "../uploads/";
-        //         $targetFile = $targetDir . basename($imagePath);
-        //         move_uploaded_file($imageTemp, $targetFile);
-        //     }
-    
-        //     $adminModel = new AdminModel($this->conn);
-        //     $adminModel->updateProduct($id, $name, $price, $stock, $targetFile);
-    
-        //     $_SESSION['success_message'] = "Product updated successfully.";
-        //     // header("Location: /SneakerHome/admin/adminview");
-        //     exit;
-        // }
     }
-    
+    public function editProduct()
+{
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['product_id'])) {
+        $productId = $_POST['product_id'];
+        $name = trim($_POST['name']);
+        $price = (float)$_POST['price'];
+        $stock = (int)$_POST['stock'];
+
+        $adminModel = new AdminModel($this->conn);
+
+        // Lấy thông tin sản phẩm hiện tại từ cơ sở dữ liệu
+        $currentProduct = $adminModel->getProductById($productId);
+        if (!$currentProduct) {
+            $_SESSION['error_message'] = "Product not found.";
+            header("Location: /SneakerHome/admin/adminview");
+            exit;
+        }
+
+        // Kiểm tra và xử lý file upload
+        $imagePath = $currentProduct['image_url']; // Đường dẫn cũ
+        if (isset($_FILES['image']) && $_FILES['image']['error'] === UPLOAD_ERR_OK) {
+            $uploadDir = __DIR__ . '/../uploads/';
+            $fileName = basename($_FILES['image']['name']);
+            $newImagePath = $uploadDir . $fileName;
+
+            // Di chuyển file vào thư mục uploads
+            if (!move_uploaded_file($_FILES['image']['tmp_name'], $newImagePath)) {
+                $_SESSION['error_message'] = "Failed to upload image.";
+                header("Location: /SneakerHome/admin/adminview");
+                exit;
+            }
+
+            // Lưu đường dẫn tương đối
+            $imagePath = '/uploads/' . $fileName;
+        }
+
+        // Gọi model để cập nhật sản phẩm
+        try {
+            $adminModel->updateProduct($productId, $name, $price, $stock, $imagePath);
+
+            // Chuyển hướng nếu thành công
+            $_SESSION['success_message'] = "Product updated successfully.";
+            header("Location: /SneakerHome/admin/adminview");
+            exit;
+        } catch (Exception $e) {
+            // Xử lý lỗi
+            $_SESSION['error_message'] = "Failed to update product: " . $e->getMessage();
+            header("Location: /SneakerHome/admin/adminview");
+            exit;
+        }
+    } else {
+        // Không phải phương thức POST hoặc không có product_id
+        $_SESSION['error_message'] = "Invalid request.";
+        header("Location: /SneakerHome/admin/adminview");
+        exit;
+    }
+}
+
 
     public function deleteProduct() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -133,7 +161,7 @@ class AdminController extends Controllers
 
             if (!$cancelResult) {
                 $_SESSION['error_message'] = "Lỗi khi hủy đơn hàng.";
-                header("Location: /SneakerHome/admin/orders");
+                header("Location: /SneakerHome/admin/adminview");
                 exit;
             }
 
@@ -171,7 +199,7 @@ class AdminController extends Controllers
             if (empty($searchResults)) {
                 $_SESSION['error_message'] = "Không tìm thấy kết quả cho từ khóa '$keyword'.";
             }
-            $this->view('adminview', ['$customers' => $customers]);
+            $this->view('AdminView','adminview', ['$customers' => $customers]);
             exit;
         }
         header("Location: /SneakerHome/admin/adminview");

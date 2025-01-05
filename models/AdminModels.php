@@ -85,13 +85,7 @@ class AdminModel {
     }
     // Lấy thông tin sản phẩm theo id 
     public function getProductById($productId) {
-        $stmt = $this->db->prepare("
-            SELECT *
-            FROM 
-                product p 
-            WHERE 
-                p.product_id = :productId
-        ");
+        $stmt = $this->db->prepare("SELECT *FROM product p WHERE p.product_id = :productId");
         $stmt->bindParam(':productId', $productId, PDO::PARAM_INT);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC);

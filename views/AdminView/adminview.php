@@ -11,7 +11,7 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
-            <a href="../controllers/home"><img src="../assets/img/Shoe Logo.png" alt="Logo" style="width: 200px;"></a>
+            <a href="/SneakerHome/home"><img src="../assets/img/Shoe Logo.png" alt="Logo" style="width: 200px;"></a>
         </div>
         <nav class="menu">
             <a href="#" data-section="dashboard" class="active">
@@ -123,7 +123,7 @@
                             <td><?php echo $product['price']; ?></td>
                             <td><?php echo $product['stock']; ?></td>
                             <td>
-                                <form action = "/SneakerHome/Admin/getProduct" method="POST" >
+                                <form action = "/SneakerHome/admin/getProduct" method="POST" >
                                     <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
                                     <button type="submit"  id="editModalBtn">Sửa</button>                                
                                 </form>                    
@@ -191,7 +191,7 @@
                                 </form>
                             </td>
                             <td> 
-                                <form method="POST" action="/SneakerHome/admin/completedOrder">
+                                <form method="POST" action="/SneakerHome/admin/completeOrder">
                                     <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                                     <button type="submit" class="btn completeOrder">Hoàn thành</button>
                                 </form>
@@ -273,53 +273,29 @@
             </div>
         </div>
 
-        <div id="editModal" class="modal">
-            <div class="modal-content">
-            <span class="close" onclick="document.getElementById('editModal').style.display='none'">&times;</span>
-            <form action = "/SneakerHome/admin/editProduct" method="POST" enctype="multipart/form-data">
-                    <h3>Sửa Sản Phẩm</h3>
-                    <input type="hidden" id="product_id" name="product_id" value="<?= htmlspecialchars($getproduct ['product_name']) ?>">
-
-                    <label for="name">Tên sản phẩm</label>
-                    <input type="text" id="edit_name" name="name" required>
-
-                    <label for="price">Giá</label>
-                    <input type="number" id="edit_price" name="price" required>
-
-                    <label for="stock">Số lượng</label>
-                    <input type="number" id="edit_stock" name="stock" required>
-
-                    <label for="image">Hình ảnh</label>
-                    <input type="file" id="edit_image" name="image">
-
-                    <button type="submit" name="edit_product">Cập nhật</button>
-                </form>
-            </div>
-        </div>
-
     </main>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/admin.js"></script>
     <script>
-        // Modal sửa sản phẩm
-const editModalBtn = document.getElementById('editModalBtn');
-const closeEditModal = document.getElementById('close');
-const editModal = document.getElementById('editModal');
+        // Modal thêm sản phẩm
+        const openModalBtn = document.getElementById('openModalBtn');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+        const addProductModal = document.getElementById('addProductModal');
 
-editModalBtn.addEventListener('click', () => {
-    editModal.style.display = 'block';
-});
+        openModalBtn.addEventListener('click', () => {
+        addProductModal.style.display = 'block';
+        });
 
-closeEditModal.addEventListener('click', () => {
-    editModal.style.display = 'none';
-});
+        closeModalBtn.addEventListener('click', () => {
+        addProductModal.style.display = 'none';
+        });
 
-window.addEventListener('click', (event) => {
-    if (event.target === editModal) {
-        editModal.style.display = 'none';
-    }
-});
+        window.addEventListener('click', (event) => {
+        if (event.target === addProductModal) {
+            addProductModal.style.display = 'none';
+        }
+        });
 
     </script>
 </body>
