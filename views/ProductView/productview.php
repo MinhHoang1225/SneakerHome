@@ -77,7 +77,7 @@ function toggleHeart(button) {
     const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 
     if (!userId) {
-        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        alert('You must be logged in to perform this action!');
         return;
     }
 
@@ -120,7 +120,7 @@ function toggleHeart(button) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+        alert('An error occurred while processing the request!');
     });
 }
 document.querySelectorAll('.add-to-cart').forEach(button => {
@@ -129,7 +129,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>; // Lấy userId từ session PHP
 
         if (!userId) {
-            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            alert('You must be logged in to perform this action!');
             return;
         }
         console.log('Product ID:', productId, 'User ID:', userId);
@@ -157,16 +157,16 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // this.textContent = "Add to Cart"; // Reset the text
 
             if (data.success) {
-                alert('Thêm vào giỏ hàng thành công!');
+                alert('Add to cart successfully!');
             } else {
-                alert(data.message || 'Có lỗi xảy ra!');
+                alert(data.message || 'An error occurred!');
             }
         })
         .catch(error => {
             this.disabled = false; // Re-enable button if there's an error
             // this.textContent = "Add to Cart";
             console.error('Error:', error);
-            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
+            alert('An error occurred while adding product to cart!');
         });
     });
 });

@@ -71,7 +71,7 @@ $totalProducts = ($categoryId == 0)
                     </div>
                 <?php } ?>
             <?php } else { ?>
-                <p>Không có sản phẩm nào.</p>
+                <p>There are no products.</p>
             <?php } ?>
         </div>
         <?php if ($totalProducts > $limit) { ?>
@@ -125,13 +125,13 @@ function toggleHeart(button) {
                 const icon = button.querySelector('i');
                 icon.classList.toggle('fas');  // Đổi từ class 'far' (trái tim rỗng) thành 'fas' (trái tim đầy)
                 icon.classList.toggle('far');  // Đổi từ class 'fas' (trái tim đầy) thành 'far' (trái tim rỗng)
-                alert(data.message || 'Sản phẩm đã được thêm vào danh sách yêu thích!');
+                alert(data.message || 'Product has been added to wishlist!');
             } else {
-                alert(data.message || 'Có lỗi xảy ra khi thêm sản phẩm vào yêu thích.');
+                alert(data.message || 'An error occurred while adding the product to favorites.');
             }
         })
             .catch(error => {
-                alert('Sản phẩm đã được thêm vào danh sách yêu thích!');
+                alert('Product has been added to wishlist!');
             });
         }
 
@@ -146,9 +146,9 @@ function toggleHeart(button) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                alert('Thêm vào giỏ hàng thành công!');
+                alert('Add to cart successfully!');
             } else {
-                alert('Có lỗi xảy ra!');
+                alert('An error occurred!');
             }
         })
         .catch(error => console.error('Error:', error));

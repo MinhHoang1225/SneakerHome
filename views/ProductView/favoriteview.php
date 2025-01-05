@@ -4,7 +4,7 @@
 <?php include_once './component/header.php'; ?>
 
 <div class="container">
-    <h2>Danh sách yêu thích</h2>
+    <h2>Wishlist</h2>
     <div class="row">
         <?php
         // Check if favorites are passed and not empty
@@ -36,7 +36,7 @@
             </div>
         <?php endforeach; ?>
         <?php else: ?>
-            <p>Hiện tại không có sản phẩm nào trong danh sách yêu thích của bạn.</p>
+            <p>There are currently no products in your wishlist.</p>
         <?php endif; ?>
     </div>
 </div>
@@ -52,12 +52,12 @@ function toggleHeart(button) {
     console.log('User ID:', userId);
 
     if (!productId) {
-        alert('Không thể lấy Product ID!');
+        alert('Unable to get Product ID!');
         return;
     }
 
     if (!userId) {
-        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        alert('You must be logged in to perform this action!');
         return;
     }
 
@@ -92,7 +92,7 @@ function toggleHeart(button) {
     })
     .catch(error => {
         console.error('Error:', error);
-        alert('Đã xảy ra lỗi khi xử lý yêu cầu!');
+        alert('An error occurred while processing the request!');
     });
 }
 
@@ -103,7 +103,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         // const quantity = document.getElementById('quantity').value;
 
         if (!userId) {
-            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            alert('You must be logged in to perform this action!');
             return;
         }
         console.log('Product ID:', productId, 'User ID:', userId);
@@ -131,16 +131,16 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // this.textContent = "Add to Cart"; // Reset the text
 
             if (data.success) {
-                alert('Thêm vào giỏ hàng thành công!');
+                alert('Add to cart successfully!');
             } else {
-                alert(data.message || 'Có lỗi xảy ra!');
+                alert(data.message || 'An error occurred!');
             }
         })
         .catch(error => {
             this.disabled = false; // Re-enable button if there's an error
             // this.textContent = "Add to Cart";
             console.error('Error:', error);
-            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
+            alert('An error occurred while adding product to cart!');
         });
     });
 });
