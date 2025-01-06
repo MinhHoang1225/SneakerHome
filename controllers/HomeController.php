@@ -17,13 +17,15 @@ class HomeController extends Controllers{
 
     public function home() {
         // $input = json_decode(file_get_contents('php://input'), true);
-
+        if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
         $data = ['default'];
         $quantity = 1;
         $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
         $limit = 24;
         $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : null;
-        $userId = $_SESSION['user_id'] ?? null;
+        $userId = $_SESSION['userId'] ?? null;
         $productModel = new ProductModel($this->db);
         $cartModel = new CartModel($this->db);
 

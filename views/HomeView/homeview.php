@@ -89,7 +89,7 @@ function toggleHeart(button) {
     const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 
     if (!userId) {
-        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        alert('You must be logged in to perform this action!');
         return;
     }
 
@@ -143,7 +143,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         // const quantity = document.getElementById('quantity').value;
 
         if (!userId) {
-            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            alert('You must be logged in to perform this action!');
             return;
         }
         console.log('Product ID:', productId, 'User ID:', userId);
