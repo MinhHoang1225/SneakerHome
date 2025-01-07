@@ -116,7 +116,7 @@ function toggleHeart(button) {
     const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 
     if (!userId) {
-        alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+        alert('You must be logged in to perform this action!');
         return;
     }
 
@@ -177,7 +177,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         const quantity = document.getElementById('quantity').value;
 
         if (!userId) {
-            alert('Bạn phải đăng nhập để thực hiện thao tác này!');
+            alert('You must be logged in to perform this action!');
             return;
         }
         console.log('Product ID:', productId, 'User ID:', userId);
@@ -205,7 +205,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // this.textContent = "Add to Cart"; // Reset the text
 
             if (data.success) {
-                alert('Thêm vào giỏ hàng thành công!');
+                alert('Add to cart successfully!');
             } else {
                 alert(data.message || 'Có lỗi xảy ra!');
             }
@@ -214,7 +214,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             this.disabled = false; // Re-enable button if there's an error
             // this.textContent = "Add to Cart";
             console.error('Error:', error);
-            alert('Đã xảy ra lỗi khi thêm sản phẩm vào giỏ hàng!');
+            alert('An error occurred while adding product to cart!');
         });
     });
 });
