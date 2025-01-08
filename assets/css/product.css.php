@@ -138,4 +138,34 @@
     height: 500px;
     width: 500px;
 }
+ .gia {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            font-size: 16px;
+            color: #333;
+        }
+
+         .gia form {
+            display: flex;
+            align-items: center;
+        }
+
+         .gia select {
+            padding: 8px 12px;
+            font-size: 14px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            background-color: #fff;
+            cursor: pointer;
+            transition: border-color 0.3s ease;
+        }
+
+         .gia select:focus {
+            border-color: #007bff;
+        }
+
+         .gia select option {
+            padding: 8px;
+        }
   </style>

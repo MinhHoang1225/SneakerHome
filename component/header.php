@@ -1,29 +1,3 @@
-<?php 
-    $array_navbar_1 = [
-        ["label" => "Home", "url" => "/SneakerHome/home"],
-        ["label" => "Shoes", "url" => "/SneakerHome/Product/productsCategory?category_id=1"],
-        ["label" => "Clothers", "url" => "/SneakerHome/Product/productsCategory?category_id=2"],
-        ["label" => "Accessories", "url" => "/SneakerHome/Product/productsCategory?category_id=3"],
-        ["label" => "About us", "url" => "/SneakerHome/Home/aboutus"],
-        ["label" => "Collections", "url" => "/SneakerHome/Product/favorite"],
-    ];
-
-    function generateNavbar($navItems,$class) {
-        echo "<nav>";
-        echo "<ul class='$class'>";
-        foreach ($navItems as $item) {
-            echo "<li>";
-            if (is_array($item)) {
-                echo '<a style="text-decoration: none; color: black" href="' . $item["url"] . '">' . $item["label"] . '</a>';
-            } else {
-                echo '<a href="#">' . $item . '</a>';
-            }
-            echo '</li>';
-        }
-        echo '</ul>';
-        echo '</nav>';
-    }
-?>
 <!DOCTYPE html>
 <html lang="en">    
 <head>
@@ -73,8 +47,15 @@
         <div class="row">
             <div class="col-2 logo"><img src="/SneakerHome/assets/img/Shoe Logo.png" alt=""></div>
             <div class="col-9">
-                <?php generateNavbar($array_navbar_1, 'navbar d-flex'); ?>
-            </div>
+                <ul class='d-flex gap-3 navbar pt-5' ">
+                    <a href="/SneakerHome/home"><li>Home</li></a>
+                    <a href="/SneakerHome/Product/productsCategory?category_id=1"><li>Shoes</li></a>
+                    <a href="/SneakerHome/Product/productsCategory?category_id=2"><li>Clothers</li></a>
+                    <a href="/SneakerHome/Product/productsCategory?category_id=3"><li>Accessories</li></a>
+                    <a href="/SneakerHome/Home/aboutus"><li>About us</li></a>
+                    <a href="/SneakerHome/Product/favorite"><li>Collections</li></a>
+                </ul>
+           </div>
         </div>
     </div>
 </body>

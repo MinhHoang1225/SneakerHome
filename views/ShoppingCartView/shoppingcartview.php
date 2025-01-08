@@ -35,10 +35,12 @@
                         <td><img class='img_product' src="<?php echo $item['image_url']; ?>" alt="Product Image" /></td>
                         <td><?php echo htmlspecialchars($item['name']); ?></td>
                         <td><?php echo number_format($item['price']); ?> đ</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-secondary decrease-qty">-</button>
-                            <input type="number" class="form-control d-inline text-center qty-input" value="<?php echo $item['quantity']; ?>" min="1">
-                            <button class="btn btn-sm btn-outline-secondary increase-qty">+</button>
+                        <td class='d-flex'>
+                            <div class="ht">
+                               <button class="btn btn-sm btn-outline-secondary decrease-qty">-</button>
+                                <input type="" class="form-control d-inline text-center qty-input" value="<?php echo $item['quantity']; ?>" min="1">
+                                <button class="btn btn-sm btn-outline-secondary increase-qty">+</button> 
+                            </div>                          
                         </td>
                         <td class="product-total"><?php echo number_format($item['price'] * $item['quantity']); ?> đ</td>
                     </tr>
@@ -50,7 +52,7 @@
     <div class="container">
         <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo ($cartTotal); ?> đ</span></h4>
         <div class="checkout-btn gap-3 pt-3">
-            <a href="../product/productsCategory"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buying</button></a>
+            <a href="../Product/productsCategory?category_id=1"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buying</button></a>
 
             <form action="/SneakerHome/product/checkoutCart" method="POST">
                 <?php foreach ($cart as $item): ?>

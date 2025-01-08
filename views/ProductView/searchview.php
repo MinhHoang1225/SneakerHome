@@ -14,7 +14,7 @@
 
     <!-- Danh sách sản phẩm -->
     <div class="product-container container">
-        <h2 class="text-center">Search Results</h2>
+        <h2 class="text-center pb-5">Search Results</h2>
         <div class="row">
             <?php foreach ($searchResults as $product): ?>
                 <div class="col-md-3 mb-4" style="position: relative">

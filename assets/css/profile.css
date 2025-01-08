@@ -3,6 +3,17 @@ body {
     background-color: #f9f9f9;
     color: #333;
 }
+.btn-close {
+    width: 20px;
+    height: 20px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: block;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
 
 .container {
     max-width: 900px;
@@ -47,7 +58,7 @@ h1.text-center {
 
 .btn-primary {
     border-radius: 20px;
-    background-color: #6c63ff;
+    background-color: #1605ad;
     border: none;
     padding: 10px 20px;
     font-size: 1rem;
@@ -55,7 +66,7 @@ h1.text-center {
 }
 
 .btn-primary:hover {
-    background-color: #5148c9;
+    background-color: #0e036e;
 }
 
 .table {
