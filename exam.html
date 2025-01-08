@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Frontend Pagination</title>
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        .pagination a {
+            margin: 0 5px;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            text-decoration: none;
+            color: #0073e6;
+        }
+        .pagination a.active {
+            font-weight: bold;
+            background-color: #0073e6;
+            color: white;
+        }
+        .pagination a:hover {
+            background-color: #ddd;
+        }
+    </style>
+</head>
+<body>
+    <div id="data-container"></div>
+    <div class="pagination" id="pagination"></div>
+
+    <script>
+        // Global variables
+        let allData = []; // Store all data from the API
+        const itemsPerPage = 10; // Number of items per page
+
+        // Fetch all data once
+        async function fetchData() {
+            const response = await fetch('your_api_endpoint.php'); // Replace with your API URL
+            allData = await response.json();
+            paginate(1); // Load the first page initially
+        }
+
+        // Paginate data
+        function paginate(currentPage) {
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const paginatedData = allData.slice(start, end); // Get items for the current page
+            renderData(paginatedData);
+            renderPagination(currentPage);
+        }
+
+        // Render data on the page
+        function renderData(data) {
+            const container = document.getElementById('data-container');
+            container.innerHTML = data.map(item => <p>${item.name}</p>).join(''); // Replace item.name with your field
+        }
+
+        // Render pagination controls
+        function renderPagination(currentPage) {
+            const totalPages = Math.ceil(allData.length / itemsPerPage);
+            const pagination = document.getElementById('pagination');
+            pagination.innerHTML = '';
+
+            // Add "Previous" button
+            if (currentPage > 1) {
+                const prev = document.createElement('a');
+                prev.textContent = 'Previous';
+                prev.href = '#';
+                prev.onclick = () => paginate(currentPage - 1);
+                pagination.appendChild(prev);
+            }
+
+            // Add page numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const pageLink = document.createElement('a');
+                pageLink.textContent = i;
+                pageLink.href = '#';
+                pageLink.className = i === currentPage ? 'active' : '';
+                pageLink.onclick = () => paginate(i);
+                pagination.appendChild(pageLink);
+            }
+
+            // Add "Next" button
+            if (currentPage < totalPages) {
+                const next = document.createElement('a');
+                next.textContent = 'Next';
+                next.href = '#';
+                next.onclick = () => paginate(currentPage + 1);
+                pagination.appendChild(next);
+            }
+        }
+
+        // Initial fetch
+        fetchData();
+    </script>
+</body>
+</html>
