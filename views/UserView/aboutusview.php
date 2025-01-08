@@ -10,7 +10,6 @@
 </head>
 <body>
   <?php include_once './component/header.php'; ?>
-
   <!-- Banner Section -->
   <div class="banner">
     <div class="banner-text">

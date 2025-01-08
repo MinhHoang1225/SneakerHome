@@ -40,8 +40,6 @@ h2 {
 }
 
 .btn-primary {
-    font-size: 1rem;
-    padding: 0.5rem 1.5rem;
     background-color: #007bff;
     border: none;
     border-radius: 0.25rem;

@@ -86,7 +86,7 @@
 }
 
 .btn-payment {
-    background-color: #6c757d;
+    background-color: #0e036e;
     color: #fff;
     border: none;
     border-radius: 10px;

@@ -225,7 +225,7 @@ public function getBestSellers($limit = 8) {
                     // Xóa tất cả các mục trong giỏ hàng ngoại trừ sản phẩm có product_id = 1
                     $stmt = $this->db->prepare("DELETE FROM cartitem 
                                                 WHERE cart_id IN (SELECT cart_id FROM shoppingcart WHERE user_id = :user_id) 
-                                                LIMIT 1"); 
+                                               "); 
                     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                     $stmt->execute();
 
@@ -288,7 +288,7 @@ public function saveOrderCart($products, $totalPrice)
 
         // Insert order
         $orderQuery = "INSERT INTO `order` (user_id, order_date, status, total_amount) 
-                       VALUES (:user_id, NOW(), 'pending', :total_amount)";
+                       VALUES (:user_id, NOW(), 'In progress', :total_amount)";
         $orderStmt = $this->db->prepare($orderQuery);
         $orderStmt->bindParam(':user_id', $_SESSION['userId'], PDO::PARAM_INT);
         $orderStmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);
@@ -324,7 +324,19 @@ public function saveOrderCart($products, $totalPrice)
 }
 
 
+public function getProductsByCategoryAndPrice($categoryId, $order = null) {
+    $order = strtolower($order);
+    if ($order !== 'asc' && $order !== 'desc') {
+        $order = null;
+    }
 
+    $sql = "SELECT * FROM product WHERE category_id = :category_id ORDER BY price $order";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 

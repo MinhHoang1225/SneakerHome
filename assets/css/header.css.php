@@ -1,4 +1,9 @@
 <style>
+a{
+    text-decoration: none;
+    color: #0e036e;
+}
+
 
 .search-container {
     position: relative;
@@ -53,10 +58,9 @@
    }
    .navbar{
      font-size: 20px;
-     padding-top: 70px;
-   }
+       }
    .btn-lr button {
-    background-color: #3498db; 
+    background-color: #0e036e; 
     color: white;
     border: none; 
     padding: 6px;

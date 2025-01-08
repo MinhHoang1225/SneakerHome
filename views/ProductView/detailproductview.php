@@ -41,13 +41,13 @@
                 <input type="hidden" name="quantity" id="hidden-quantity" value="1">
                 
                 <div class="d-flex align-items-center mt-3">
-                    <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
-                            <i class="fas fa-cart-plus"></i>
+                    <button  class="add-to-cart btn btn-sm btn-primary me-2 p-2" data-product-id="<?php echo $product['product_id']; ?>" style=" border: none;">
+                            <i class="fas fa-cart-plus"></i> Add to cart
                         </button>
 
                     <a href="/SneakerHome/Product/checkoutBuyNow?product_id=<?php echo $product['product_id']; ?>&quantity=" 
                         onclick="return updateQuantity('<?php echo $product['product_id']; ?>');">
-                        <button type="submit" class="btn btn-sm btn-primary me-2">
+                        <button type="submit" class="btn btn-sm btn-primary me-2 p-2">
                             <i class="fas fa-shopping-bag"></i>
                             Buy Now
                         </button>

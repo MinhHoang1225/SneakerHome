@@ -14,7 +14,7 @@
             right: 20px;
             padding: 15px;
             font-size: 18px;
-            background-color: #333;
+            background-color: #0e036e;
             color: white;
             border: none;
             border-radius: 50%;
@@ -31,7 +31,7 @@
         }
 
         #scrollToTopBtn:hover {
-            background-color: #444;
+            background-color: #1605ad;
         }
 
         #scrollToTopBtn.show {

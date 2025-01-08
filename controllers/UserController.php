@@ -1,21 +1,15 @@
 <?php
 require_once './core/Controllers.php';
 require_once './models/UserModels.php';
-var_dump($_SESSION);
-// session_unset();
-// unset($_SESSION);
+
 class UserController extends Controllers
 {
     private $db;
     public function __construct( ) {
         $this->db = connectdb(); 
     }
-    // private $conn;
-    // public function __construct() {
-    //     $this->conn = connectdb(); 
-    // }
+
     public function profile() {
-        session_start();
 
         if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
             $_SESSION['error_message'] = "Please log in to access your profile.";

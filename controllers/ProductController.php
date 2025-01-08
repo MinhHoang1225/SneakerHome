@@ -111,29 +111,41 @@ class ProductController extends Controllers {
         }
         exit;
     }
-    
+     
     public function productsCategory() {
-        //  category_id từ URL
-        $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
-        $productModel = new ProductModel($this->db);   
-        try {
-            $products = $productModel->getProductsByCategory($categoryId);
-            error_log(print_r($products, true));
-            $this->view('ProductView','productview', [
-                'products' => $products,             
-                'categoryId' => $categoryId,        
-                'error_message' => $_SESSION['error_message'] ?? null,
-                'username_input' => $_SESSION['username_input'] ?? ''
-            ]);
-        } catch (Exception $e) {
-            error_log("Error in productsCategory: " . $e->getMessage());
-            $this->view('ProductView','productview', [
-                'products' => [],         
-                'error_message' => 'Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.',
-                'username_input' => $_SESSION['username_input'] ?? ''
-            ]);
-        }
+    // Lấy category_id từ URL
+    $categoryId = isset($_GET['category_id']) ? (int)$_GET['category_id'] : 0;
+
+    // Lấy giá trị sort_price từ URL hoặc mặc định là 'asc'
+    $order = isset($_GET['sort_price']) ? $_GET['sort_price'] : 'asc';
+
+    // Tạo instance của model
+    $productModel = new ProductModel($this->db);
+
+    try {
+        // Lấy danh sách sản phẩm theo danh mục và giá
+        $products = $productModel->getProductsByCategoryAndPrice($categoryId, $order);
+
+        // Gửi dữ liệu sang view
+        $this->view('ProductView', 'productview', [
+            'products' => $products,
+            'categoryId' => $categoryId,
+            'order' => $order, // Truyền giá trị sắp xếp sang view
+            'error_message' => $_SESSION['error_message'] ?? null,
+            'username_input' => $_SESSION['username_input'] ?? '',
+        ]);
+    } catch (Exception $e) {
+        // Ghi log lỗi và hiển thị thông báo lỗi
+        error_log("Error in productsCategory: " . $e->getMessage());
+        $this->view('ProductView', 'productview', [
+            'products' => [],
+            'categoryId' => $categoryId,
+            'error_message' => 'Không thể lấy danh sách sản phẩm. Vui lòng thử lại sau.',
+            'username_input' => $_SESSION['username_input'] ?? '',
+        ]);
     }
+}
+
     
     public function detailProduct() {
         $productId = isset($_GET['product_id']) ? (int)$_GET['product_id'] : 0;
@@ -281,16 +293,6 @@ public function checkoutSuccessBuyNow() {
     $productModel = new ProductModel($this->db);
     try {
         $products = $productModel->getCheckoutSuccessBuyNow($productId, $quantity);
-        // $totalPrice = $products['price'] * $quantity;
-        // $totalPrice = 5;
-
-        // $totalPrice = 88 * $quantity;
-
-
-        // Save the order and return the order ID
-        // $saveorder = $productModel->saveOrder($productId, $quantity, $totalPrice);  
-
-        // Display the success view
         $this->view('UserView','checkoutSuccessBuyNow', [
             // 'saveorder' => $saveorder,
             'products' => $products,
@@ -311,7 +313,6 @@ public function checkoutSuccessBuyNow() {
 
 public function saveOrder()
 {
-    // Debug: Kiểm tra phương thức yêu cầu
     if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
         http_response_code(405);
         echo json_encode(['success' => false, 'message' => 'Invalid request method.']);
@@ -488,5 +489,5 @@ public function clearCart() {
 }
 
 
-} 
+}
 ?>
