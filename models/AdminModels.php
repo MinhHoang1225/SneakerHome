@@ -123,8 +123,8 @@ class AdminModel {
         return $stmt->execute();  
     }
        // Hàm tìm kiếm tên người dùng
-       public function searchByName($keyword) {
-        $query = "SELECT * FROM user WHERE name LIKE :keyword";
+    public function searchByName($keyword) {
+        $query = "SELECT * FROM user WHERE `name` LIKE :keyword";
         $stmt = $this->db->prepare($query);
         $keyword = "%".$keyword."%";  
         $stmt->bindParam(':keyword', $keyword, PDO::PARAM_STR);

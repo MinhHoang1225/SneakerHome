@@ -8,6 +8,13 @@
     <?php include "./assets/css/admin.css.php"; ?>
 </head>
 <body>
+<?php if (isset($_SESSION['success_message'])): ?>
+    <script>
+        alert("<?php echo htmlspecialchars($_SESSION['success_message']); ?>");
+    </script>
+    <?php unset($_SESSION['success_message']); // Xóa thông báo sau khi hiển thị ?>
+<?php endif; ?>
+
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
@@ -67,14 +74,8 @@
         <section id="users" class="section">
             <h2>Khách hàng</h2>
             <div class="search-bar">
-                <form action="/SneakerHome/Admin/searchName" method="POST">
-                    <input 
-                        type="text" 
-                        id="search_input" 
-                        name="keyword" 
-                        placeholder="Nhập tên để tìm kiếm..." 
-                        required
-                    >
+                <form action="/SneakerHome/admin/searchName" method="POST">
+                    <input type="text" id="search_input" name="keyword" placeholder="Nhập tên để tìm kiếm..." required>
                     <button type="submit">Tìm kiếm</button>
                 </form>
             </div>

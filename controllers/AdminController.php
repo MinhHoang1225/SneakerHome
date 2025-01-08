@@ -28,7 +28,7 @@ class AdminController extends Controllers
             'ordersByStatusCompleted' => $ordersByStatusCompleted,
             'ordersByStatusCancelled' => $ordersByStatusCancelled,
             'ordersByStatusInprogress' => $ordersByStatusInprogress,
-            'dashboardData' => $dashboardData
+            'dashboardData' => $dashboardData            
         ]);
     }
 
@@ -191,19 +191,25 @@ class AdminController extends Controllers
     }
     public function searchName() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['keyword'])) {
-            $keyword = $_POST['keyword'];
-            
+            $keyword = trim($_POST['keyword']); // Loại bỏ khoảng trắng
             $adminModel = new AdminModel($this->conn); 
-            $customers = $adminModel->searchByName($keyword);
-
-            if (empty($searchResults)) {
+            $users = $adminModel->searchByName($keyword);
+    
+            // Xử lý nếu không có kết quả
+            if (empty($users)) {
                 $_SESSION['error_message'] = "Không tìm thấy kết quả cho từ khóa '$keyword'.";
+                $users = []; // Đảm bảo $users luôn là mảng
             }
-            $this->view('AdminView','adminview', ['$customers' => $customers]);
-            exit;
+            
+            // Truyền dữ liệu qua view
+            $this->view('AdminView', 'searchResult', ['users' => $users]);
+            // header("Location: /SneakerHome/admin/adminview");
+            // exit;
         }
-        header("Location: /SneakerHome/admin/adminview");
-        exit;
+        // header("Location: /SneakerHome/admin/adminview");
+        // exit;
     }
+    
+    
     
 }

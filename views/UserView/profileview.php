@@ -39,6 +39,7 @@
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <a href="/SneakerHome/home"><button class="btn btn-primary">Back</button> </a>
                 </form>
             </div>
         </div>
