@@ -35,10 +35,13 @@
                         <td><img class='img_product' src="<?php echo $item['image_url']; ?>" alt="Product Image" /></td>
                         <td><?php echo htmlspecialchars($item['name']); ?></td>
                         <td><?php echo number_format($item['price']); ?> đ</td>
-                        <td>
-                            <button class="btn btn-sm btn-outline-secondary decrease-qty">-</button>
+                        <td class='d-flex'>
+                            <div class="ht">
+                                <button class="btn btn-sm btn-outline-secondary decrease-qty">-</button>
                             <input type="number" class="form-control d-inline text-center qty-input" value="<?php echo $item['quantity']; ?>" min="1">
                             <button class="btn btn-sm btn-outline-secondary increase-qty">+</button>
+                            </div>
+                            
                         </td>
                         <td class="product-total"><?php echo number_format($item['price'] * $item['quantity']); ?> đ</td>
                     </tr>
