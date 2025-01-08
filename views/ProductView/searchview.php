@@ -3,48 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sneaker Home</title>
-    <?php include './component/linkbootstrap5.php'; ?>
-    <?php include './assets/css/displayproduct.css.php'; ?>
+    <title>SneakerHome</title>
+    <?php include_once "./component/linkbootstrap5.php"; ?>
+    <?php include "./assets/css/product.css.php"; ?>
 </head>
 <body>
-    <?php include './component/header.php'; ?>
-        <h1>Search Results</h1>
-        <div class="row" id="product-container">
-            <?php if (!empty( $searchResults)) { ?>
-                <?php foreach ( $searchResults as $row) {  ?>  
-                    <div class="col-md-4 col-lg-3 mb-4">                       
-                        <div class="product-card">
-                            <div class="icons">
-                                <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
-                                    <i class="far fa-heart"></i>
-                                </button>
-                                <button class="add-to-cart" data-product-id="<?php echo $row['product_id']; ?>" style="background-color: transparent; border: none;">
-                                    <i class="fas fa-cart-plus"></i>
-                                </button>
-                            </div>
-                            <a href="/SneakerHome/Product/detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $row['product_id']; ?>">
-                                <img src="<?php echo htmlspecialchars($row['image_url']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" height="200" width="300">
-                            </a>
-                            <h5 class="mt-3"><?php echo htmlspecialchars($row['name']); ?></h5>
 
-                            <div class="price"><?php echo number_format($row['price']); ?> VNĐ</div>
-                            <div>
-                                <span class="old-price"><?php echo number_format($row['old_price']); ?> VNĐ</span>
-                                <span class="discount"><?php echo $row['discount']; ?>% Off</span>
-                            </div>
-                        </div>
-                        
+    <!-- Include Header -->
+    <?php include "./component/header.php"; ?>
+
+    <!-- Danh sách sản phẩm -->
+    <div class="product-container container">
+        <h2 class="text-center">Search Results</h2>
+        <div class="row">
+            <?php foreach ($searchResults as $product): ?>
+                <div class="col-md-3 mb-4" style="position: relative">
+                    <div class="icons">
+                        <!-- <i class="far fa-heart" ></i> -->
+                        <button onclick="toggleHeart(this)" class="add-to-favorite" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="far fa-heart"></i>
+                        </button>
+                        <button class="add-to-cart" data-product-id="<?php echo $product['product_id']; ?>" style="background-color: transparent; border: none;">
+                            <i class="fas fa-cart-plus"></i>
+                        </button>
+
                     </div>
-                <?php } ?>
-            <?php } else { ?>
-                <p>There are no products.</p>
-            <?php } ?>
+                    <div class="card h-300"href="detailproduct?product_id=<?php echo $product['product_id']; ?>" >
+    <!-- Hình ảnh sản phẩm -->
+    <a href="./detailproduct?category_id=<?php echo $categoryId; ?>&product_id=<?php echo $product['product_id']; ?>">
+        <img src="<?php echo htmlspecialchars($product['image_url']); ?>" 
+        alt="<?php echo htmlspecialchars($product['name']); ?>" 
+        class="card-img-top">
+    </a>
+
+    <div class="card-body text-center">
+        <!-- Tên sản phẩm -->
+        <h5 class="card-title"><?php echo htmlspecialchars($product['name']); ?></h5>
+
+        <!-- Hiển thị giá -->
+        <?php if (!empty($product['old_price']) && $product['old_price'] > $product['price']): ?>
+            <p class="price">
+                <span class="new-price  fw-bold">
+                    <?php echo number_format($product['price']); ?>  VNĐ
+                </span>
+                <div>
+                    <span class="old-price text-muted text-decoration-line-through">
+                        <?php echo number_format($product['old_price']); ?>  VNĐ
+                    </span>
+                    <span class="discount">
+                        <?php echo number_format($product['discount']); ?>% Off
+                    </span>
+                </div> <!-- Thẻ này đóng đúng -->
+            </p> <!-- Thẻ này đóng đúng -->
+        <?php else: ?>
+            <p class="price fw-bold">
+                <?php echo number_format($product['price']); ?>VNĐ
+            </p>
+        <?php endif; ?>
+
+    </div> <!-- Thẻ card-body -->
+</div>
+
+                </div>
+            <?php endforeach; ?>
         </div>
     </div>
-
-    <?php include './component/footer.php'; ?>  
-    <?php include './component/btn_up.php'; ?>
+    <?php include  './component/footer.php'; ?>
     <script>
         const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 function toggleHeart(button) {
@@ -145,5 +169,10 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
         });
     });
 });
-    </script>
 
+
+
+
+    </script>
+</body>
+</html>
