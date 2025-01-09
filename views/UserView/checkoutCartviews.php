@@ -52,7 +52,7 @@
                                     <?php echo htmlspecialchars($item['name']); ?>
                                 </div>
                                 <div class="col-3">
-                                    <?php echo number_format($item['price'] * $item['quantity']); ?> VNĐ
+                                    <?php echo number_format($item['price']); ?> VNĐ
                                 </div>
                                 <div class="col-1">
                                     x<?php echo htmlspecialchars($item['quantity']); ?>
@@ -76,8 +76,7 @@
                     <i class="fas fa-arrow-left"></i>
                     <a href="../ShoppingCart/Cart">Back to cart</a>
                 </div>
-                <button id="paymentButton" class="btn btn-payment" style="border: none;">
-                    Payment
+                <button class='btn-payment' id="paymentButton">Payment
                 </button>
             </div>
         </div>
