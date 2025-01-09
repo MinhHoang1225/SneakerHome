@@ -51,8 +51,12 @@
     </div>
 
     <div class="container">
-        <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ</span></h4>
-        <div class="checkout-btn gap-3 pt-3">
+        
+            <?php if ($cartTotal > 0): ?>
+            <h4 class="checkout-btn">Total: <span id="cart-total"><?php echo number_format($cartTotal); ?> đ</span></h4>
+        <?php else: ?>
+            <h4 class="checkout-btn">No orders found.</h4>
+        <?php endif; ?>        <div class="checkout-btn gap-3 pt-3">
             <a href="../Product/productsCategory?category_id=1"><button class="btn btn-primary"> <i class="fa-solid fa-arrow-left"></i> Continue buying</button></a>
 
             <form action="/SneakerHome/product/checkoutCart" method="POST">
