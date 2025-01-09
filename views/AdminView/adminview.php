@@ -8,6 +8,13 @@
     <?php include "./assets/css/admin.css.php"; ?>
 </head>
 <body>
+<?php if (isset($_SESSION['success_message'])): ?>
+    <script>
+        alert("<?php echo htmlspecialchars($_SESSION['success_message']); ?>");
+    </script>
+    <?php unset($_SESSION['success_message']);  ?>
+<?php endif; ?>
+
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="logo">
@@ -64,10 +71,10 @@
         </section>
 
         <!-- Section: Khách hàng -->
-        <section id="users-section" class="section">
+    <section id="users-section" class="section">
     <h2>Khách hàng</h2>
     <div class="search-bar">
-        <form action="/SneakerHome/Admin/searchName" method="POST">
+        <form action="/SneakerHome/Admin/searchUser" method="POST">
             <input 
                 type="text" 
                 id="search_input" 
@@ -102,6 +109,18 @@
         <!-- Section: Sản phẩm -->
         <section id="products-section" class="section">
             <h2>Sản phẩm</h2>
+            <div class="search-bar-addProduct">
+                <form action="/SneakerHome/Admin/searchProduct" method="POST">
+                    <input 
+                        type="text" 
+                        id="search_input" 
+                        name="keyword" 
+                        placeholder="Nhập tên để tìm kiếm..." 
+                        required
+                    >
+                    <button type="submit" id="searchProduct">Tìm kiếm</button>
+                </form>
+            </div>
             <button class="btn add_product" id="openModalBtn">Thêm Sản Phẩm</button>
             <table class="table">
                 <thead>
@@ -307,41 +326,6 @@
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="../assets/js/admin.js"></script>
-    <script>
-        // Modal sửa sản phẩm
-    document.addEventListener("DOMContentLoaded", () => {
-    const editModalBtns = document.querySelectorAll('button[id="editModalBtn"]'); // Chọn tất cả nút "Sửa"
-    const editModal = document.getElementById('editModal'); // Modal sửa sản phẩm
-
-    if (editModalBtns.length > 0) {
-        editModalBtns.forEach(btn => {
-            btn.addEventListener('click', (event) => {
-                event.preventDefault();
-                editModal.style.display = 'block';
-                // Lấy thông tin từ nút được bấm, ví dụ: product_id
-                const productId = btn.closest('form').querySelector('input[name="product_id"]').value;
-                console.log('Mở modal sửa sản phẩm cho ID:', productId);
-                document.getElementById('product_id').value = productId; // Gắn product_id vào form trong modal
-            });
-        });
-    } else {
-        console.error('Không tìm thấy nút "Sửa" nào.');
-    }
-
-    // Nút đóng modal
-    const closeEditModal = document.querySelector('.modal .close');
-    closeEditModal.addEventListener('click', () => {
-        editModal.style.display = 'none';
-    });
-
-    // Đóng modal khi click ngoài vùng modal
-    window.addEventListener('click', (event) => {
-        if (event.target === editModal) {
-            editModal.style.display = 'none';
-        }
-    });
-});
-    </script>
 
 <script>
 
