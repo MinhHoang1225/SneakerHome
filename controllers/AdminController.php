@@ -156,7 +156,7 @@ class AdminController extends Controllers
                 exit;
             }
 
-            $_SESSION['success_message'] = "Đơn hàng đã được hủy thành công.";
+            $_SESSION['success_message'] = "Order has been canceled successfully.";
             header("Location: /SneakerHome/admin/adminview");
             exit;
         }
@@ -175,7 +175,7 @@ class AdminController extends Controllers
                 exit;
             }
 
-            $_SESSION['success_message'] = "Đơn hàng đã được hoàn thành.";
+            $_SESSION['success_message'] = "Order has been completed.";
             header("Location: /SneakerHome/admin/adminview");
             exit;
         }

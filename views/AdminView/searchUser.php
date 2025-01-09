@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Search Result</title>
+    <?php include './component/linkbootstrap5.php'; ?>
+
     <style>
         .table {
     width: 100%;
@@ -27,7 +29,10 @@
 .table tbody tr:nth-child(even) {
     background-color: #e0f7fa; 
 }
-
+.table tr th{
+    background-color: black;
+    color: #fff
+}
 .table tbody tr:hover {
     background-color: #b2ebf2; 
     cursor: pointer;
@@ -62,7 +67,8 @@
     </style>
 </head>
 <body>
-<table class="table">
+    <div class="container">
+    <table class="table">
             <thead>
                 <tr>
                     <th>ID</th>
@@ -87,5 +93,7 @@
             </tbody>
             <a href="/SneakerHome/admin/adminview" class="btn-back">Back</a>
 </table>
+    </div>
+
 </body>
 </html>

@@ -214,7 +214,7 @@
                                 </form>
                             </td>
                             <td> 
-                                <form method="POST" action="/SneakerHome/admin/completedOrder">
+                                <form method="POST" action="/SneakerHome/admin/completeOrder">
                                     <input type="hidden" name="order_id" value="<?php echo $order['order_id']; ?>">
                                     <button type="submit" class="btn completeOrder">Completed</button>
                                 </form>
