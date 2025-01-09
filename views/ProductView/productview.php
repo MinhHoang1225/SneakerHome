@@ -30,7 +30,7 @@
                 </select>
             </form>
         </div>
-        <h2 class="text-center">Product List</h2>
+        <h2 class="text-center pb-4">Product List</h2>
         <div class="row">
             <?php foreach ($products as $product): ?>
                 <div class="col-md-3 mb-4" style="position: relative">

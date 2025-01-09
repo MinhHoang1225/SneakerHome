@@ -16,9 +16,26 @@
     font-weight: bold;
     border-radius: 10px 10px 0 0;
 }
+.btn-close {
+    width: 20px;
+    height: 20px;
+    background-color: #e74c3c;
+    border-radius: 50%;
+    top: 20px;
+    left: 20px;
+    display: block;
+    transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.btn-close:hover {
+    background-color: #c0392b;
+    transform: scale(1.2);
+}
 </style>
 <body>
     <div class="container mt-5">
+        <a href="/SneakerHome/home" class="btn-close"></a>
+
         <h1 class="text-center">My Profile</h1>
 
         <!-- User Information -->

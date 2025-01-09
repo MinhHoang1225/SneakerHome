@@ -138,34 +138,41 @@ function updateQuantity(productId, quantity) {
 
 // Xóa sản phẩm khỏi giỏ hàng
 document.querySelectorAll('.remove-from-cart').forEach(button => {
-    button.addEventListener('click', function () {
+    button.addEventListener('click', async function () {
         if (confirm('Are you sure you want to remove this product from your cart?')) {
             const productId = this.dataset.productId;
-            removeItemFromCart(productId);
+
+            // Disable button to indicate loading
+            this.disabled = true;
+
+            try {
+                const response = await fetch('/SneakerHome/shoppingcart/handleRemoveCartItem', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ product_id: productId }),
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    // Remove the product row
+                    document.querySelector(`tr[data-product-id="${productId}"]`).remove();
+
+                    // Update cart total
+                    document.getElementById('cart-total').textContent = data.cartTotal + ' đ';
+                } else {
+                    alert(data.error || 'Failed to remove product.');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('An error occurred. Please try again.');
+            } finally {
+                // Re-enable the button
+                this.disabled = false;
+            }
         }
     });
 });
 
-function removeItemFromCart(productId) {
-    fetch('/SneakerHome/shoppingcart/removeItem', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ product_id: productId })
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Cập nhật hiển thị giỏ hàng sau khi xóa
-            document.querySelector(`tr[data-product-id="${productId}"]`).remove();
-            document.getElementById('cart-total').textContent = data.cartTotal + ' đ';
-        } else {
-            alert(data.error || 'Delete product failed!');
-        }
-    })
-    .catch(error => console.error('Error:', error));
-}
 
 </script>
 

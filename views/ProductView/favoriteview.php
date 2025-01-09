@@ -4,7 +4,7 @@
 <?php include_once './component/header.php'; ?>
 
 <div class="container">
-    <h2>Wishlist</h2>
+    <h2 style='text-align:center' class="pb-4">Wishlist</h2>
     <div class="row">
         <?php
         // Check if favorites are passed and not empty

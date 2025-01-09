@@ -224,8 +224,7 @@ public function getBestSellers($limit = 8) {
                 try {
                     // Xóa tất cả các mục trong giỏ hàng ngoại trừ sản phẩm có product_id = 1
                     $stmt = $this->db->prepare("DELETE FROM cartitem 
-                                                WHERE cart_id IN (SELECT cart_id FROM shoppingcart WHERE user_id = :user_id) 
-                                                LIMIT 1"); 
+                                                WHERE cart_id IN (SELECT cart_id FROM shoppingcart WHERE user_id = :user_id)"); 
                     $stmt->bindParam(':user_id', $user_id, PDO::PARAM_INT);
                     $stmt->execute();
 
