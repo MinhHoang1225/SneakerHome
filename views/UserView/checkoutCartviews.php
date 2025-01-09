@@ -11,7 +11,7 @@
 <?php include "./component/header.php"; ?>
 
 <div class="container">
-    <div class="row">
+    <div class="row"> 
         <!-- User Information -->
         <div class="col-md-6">
             <h2>User Information</h2>
@@ -68,7 +68,11 @@
             <div class="total-price">
                         Total price: 
                         <span class="item-price">
-                            <?php echo number_format($cartTotal); ?> VNĐ
+                        <?php if (!empty($cartTotal) && $cartTotal > 0): ?>
+                                <?php echo number_format($cartTotal); ?> VNĐ
+                            <?php else: ?>
+                                No orders found.                           
+                                 <?php endif; ?>
                         </span>
                     </div>
             <div class="d-flex gap-5">
