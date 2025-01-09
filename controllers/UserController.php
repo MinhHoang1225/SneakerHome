@@ -91,7 +91,7 @@ class UserController extends Controllers
             // Validate input
             if (empty($email) || empty($password)) {
                 $_SESSION['error_message'] = "Email and password are required.";
-                header("Location: /user/login");
+                header("Location: ../User/login");
                 exit;
             }
 
@@ -101,7 +101,7 @@ class UserController extends Controllers
 
             if ($user === false) {
                 $_SESSION['error_message'] = "Invalid email or password. Please try again.";
-                header("Location: /user/login");
+                header("Location: ../User/login");
                 exit;
             }
 
