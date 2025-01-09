@@ -172,7 +172,10 @@ body {
   background-color: #e74c3c;
   color: white;
 }
-
+.add_product:hover{
+  transform: translateY(-2px);
+  transition: transform 0.3s ease;
+}
 /* Footer */
 .footer {
   text-align: center;
@@ -184,10 +187,10 @@ body {
 }
 .add_product{
   padding: 10px;
-  color: var(--main-color);
+  color: white;
   background-color: var(--bg-btn);
   font-size: 16px;
-  font-weight: bold;
+  /* font-weight: bold; */
 }
 .add_product:hover{
   color: var(--bg-header);

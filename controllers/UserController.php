@@ -14,6 +14,7 @@ class UserController extends Controllers
     //     $this->conn = connectdb(); 
     // }
     public function profile() {
+        // session_start();
 
         if (!isset($_SESSION['isLogin']) || !$_SESSION['isLogin']) {
             $_SESSION['error_message'] = "Please log in to access your profile.";

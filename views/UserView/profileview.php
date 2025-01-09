@@ -31,12 +31,23 @@
     background-color: #c0392b;
     transform: scale(1.2);
 }
+
 </style>
 <body>
     <div class="container mt-5">
         <a href="/SneakerHome/home" class="btn-close"></a>
-
         <h1 class="text-center">My Profile</h1>
+        <?php
+if (isset($_SESSION['success_message'])) {
+    echo '<div class="alert alert-success" id="notification">' . $_SESSION['success_message'] . '</div>';
+    unset($_SESSION['success_message']);
+}
+
+if (isset($_SESSION['error_message'])) {
+    echo '<div class="alert alert-danger" id="notification">' . $_SESSION['error_message'] . '</div>';
+    unset($_SESSION['error_message']);
+}
+?>
 
         <!-- User Information -->
         <div class="card mb-4">
@@ -56,6 +67,7 @@
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
+                    <!-- <a href="/SneakerHome/home" class="btn btn-primary" id="returnHome">Return to home</a> -->
                 </form>
             </div>
         </div>
