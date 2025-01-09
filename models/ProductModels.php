@@ -379,22 +379,22 @@ class FavoriteModel {
                 // $stmt = $this->db->prepare("DELETE FROM favorite WHERE user_id = ? AND product_id = ?");
                 $result = $stmt->execute([$userId, $productId]);
                 if ($result) {
-                    return ['success' => true, 'is_favorited' => false, 'message' => 'Sản phẩm đã có trong danh sách yêu thích'];
+                    return ['success' => true, 'is_favorited' => false, 'message' => 'The product is already in the favorites list.'];
                 }
             } else {
                 // Nếu chưa yêu thích, thêm vào danh sách yêu thích
                 $stmt = $this->db->prepare("INSERT INTO favorite (user_id, product_id) VALUES (?, ?)");
                 $result = $stmt->execute([$userId, $productId]);
                 if ($result) {
-                    return ['success' => true, 'is_favorited' => true, 'message' => 'Sản phẩm đã được thêm vào danh sách yêu thích'];
+                    return ['success' => true, 'is_favorited' => true, 'message' => 'The product has been added to the favorites list.'];
                 }
             }
 
-            return ['success' => false, 'message' => 'Không thể cập nhật yêu thích'];
+            return ['success' => false, 'message' => 'Unable to update favorites.'];
 
         } catch (PDOException $e) {
             error_log('Error in toggleFavorite method: ' . $e->getMessage());
-            return ['success' => false, 'message' => 'Có lỗi xảy ra khi xử lý yêu cầu.'];
+            return ['success' => false, 'message' => 'An error occurred while processing the request.'];
         }
     }
     public function getFavorites($userId) {

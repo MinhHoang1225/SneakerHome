@@ -67,7 +67,7 @@
                 <div class="d-flex justify-content-between align-items-center mt-3">
                     <div class="back-to-cart">
                         <i class="fas fa-arrow-left"></i>
-                        <a href="../controllers/shoppingcart">Shopping cart</a>
+                        <a href="../ShoppingCart/Cart" style="text-decoration:none">Shopping cart</a>
                     </div>
 
                     <!-- Nút Payment trong form -->
@@ -77,8 +77,8 @@
                         data-product-id="<?php echo $item['product_id']; ?>" 
                         data-quantity="<?php echo $item['quantity'];?>"
                         style=" border: none;">
-                        <a href="/SneakerHome/product/checkoutSuccessBuyNow">
-                        Payment</a>
+                        <a href="/SneakerHome/product/checkoutSuccessBuyNow" style="text-decoration:none">
+                        <button class="btn-payment">Payment</button></a>
                      </button>
                 </div>
             </div>

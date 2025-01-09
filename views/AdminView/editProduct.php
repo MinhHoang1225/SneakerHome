@@ -11,22 +11,22 @@
             <div class="modal-content">
             <span class="close">&times;</span>
             <form action = "/SneakerHome/admin/editProduct" method="POST" enctype="multipart/form-data">
-                    <h3>Sửa Sản Phẩm</h3>
+                    <h3>Edit Product</h3>
                     <input type="hidden" id="product_id" name="product_id" value="<?= htmlspecialchars($getproduct ['product_id']) ?>">
 
-                    <label for="name">Tên sản phẩm</label>
+                    <label for="name">Product Name</label>
                     <input type="text" id="edit_name" name="name" value="<?= htmlspecialchars($getproduct ['name']) ?>" required>
 
-                    <label for="price">Giá</label>
+                    <label for="price">Price</label>
                     <input type="number" id="edit_price" name="price" value="<?= htmlspecialchars($getproduct ['price']) ?>" required>
 
-                    <label for="stock">Số lượng</label>
+                    <label for="stock">Quantity</label>
                     <input type="number" id="edit_stock" name="stock" value="<?= htmlspecialchars($getproduct ['stock']) ?>" required>
 
-                    <label for="image">Hình ảnh</label>
+                    <label for="image">Image</label>
                     <input type="file" id="edit_image" name="image" value="<?= htmlspecialchars($getproduct ['image_url']) ?>">
 
-                    <button type="submit" name="edit_product">Cập nhật</button>
+                    <button type="submit" name="edit_product">Update</button>
                 </form>
             </div>
         </div>

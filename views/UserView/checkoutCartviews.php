@@ -74,10 +74,10 @@
             <div class="d-flex gap-5">
                 <div class="back-to-cart">
                     <i class="fas fa-arrow-left"></i>
-                    <a href="../ShoppingCart/Cart">Back to cart</a>
+                    <a href="../ShoppingCart/Cart" style="text-decoration:none">Back to cart</a>
                 </div>
                 <button id="paymentButton" class="btn btn-payment" style="border: none;">
-                    Payment
+                <button class="btn-payment">Payment</button></a>
                 </button>
             </div>
         </div>

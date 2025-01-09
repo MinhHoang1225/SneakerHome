@@ -171,7 +171,7 @@ document.querySelectorAll('.add-to-cart').forEach(button => {
             // this.textContent = "Add to Cart"; // Reset the text
 
             if (data.success) {
-                alert('Thêm vào giỏ hàng thành công!');
+                alert('Add to cart successfully!');
             } else {
                 alert(data.message || 'Có lỗi xảy ra!');
             }
