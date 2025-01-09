@@ -71,14 +71,13 @@
                     </div>
 
                     <!-- Nút Payment trong form -->
-                     <a href="/SneakerHome/product/checkoutSuccessBuyNow">
-                        <button onclick="toggleHeart(this)" class="btn btn-payment" 
+                     <a href="/SneakerHome/product/checkoutSuccessBuyNow"  style="text-decoration:none">
+                        <button onclick="toggleHeart(this)" class="btn-payment" 
                         type="button" 
                         data-product-id="<?php echo $item['product_id']; ?>" 
                         data-quantity="<?php echo $item['quantity'];?>"
                         style=" border: none;">
-                        <a href="/SneakerHome/product/checkoutSuccessBuyNow" style="text-decoration:none">
-                        <button class="btn-payment">Payment</button></a>
+                        Payment      
                      </button>
                 </div>
             </div>
