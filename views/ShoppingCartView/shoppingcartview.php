@@ -12,7 +12,7 @@
 
     <h3 class="container">Your Shopping Cart</h3>
 
-    <div class="container mt-5">
+    <div class="container">
         <table class="table">
             <thead>
                 <tr>
