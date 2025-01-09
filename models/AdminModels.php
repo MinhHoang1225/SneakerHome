@@ -132,5 +132,10 @@ class AdminModel {
 
         return $stmt->fetchAll(PDO::FETCH_ASSOC);  
     }
-    
+    public function searchProductByName($keyword) {
+        $sql = "SELECT * FROM product WHERE name LIKE ?";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute(['%' . $keyword . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

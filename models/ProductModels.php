@@ -324,7 +324,19 @@ public function saveOrderCart($products, $totalPrice)
 }
 
 
+public function getProductsByCategoryAndPrice($categoryId, $order = null) {
+    $order = strtolower($order);
+    if ($order !== 'asc' && $order !== 'desc') {
+        $order = null;
+    }
 
+    $sql = "SELECT * FROM product WHERE category_id = :category_id ORDER BY price $order";
+    $stmt = $this->db->prepare($sql);
+    $stmt->bindParam(':category_id', $categoryId, PDO::PARAM_INT);
+    $stmt->execute();
+
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 
 
 

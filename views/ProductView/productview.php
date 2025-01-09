@@ -15,6 +15,21 @@
 
     <!-- Danh sách sản phẩm -->
     <div class="product-container container">
+        <div class="gia">
+            <form id="priceForm" method="GET">
+                <!-- Gửi cả category_id và sort_price -->
+                <input type="hidden" name="category_id" value="<?php echo $categoryId; ?>">
+                <select name="sort_price" id="price" onchange="submitForm()">
+                    <option value="">Thứ tự mặc định</option>
+                    <option value="asc" <?= isset($_GET['sort_price']) && $_GET['sort_price'] == 'asc' ? 'selected' : '' ?>>
+                        Thứ tự theo giá: thấp đến cao
+                    </option>
+                    <option value="desc" <?= isset($_GET['sort_price']) && $_GET['sort_price'] == 'desc' ? 'selected' : '' ?>>
+                        Thứ tự theo giá: cao xuống thấp
+                    </option>
+                </select>
+            </form>
+        </div>
         <h2 class="text-center">Product List</h2>
         <div class="row">
             <?php foreach ($products as $product): ?>
@@ -71,6 +86,10 @@
     </div>
     <?php include  './component/footer.php'; ?>
     <script>
+        function submitForm() {
+            document.getElementById('priceForm').submit();
+        }
+
         const userId = <?php echo $_SESSION['userId'] ?? 'null'; ?>;
 function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');

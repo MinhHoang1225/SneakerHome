@@ -39,7 +39,7 @@
                         <input type="password" class="form-control" id="password" name="password">
                     </div>
                     <button type="submit" class="btn btn-primary">Update Profile</button>
-                    <a href="/SneakerHome/home"><button class="btn btn-primary">Back</button> </a>
+                    <a href="/SneakerHome/home" class="btn btn-primary" id="returnHome">Return to home</a>
                 </form>
             </div>
         </div>
