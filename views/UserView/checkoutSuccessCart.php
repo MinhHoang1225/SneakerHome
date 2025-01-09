@@ -108,7 +108,6 @@
         </style>
     </head>
     <body>
-        <?php var_dump($_SESSION) ?>
     <div class="confirmation-box">
     <!-- Success message -->
     <i class="fas fa-check-circle fa-5x text-success"></i>

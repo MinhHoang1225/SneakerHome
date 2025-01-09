@@ -7,6 +7,5 @@ class Controllers
         // Extract dữ liệu ra các biến riêng biệt
         extract($data);
         require_once "./views/$folderView/$view.php";
-        echo "$view";
     }
 }

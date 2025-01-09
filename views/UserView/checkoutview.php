@@ -8,6 +8,8 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] ."/SneakerHome/assets/css/checkout.css.php"; ?>
 </head>
 <body>
+<?php include "./component/header.php"; ?>
+
 <div class="container">
     <div class="row">
         <!-- User Information Form -->
@@ -78,15 +80,14 @@
                         <a href="/SneakerHome/product/checkoutSuccessBuyNow">
                         Payment</a>
                      </button>
-                    
-<?php var_dump($item['product_id']) ?>
-
                 </div>
             </div>
         </div>
         </form> <!-- Đóng form tại đây -->
     </div>
 </div>
+<?php include "./component/footer.php"; ?>
+
        <script>
         function toggleHeart(button) {
     const productId = button.getAttribute('data-product-id');

@@ -8,6 +8,8 @@
     <?php include $_SERVER['DOCUMENT_ROOT'] . "/SneakerHome/assets/css/checkout.css.php"; ?>
 </head>
 <body>
+<?php include "./component/header.php"; ?>
+
 <div class="container">
     <div class="row">
         <!-- User Information -->
@@ -50,7 +52,7 @@
                                     <?php echo htmlspecialchars($item['name']); ?>
                                 </div>
                                 <div class="col-3">
-                                    <?php echo number_format($item['price']); ?> VNĐ
+                                    <?php echo number_format($item['price'] * $item['quantity']); ?> VNĐ
                                 </div>
                                 <div class="col-1">
                                     x<?php echo htmlspecialchars($item['quantity']); ?>
@@ -58,20 +60,21 @@
                             </div>
                         </div>
                     <?php endforeach; ?>
-                    <div class="total-price">
+                   
+                <?php else: ?>
+                    <p>Your cart is empty.</p>
+                <?php endif; ?>
+            </div> 
+            <div class="total-price">
                         Total price: 
                         <span class="item-price">
                             <?php echo number_format($cartTotal); ?> VNĐ
                         </span>
                     </div>
-                <?php else: ?>
-                    <p>Your cart is empty.</p>
-                <?php endif; ?>
-            </div>
             <div class="d-flex gap-5">
                 <div class="back-to-cart">
                     <i class="fas fa-arrow-left"></i>
-                    <a href="../controllers/shoppingcart">Back to cart</a>
+                    <a href="../ShoppingCart/Cart">Back to cart</a>
                 </div>
                 <button id="paymentButton" class="btn btn-payment" style="border: none;">
                     Payment
@@ -80,6 +83,7 @@
         </div>
     </div>
 </div>
+<?php include "./component/footer.php"; ?>
 
 <script>
     document.getElementById('paymentButton').addEventListener('click', function () {
