@@ -15,7 +15,7 @@
         <!-- User Information -->
         <div class="col-md-6">
             <h2>User Information</h2>
-            <form id="checkoutForm" method="POST">
+            <form id="checkoutForm">
                 <div class="mb-3">
                     <input class="form-control" placeholder="Fullname" type="text" name="fullname" required/>
                 </div>
@@ -74,10 +74,10 @@
             <div class="d-flex gap-5">
                 <div class="back-to-cart">
                     <i class="fas fa-arrow-left"></i>
-                    <a href="../ShoppingCart/Cart" style="text-decoration:none">Back to cart</a>
+                    <a href="../ShoppingCart/Cart">Back to cart</a>
                 </div>
                 <button id="paymentButton" class="btn btn-payment" style="border: none;">
-                <button class="btn-payment">Payment</button></a>
+                    Payment
                 </button>
             </div>
         </div>
