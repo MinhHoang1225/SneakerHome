@@ -319,4 +319,74 @@ a:hover {
         border: 1px solid #ccc;
         border-radius: 4px;
     }
+    .pagination {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+.page-btn {
+    padding: 5px 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    background-color: #f9f9f9;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.page-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.page-btn.active {
+    background-color: #007bff;
+    color: white;
+}
+
+.page-btn.sneaker-home {
+    background-color: #e2e2e2;
+    color: #333;
+    font-size: 16px;
+    padding: 8px 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: default;
+}
+
+.page-btn.sneaker-home:hover {
+    background-color: #e2e2e2;
+    color: #333;
+}
+
+.pagination a {
+    display: inline-block;
+    text-decoration: none;
+    color: inherit;
+    padding: 5px 10px;
+}
+
+.pagination .page-link {
+    text-decoration: none;
+    color: #333;
+    font-weight: bold;
+    border: 1px solid #ddd;
+    padding: 5px 10px;
+    border-radius: 4px;
+    margin: 0 5px;
+}
+
+.pagination .page-link:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.pagination .page-link.active {
+    background-color: #007bff;
+    color: white;
+}
+
+
     </style>

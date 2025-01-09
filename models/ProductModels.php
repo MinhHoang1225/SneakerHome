@@ -287,7 +287,7 @@ public function saveOrderCart($products, $totalPrice)
 
         // Insert order
         $orderQuery = "INSERT INTO `order` (user_id, order_date, status, total_amount) 
-                       VALUES (:user_id, NOW(), 'pending', :total_amount)";
+                       VALUES (:user_id, NOW(), 'In progress', :total_amount)";
         $orderStmt = $this->db->prepare($orderQuery);
         $orderStmt->bindParam(':user_id', $_SESSION['userId'], PDO::PARAM_INT);
         $orderStmt->bindParam(':total_amount', $totalPrice, PDO::PARAM_STR);

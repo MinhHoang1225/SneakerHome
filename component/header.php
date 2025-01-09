@@ -36,7 +36,7 @@
 
 </head>
 <body>
-    <div class="container">
+    <div class="container pt-5">
         <div class="row row1">
             <div style="font-size: 12px; padding-top: 15px" class="col-3">sneakerhome@gmail.com | 84+ 123 456 789</div>
             <div class="col-5 bg-white"></div>

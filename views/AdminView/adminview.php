@@ -6,78 +6,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <title>Admin</title>
     <?php include "./assets/css/admin.css.php"; ?>
-    <style>
-.pagination {
-    margin-top: 20px;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-}
-
-.page-btn {
-    padding: 5px 15px;
-    border-radius: 5px;
-    border: 1px solid #ddd;
-    background-color: #f9f9f9;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s, color 0.3s;
-}
-
-.page-btn:hover {
-    background-color: #0056b3;
-    color: white;
-}
-
-.page-btn.active {
-    background-color: #007bff;
-    color: white;
-}
-
-.page-btn.sneaker-home {
-    background-color: #e2e2e2;
-    color: #333;
-    font-size: 16px;
-    padding: 8px 20px;
-    font-weight: bold;
-    text-transform: uppercase;
-    cursor: default;
-}
-
-.page-btn.sneaker-home:hover {
-    background-color: #e2e2e2;
-    color: #333;
-}
-
-.pagination a {
-    display: inline-block;
-    text-decoration: none;
-    color: inherit;
-    padding: 5px 10px;
-}
-
-.pagination .page-link {
-    text-decoration: none;
-    color: #333;
-    font-weight: bold;
-    border: 1px solid #ddd;
-    padding: 5px 10px;
-    border-radius: 4px;
-    margin: 0 5px;
-}
-
-.pagination .page-link:hover {
-    background-color: #0056b3;
-    color: white;
-}
-
-.pagination .page-link.active {
-    background-color: #007bff;
-    color: white;
-}
-
-
-    </style>
 </head>
 <body>
     <!-- Sidebar -->
@@ -87,7 +15,7 @@
         </div>
         <nav class="menu">
             <a href="#" data-section="dashboard" class="active">
-                <i class="fa-solid fa-chart-line"></i> Thống kê
+                <i class="fa-solid fa-chart-line"></i> Statistics
             </a>
             <a href="#" data-section="users-section" >
                 <i class="fa-solid fa-users"></i> Khách hàng
@@ -113,9 +41,9 @@
             <h1>Quản lý Bán Hàng</h1>
         </header>
 
-        <!-- Section: Thống kê -->
+        <!-- Section: Statistics -->
         <section id="dashboard" class="section">
-            <h2>Thống kê</h2>
+            <h2>Statistics</h2>
             <div class="stats">
                 <div class="stat">
                     <i class="fa-solid fa-users"></i>

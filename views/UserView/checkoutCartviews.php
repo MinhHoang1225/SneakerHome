@@ -15,7 +15,7 @@
         <!-- User Information -->
         <div class="col-md-6">
             <h2>User Information</h2>
-            <form id="checkoutForm">
+            <form id="checkoutForm" method="POST">
                 <div class="mb-3">
                     <input class="form-control" placeholder="Fullname" type="text" name="fullname" required/>
                 </div>
