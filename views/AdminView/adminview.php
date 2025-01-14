@@ -50,24 +50,8 @@
 
         <!-- Section: Statistics -->
         <section id="dashboard" class="section">
-            <h2>Statistics</h2>
-            <div class="stats">
-                <div class="stat">
-                    <i class="fa-solid fa-users"></i>
-                    <h3>Customer</h3>
-                    <p id="total-customers"><?php echo $dashboardData['total_customers']; ?></p>
-                </div>
-                <div class="stat">
-                    <i class="fa-solid fa-shoe-prints"></i>
-                    <h3>Product</h3>
-                    <p id="total-products"><?php echo $dashboardData['total_products']; ?></p>
-                </div>
-                <div class="stat">
-                    <i class="fa-solid fa-cart-arrow-down"></i>
-                    <h3>Order</h3>
-                    <p id="total-orders"><?php echo $dashboardData['total_orders']; ?></p>
-                </div>
-            </div>
+            <h2>Statistics for Last 4 Weeks</h2>
+            <canvas id="weeklyChart" width="400" height="200"></canvas>
         </section>
 
         <!-- Section: Customer -->
@@ -440,7 +424,97 @@ document.addEventListener("DOMContentLoaded", function () {
     setupPagination("#reviews-section", "#reviews-data", "#reviews-pagination");
 });
 
-    
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    // Lấy dữ liệu từ PHP
+    const productsByCategory = <?php echo json_encode($productsByCategoryForLast4Weeks); ?>;
+    const ordersPerWeek = <?php echo json_encode($ordersPerWeekForLast4Weeks); ?>;
+
+    // Chuẩn bị dữ liệu cho trục X (tuần)
+    const labels = [...new Set(productsByCategory.map(item => `Week ${item.week_number}`))];
+
+    // Chuẩn bị dữ liệu cột cho từng category_id
+    const category1 = labels.map(week => {
+        const weekNumber = parseInt(week.replace('Week ', ''));
+        const record = productsByCategory.find(item => item.week_number == weekNumber && item.category_id == 1);
+        return record ? record.total_products : 0;
+    });
+
+    const category2 = labels.map(week => {
+        const weekNumber = parseInt(week.replace('Week ', ''));
+        const record = productsByCategory.find(item => item.week_number == weekNumber && item.category_id == 2);
+        return record ? record.total_products : 0;
+    });
+
+    const category3 = labels.map(week => {
+        const weekNumber = parseInt(week.replace('Week ', ''));
+        const record = productsByCategory.find(item => item.week_number == weekNumber && item.category_id == 3);
+        return record ? record.total_products : 0;
+    });
+
+    // Chuẩn bị dữ liệu đường (số lượng đơn hàng mỗi tuần)
+    const orders = ordersPerWeek.map(item => item.total_orders);
+
+    // Vẽ biểu đồ
+    const ctx = document.getElementById('weeklyChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels, // Trục X: Tuần
+            datasets: [
+                {
+                    type: 'bar',
+                    label: 'Shoes',
+                    data: category1,
+                    backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                    borderColor: 'rgba(255, 99, 132, 1)',
+                    borderWidth: 1
+                },
+                {
+                    type: 'bar',
+                    label: 'Clothers',
+                    data: category2,
+                    backgroundColor: 'rgba(54, 162, 235, 0.5)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                },
+                {
+                    type: 'bar',
+                    label: 'Accessories',
+                    data: category3,
+                    backgroundColor: 'rgba(255, 206, 86, 0.5)',
+                    borderColor: 'rgba(255, 206, 86, 1)',
+                    borderWidth: 1
+                },
+                {
+                    type: 'line',
+                    label: 'Total Orders',
+                    data: orders,
+                    fill: false,
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    tension: 0.4
+                }
+            ]
+        },
+        options: {
+            scales: {
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Weeks'
+                    }
+                },
+                y: {
+                    title: {
+                        display: true,
+                        text: 'Quantity'
+                    },
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 </body>
 </html>
