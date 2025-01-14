@@ -31,6 +31,7 @@ class AdminModel {
         return $data;
     }
 
+    
     // Lấy danh sách khách hàng
     public function getCustomers() {
         $stmt = $this->db->prepare("SELECT * FROM user");
@@ -45,7 +46,50 @@ class AdminModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public function getProductsByCategory() {
+        $data = [];
+        for ($i = 1; $i <= 3; $i++) {
+            $sql = "SELECT COUNT(*) as total_products FROM product WHERE category_id = :category_id";
+            $stmt = $this->db->prepare($sql);
+            $stmt->execute(['category_id' => $i]);
+            $data[] = $stmt->fetch(PDO::FETCH_ASSOC)['total_products'];
+        }
+        return $data;
+    }
+
+    public function getOrdersByDate() {
+        $sql = "SELECT DATE(order_date) as order_date, SUM(total_amount) as total_amount 
+                FROM `order` 
+                GROUP BY DATE(order_date) 
+                ORDER BY order_date ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getProductsByCategoryForLast4Weeks() {
+        $sql = "SELECT WEEK(order_date) as week_number, p.category_id, COUNT(*) as total_products
+                FROM `order` o
+                JOIN orderitem od ON o.order_id = od.order_id
+                JOIN product p ON od.product_id = p.product_id
+                WHERE order_date >= CURDATE() - INTERVAL 4 WEEK
+                GROUP BY WEEK(order_date), p.category_id
+                ORDER BY WEEK(order_date) ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+    public function getOrdersPerWeekForLast4Weeks() {
+        $sql = "SELECT WEEK(order_date) as week_number, COUNT(*) as total_orders
+                FROM `order`
+                WHERE order_date >= CURDATE() - INTERVAL 4 WEEK
+                GROUP BY WEEK(order_date)
+                ORDER BY WEEK(order_date) ASC";
+        $stmt = $this->db->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
     
+        
     // Lấy danh sách đơn hàng
     public function getOrders() {
         $stmt = $this->db->prepare("SELECT * FROM `order`");

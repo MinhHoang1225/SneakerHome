@@ -19,6 +19,11 @@ class AdminController extends Controllers
         $ordersByStatusCancelled = $adminModel->getOrdersByStatus('cancelled');
         $ordersByStatusInprogress = $adminModel->getOrdersByStatus('In progress');
         $dashboardData = $adminModel->getDashboardData();
+        $productsByCategory = $adminModel->getProductsByCategory();
+        $ordersByDate = $adminModel->getOrdersByDate();
+        $dashboardData = $adminModel->getDashboardData();
+        $productsByCategoryForLast4Weeks = $adminModel->getProductsByCategoryForLast4Weeks();
+        $ordersPerWeekForLast4Weeks = $adminModel->getOrdersPerWeekForLast4Weeks();
 
         $this->view('AdminView','adminview', [
             'customers' => $customers,
@@ -28,7 +33,12 @@ class AdminController extends Controllers
             'ordersByStatusCompleted' => $ordersByStatusCompleted,
             'ordersByStatusCancelled' => $ordersByStatusCancelled,
             'ordersByStatusInprogress' => $ordersByStatusInprogress,
-            'dashboardData' => $dashboardData            
+            'dashboardData' => $dashboardData,
+            'productsByCategory' => $productsByCategory,
+            'ordersByDate' => $ordersByDate,
+            'dashboardData' => $dashboardData,
+            'productsByCategoryForLast4Weeks' => $productsByCategoryForLast4Weeks,
+            'ordersPerWeekForLast4Weeks' => $ordersPerWeekForLast4Weeks 
         ]);
     }
 
@@ -156,7 +166,7 @@ class AdminController extends Controllers
                 exit;
             }
 
-            $_SESSION['success_message'] = "Đơn hàng đã được hủy thành công.";
+            $_SESSION['success_message'] = "Order has been canceled successfully.";
             header("Location: /SneakerHome/admin/adminview");
             exit;
         }
@@ -175,7 +185,7 @@ class AdminController extends Controllers
                 exit;
             }
 
-            $_SESSION['success_message'] = "Đơn hàng đã được hoàn thành.";
+            $_SESSION['success_message'] = "Order has been completed.";
             header("Location: /SneakerHome/admin/adminview");
             exit;
         }

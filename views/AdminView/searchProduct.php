@@ -112,12 +112,12 @@
                         <td><?php echo $product['product_id']; ?></td>
                         <td><img src="<?php echo $product['image_url']; ?>" alt="Product Image" width="50"></td>
                         <td><?php echo $product['name']; ?></td>
-                        <td><?php echo $product['price']; ?></td>
+                        <td><?php echo number_format($product['price']); ?></td>
                         <td><?php echo $product['stock']; ?></td>
                         <td>
                             <form action = "/SneakerHome/Admin/getProduct" method="POST" >
                                 <input type="hidden" name="product_id" value="<?php echo $product['product_id']; ?>">
-                                <button type="submit"  id="editModalBtn">Sửa</button>                                
+                                <button type="submit"  id="editModalBtn">Edit</button>                                
                             </form>                    
                         </td>
                         <td>
